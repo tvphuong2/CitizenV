@@ -27,14 +27,15 @@ class Data {
 
     }
 
-    /* lấy các địa phương thuộc địa phương đó
+    /* lấy các địa phương thuộc địa phương đó nếu id ='-1' lấy hết tất cả các tỉnh
     input: id
     output mảng các id địa phương
     */
     capDuoi(req, res) {
-        var store = require('../model/store');
-        store.getStore().then(function (s) {
-            res.send(s);
+        var id = req.query.id; // lấy trường id từ request (xem trong public/js/data_syn.js)
+        var chung = require('../model/chung'); //sử dụng csdl model chung tất cả các bảng (mỗi bảng 1 file js trong model)
+        chung.timCapDuoi(id).then(function (s) { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
+            res.send(s); //gửi dữ liệu
         })
     }
 }
