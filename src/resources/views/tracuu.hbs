@@ -1,1 +1,98 @@
+<link rel="stylesheet" 
+        type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"> 
+<div>
+    <span>CMND</span><input type="text" id="cmnd_">
+    <span>Ho Ten</span><input type="text" id="hoten_">
+    <span>Dia Phuong</span><input type="text" id="diaphuong_">
+    <button onclick = "timkiem()">Tìm kiếm</button>
+</div>
+
 <h1>Day la trang tra cuu</h1>
+
+<input type="button" value="Tra cứu" onclick="tracuu()">
+<div class="form">
+    <table>
+        <thead>
+            <tr> 
+            <th>CMND</th>
+            <th>Họ và tên</th>
+            <th>Tỉnh</th>
+            <th>Huyện</th>
+            <th>Xã</th>
+            <th>Thôn</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <td>
+                <input type="text"  id="cmnd">
+            </td>
+            <td>
+                <input type="text" id="hovaten">
+            </td>
+            <td>
+                <input list= "danhsachtinh"  type="text" id="tinh">
+                <datalist id="danhsachtinh">
+                </datalist>
+            </td>
+            <td>
+                <input list= "danhsachhuyen"  type="text"  id="huyen">
+                <datalist id="danhsachhuyen">       
+                </datalist>
+            </td>
+            <td>
+                <input list="danhsachxa"  type="text"  id="xa">
+                <datalist id="danhsachxa">
+                </datalist>
+            </td>
+            <td>
+                <input list= "danhsachthon"  type="text" id="thon">
+                <datalist id="danhsachthon">
+                </datalist>
+            </td>
+        </tr>
+        </tbody>  
+    </table>
+    Thông tin
+    <table id="mytable">
+        <thead>
+            <tr>
+                <td>CMND</td>
+                <td>Họ và tên</td>
+                <td>Ngày sinh</td>
+                <td>Giới tính</td>
+                <td>Quê quán</td>
+                <td>Địa chỉ thường trú</td>
+                <td>Địa chỉ tạm trú</td>
+                <td>Tôn giáo</td>
+                <td>Trình độ văn hóa</td>
+                <td>Nghề nghiệp</td>
+            </tr>
+        </thead>
+        <tbody id="ketquatimkiem">
+            <tr>
+                <td>CMND</td>
+                <td>Họ và tên</td>
+                <td>Ngày sinh</td>
+                <td>Giới tính</td>
+                <td>Quê quán</td>
+                <td>Địa chỉ thường trú</td>
+                <td>Địa chỉ tạm trú</td>
+                <td>Tôn giáo</td>
+                <td>Trình độ văn hóa</td>
+                <td>Nghề nghiệp</td>
+        </tr>
+        {{!-- <tr>
+            <td>abc</td>
+        </tr> --}}
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="/js/tracuu.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+</script>
+<script type="text/javascript" 
+    charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js">    
+</script>
+
+

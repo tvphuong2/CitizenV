@@ -1,47 +1,31 @@
+<div>
+    <span>Nhap id </span><input type="text" id="o_id">
+    <span>Nhap Mk moi</span><input type="text" id="n_pass">
+    <button onclick="xoa_mk()">Xoa Mk</button>
+    <button onclick="doi_mk()">Thay doi mk</button><br>
+    <span>Ngày mở quyền (trống nếu là hôm nay)</span><input type="text" id="time_start" placeholder="yyyy/mm/dd">
+    <span>Hạn đóng quyền (trống nếu là mai)</span><input type="text" id="time_end" placeholder="yyyy/mm/dd">
+    <button onclick="doi_quyen()">Thay doi quyen</button>
+</div>
+
+<div>
+    <h1 id="ten"></h1>
+    <h2 id="quyen"></h2>
+    <button>In phiếu</button>
+</div>
 <table>
     <thead>
         <tr>
             <th></th>
             <th>Mã</th>
             <th>Địa phương</th>
-            <th>Trạng thái</th>
+            <th>Mật khẩu</th>
+            <th>Quyền</th>
             <th>Tiến độ</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td><input type="checkbox" class = "ck" id="ck-1"></td>
-            <td>64</td>
-            <td>Ninh bình</td>
-            <td>Đóng</td>
-            <td>90%</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class = "ck" id="ck0"></td>
-            <td>64</td>
-            <td>Thanh Hóa</td>
-            <td>Chưa Hoàn thiện</td>
-            <td>90%</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class = "ck" id="ck1"></td>
-            <td>64</td>
-            <td>Hà Nội</td>
-            <td>Đang Hoàn thiện</td>
-            <td>90%</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class = "ck" id="ck2"></td>
-            <td>64</td>
-            <td>Quảng Ninh</td>
-            <td>Xong</td>
-            <td>90%</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" class = "ck" id="ck3"></td>
-            <td>64</td>
-            <td>Thái bình</td>
-            <td>Chưa cấp tài khoản</td>
-            <td>90%</td>
-        </tr>
+    <tbody id="list">
+    </tbody>
 </table>
+
+<script type="text/javascript" src="/js/quanly.js"></script>
