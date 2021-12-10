@@ -37,7 +37,7 @@ quanLyDanhSach = fetch("/quanly/capduoi/?id=" + root_id, {headers: {
 
   });
 
-fetch("/quanly/kttenquyen/?id=" + root_id, {headers: {
+fetch("/quanly/kttenquyentiendo/?id=" + root_id, {headers: {
     'Authorization': 'Basic '+ token
   }}).then((response) => response.json())
   .then((res) => {
@@ -45,6 +45,14 @@ fetch("/quanly/kttenquyen/?id=" + root_id, {headers: {
     name.innerHTML = res.ten;
     var quyen = document.getElementById("quyen");
     quyen.innerHTML = "Quyền: " + res.quyen;
+    var tiendo = document.getElementById("tiendo");
+    if (res.tiendo) {
+      var tiendo = document.getElementById("tiendo");
+      tiendo.innerHTML = "Tiến độ: " + res.tiendo;
+    }else{
+      tiendo.parentNode.removeChild(tiendo);
+    }
+
   });
 
 
@@ -81,6 +89,31 @@ function doi_quyen() {
   var start = document.getElementById('time_start').value;
   var end = document.getElementById('time_end').value;
   fetch("/quanly/thayquyen/?id=" + id + "&start=" + start + "&end=" + end, {headers: {
+      'Authorization': 'Basic '+ token
+    }}).then((response) => {
+      console.log(response);
+    });
+}
+
+function xoa_quyen() {
+  var id = document.getElementById('o_id').value;
+  fetch("/quanly/xoaquyen/?id=" + id, {headers: {
+      'Authorization': 'Basic '+ token
+    }}).then((response) => {
+      console.log(response);
+    });
+}
+
+function hoan_thanh() {
+  fetch("/quanly/tiendo/?tiendo=1", {headers: {
+      'Authorization': 'Basic '+ token
+    }}).then((response) => {
+      console.log(response);
+    });
+}
+
+function chua_hoan_thanh() {
+  fetch("/quanly/tiendo/?tiendo=0", {headers: {
       'Authorization': 'Basic '+ token
     }}).then((response) => {
       console.log(response);

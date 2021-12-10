@@ -32,7 +32,10 @@ function log() {
             if (res.status == 'thanhcong') {
                 localStorage.setItem("token", res.token);
                 localStorage.setItem("id", res.id);
-                document.location.pathname = "/danhsach"
+                if ([2,3,4].includes(res.id.length))
+                    document.location.pathname = "/danhsach"
+                else
+                document.location.pathname = "/nhaplieu"
             } else {
                 localStorage.setItem("token", '');
             }

@@ -1,4 +1,5 @@
 const m_nhaplieu = require('../model/m_nhaplieu');
+const Chung = require('./c_chung');
 
 class Data {
     index(req, res) {
@@ -6,7 +7,7 @@ class Data {
     }
 
     capDuoi(req, res) {
-        var id = req.query.id; 
+        var id = Chung.trim(req.query.id); 
         m_nhaplieu.timCapDuoi(id).then(function (s) { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
             if (s=="") res.status(403).json({status: 'mã không hợp lệ'})
             else res.send(s); //gửi dữ liệu

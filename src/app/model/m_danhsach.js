@@ -8,6 +8,7 @@ class DanhSach extends Chung {
         else que = "select id,ten from "+tuyen+" where tuyentren =" + id;
 
         return new Promise((resolve, reject) => { //trả về promise 
+            if (tuyen == "") reject('ID sai')
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) //bắt lỗi
                     return reject(err);
@@ -19,9 +20,10 @@ class DanhSach extends Chung {
     timTen(id) {
         var tuyen = this.timTuyen(id);
         return new Promise((resolve, reject) => { //trả về promise 
+            if (tuyen == "") reject('ID sai')
             this.connection.query("select ten from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
-                if (err) //bắt lỗi
-                    return reject(err);
+                if (err)  return reject(err);
+                if (!rows.length) resolve('');
                 resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json
             });
         });
@@ -35,11 +37,11 @@ class DanhSach extends Chung {
                     " SELECT MAX(id) + 1,'"+userid+"','" +ten+"','Không','Không',now(),now(),'Chua xong',"+dientich+
                     " FROM " +tuyen+" WHERE tuyentren = '" +userid+"'";
             this.connection.query(que, (err, rows) => {
+                if (tuyen == "") reject('ID sai')
                 if (err)
                     return reject(err);
                 resolve("thêm địa phương thành công");
             })
-
         })
     }
 
@@ -49,6 +51,7 @@ class DanhSach extends Chung {
         return new Promise((resolve, reject) => {   
             let que = "DELETE FROM "+tuyen+" WHERE id = '"+id+"'";
             this.connection.query(que, (err, rows) => {
+                if (tuyen == "") reject('ID sai')
                 if (err)
                     return reject(err);
                 resolve("xóa địa phương thành công");
@@ -65,6 +68,7 @@ class DanhSach extends Chung {
         else if (ten != "") que = "UPDATE "+tuyen+" SET Ten = '"+ten+"' WHERE id = '"+id+"'";
         else que = "UPDATE "+tuyen+" SET dientich = '"+dientich+"' WHERE id = '"+id+"'";
         return new Promise((resolve, reject) => {
+            if (tuyen == "") reject('ID sai')
             this.connection.query(que, (err, rows) => {
                 if (err)
                     return reject(err);

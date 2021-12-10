@@ -8,6 +8,7 @@ class QuanLy extends Chung {
         else que = "select id,ten,matkhau,quyen,tiendo from "+tuyen+" where tuyentren =" + id;
 
         return new Promise((resolve, reject) => { //trả về promise 
+            if (tuyen == "") reject('ID sai')
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
 
@@ -25,7 +26,7 @@ class QuanLy extends Chung {
     }
 
     doiQuyen(id, start, end) {
-        var tuyen = this.timTuyen(id);
+        var tuyen = this.timTuyenChinh(id);
         var que = "";
         var time_start = "timestart = now()";
         var time_end = "timeend = now() + INTERVAL 1 DAY";
@@ -34,17 +35,48 @@ class QuanLy extends Chung {
 
         que = "UPDATE "+tuyen+" SET "+time_start+","+time_end+" WHERE id = '" +id+"'";
         return new Promise((resolve, reject) => { //trả về promise 
+            if (tuyen == "") return reject('ID sai')
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
                 resolve('Đổi quyền thành công');
             });
         });
     }
-      
-    timTenQuyen(id) {
-        var tuyen = this.timTuyen(id);
+
+    xoaQuyen(id) {
+        var tuyen = this.timTuyenChinh(id);
         return new Promise((resolve, reject) => { //trả về promise 
-            this.connection.query("select ten,quyen from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
+            if (tuyen == "") return reject('ID sai')
+            this.connection.query("update "+tuyen+" SET timeend = now() - interval 1 day where id = '" +id+"'", (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err) return reject(err);
+                resolve('Xóa quyền thành công');
+            });
+        });
+    }
+
+    capNhatTienDo(id, tiendo) {
+        var tuyen = this.timTuyen(id);
+        var que = "";
+        return new Promise((resolve, reject) => { //trả về promise 
+            if (id.length == 3) reject('A1 không có tiến độ');
+            if (tiendo == '0') que = "UPDATE "+tuyen+" SET `Tiendo` = 'Chưa xong' WHERE `Id` = '"+id+"'";
+            else if (tiendo == '1') que = "UPDATE "+tuyen+" SET `Tiendo` = 'Đã xong' WHERE `Id` = '"+id+"'";
+            else reject('Tiến độ không hợp lệ');
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err) return reject(err);
+                resolve('Đổi tiến độ thành công');
+            });
+        });
+    }
+      
+    timTenQuyenTiendo(id) {
+        var tuyen = this.timTuyenChinh(id);
+        var que = "";
+        return new Promise((resolve, reject) => { //trả về promise 
+            if (tuyen == "") return reject('ID sai');
+            if (id.length == 3) que = "select ten,quyen from "+tuyen+" where id= '" + id + "'";
+            else que = "select ten,quyen,tiendo from "+tuyen+" where id= '" + id + "'";
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) //bắt lỗi
                     return reject(err);
                 resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json

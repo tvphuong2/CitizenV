@@ -1,9 +1,9 @@
 var root_id = localStorage.getItem("id");
 var token = localStorage.getItem("token");
 
-// $(document).ready(function() {
-//     $('#mytable').DataTable({});
-// });
+$(document).ready(function() {
+    $('#mytable').DataTable({});
+});
 
 var danhsachtinh = document.getElementById("danhsachtinh");
 laycmnd = fetch("/danhsach/capduoi/?id=A01", {headers: {

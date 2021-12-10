@@ -5,17 +5,17 @@ const m_dangnhap = require('../model/m_dangnhap');
 class Token {
     kientratruycap(req, res, next) {
         if (!req.headers['authorization']) { // nếu như header trống
-            return res.status(403).json('Chưa có token');
+            return res.status(400).json('Chưa có token');
         }
 
         var token = req.headers['authorization'].split(' ')[1] // lấy token từ header
         if(token){ //nếu token tồn tại
             jwt.verify(token, SECRET_KEY, function(err, user){ // kiểm tra token và giải mã token với khóa 'bí mật quân sự'
-                if(err) return res.status(403).json('Token không hợp lệ')
+                if(err) return res.status(400).json('Token không hợp lệ')
 
                 m_dangnhap.timMatKhau(user.id).then(data => { //tìm xem tài khoản (được giải mã từ token) có tồn tại trong csdl ko
                     if (data == '') {
-                        res.status(500).json({status: 'ID không tồn tại'});
+                        res.status(403).json({status: 'ID của bạn không tồn tại'});
                     } else { // gán thêm quyền và id của client cho req để sử dụng ở các controller phía sau
                         req.role = user.role
                         req.user = user.id
