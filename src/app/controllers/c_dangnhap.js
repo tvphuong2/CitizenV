@@ -42,32 +42,25 @@ class Login{
         var password = req.body.password; //nhận id và pass từ client
         var role = 'A1';
         m_dangnhap.timMatKhau(id).then(data => { // tìm mật khẩu của id
-            if(data != '') {
-                bcrypt.compare(password, (data[0].matkhau).toString()) // so sánh mật khẩu nhận được với mk của id trong csdl (đã được mã hóa)
-                .then(rs =>{
-                    if(!rs){
-                        return res.status(400).json('Mật khẩu sai')
-                    }
-                    if (id.length == 2) role = 'A2'
-                    else if (id.length == 4) role = 'A3'
-                    else if (id.length == 6) role = 'B1'
-                    else if (id.length == 8) role = 'B2' 
-                    var token = jwt.sign({id: id, role:role}, SECRET_KEY, {expiresIn: 60*30}) //mã hóa id và quyền thành token hop le trong 30phut với chìa là 'bimatquansu'
-                    res.json({
-                        status: 'thanhcong', //trả về trạng thái, id của tài khoản và token cho client
-                        id: id,
-                        token: token
-                    })
+            if(data == '') return res.status(404).json({status: 'không tồn tại tài khoản'})
+            
+            bcrypt.compare(password, (data[0].matkhau).toString()) // so sánh mật khẩu nhận được với mk của id trong csdl (đã được mã hóa)
+            .then(rs =>{
+                if(!rs) return res.status(400).json('Mật khẩu sai')
+
+                if (id.length == 2) role = 'A2'
+                else if (id.length == 4) role = 'A3'
+                else if (id.length == 6) role = 'B1'
+                else if (id.length == 8) role = 'B2' 
+                var token = jwt.sign({id: id, role:role}, SECRET_KEY, {expiresIn: 60*30}) //mã hóa id và quyền thành token hop le trong 30phut với chìa là 'bimatquansu'
+                res.json({
+                    status: 'thanhcong', //trả về trạng thái, id của tài khoản và token cho client
+                    id: id,
+                    token: token
                 })
-                .catch(err =>{
-                    return res.status(500).json({status: 'server không thể giải mã mk'})
-                })
-            } else{
-                res.status(404).json({status: 'không tồn tại tài khoản'})
-            }
-        })
-        .catch(err =>{
-            res.status(404).json({status: 'Không tìm được id'})
+            })            
+        }).catch(err =>{
+            res.status(404).json({status: err})
         })
     }
 
