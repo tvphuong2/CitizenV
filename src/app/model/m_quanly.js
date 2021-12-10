@@ -15,10 +15,6 @@ class QuanLy extends Chung {
                 for (var i = 0; i < rows.length; i++) {
                     if (rows[i].matkhau[0] == "$") rows[i].matkhau = "Yes";
                     else rows[i].matkhau = "No";
-                    if (rows[i].quyen == "Có") rows[i].quyen = "Yes";
-                    else rows[i].quyen = "No";
-                    if (rows[i].tiendo == "Da xong") rows[i].tiendo = "Yes";
-                    else rows[i].tiendo = "No";
                 }
                 resolve(JSON.stringify(rows));
             });

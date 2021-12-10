@@ -16,9 +16,8 @@ class Data {
     capDuoi(req, res) {
         var id = Chung.trim(req.query.id);
          
-        QuanLy.quanly(id).then(function(result) {
-           res.send(result);
-        })
+        QuanLy.quanly(id)
+        .then(result => res.send(result))
     }
 
     /**
@@ -32,21 +31,14 @@ class Data {
 
         Chung.gioiHanQuyen(req.user, id).then(id =>{
             if (password == "") {
-                m_dangnhap.xoaMatKhau(id).then(data => {
-                    res.json({status: 'Xóa mk Thành công'});
-                }).catch(err =>{
-                    res.status(403).json({status: err})
-                })
+                m_dangnhap.xoaMatKhau(id)
+                .then(data => res.json({status: data}))
             } else {
-                bcrypt.hash(password, 10, function(err, hashedPass){
-                    if (err) {
-                        res.status(500).json({status: err});
-                    }
-                    m_dangnhap.taoMatKhau(id, hashedPass).then(result => {
-                        res.json({status: "Thay Mật khẩu thành công"});
-                    }).catch(err =>{
-                        res.status(403).json({status: err})
-                    })
+                bcrypt.hash(password, 10, function(err, hashedPass) {
+                    if (err) res.status(500).json({status: err});
+
+                    m_dangnhap.taoMatKhau(id, hashedPass)
+                    .then(result => res.json({status: result}))
                 })
             }
         }).catch(err =>{
@@ -63,14 +55,13 @@ class Data {
         var id = Chung.trim(req.query.id);
         var start = req.query.start;
         var end = req.query.end;
+        if (!Chung.dinhDangNgay([start, end])) 
+            return res.status(400).json({status: 'Thời gian không hợp lệ'})
 
-        Chung.gioiHanQuyen(req.user, id).then(id =>{
-            QuanLy.doiQuyen(id, start, end).then(function(result) {
-                res.json({status: "Thay quyền thành công"});
-            })
-        }).catch(err =>{
-            res.status(403).json({status: err})
-        })
+        Chung.gioiHanQuyen(req.user, id)
+        .then(id => QuanLy.doiQuyen(id, start, end))
+        .then(result => res.json({status: result}))
+        .catch(err => res.status(403).json({status: err}))
     }
 
     /*
@@ -81,13 +72,10 @@ class Data {
     xoaQuyen(req, res) {
         var id = Chung.trim(req.query.id);
 
-        Chung.gioiHanQuyen(req.user, id).then(id =>{
-            QuanLy.xoaQuyen(id).then(function(result) {
-                res.json(result);
-            })
-        }).catch(err =>{
-            res.status(403).json({status: err})
-        })
+        Chung.gioiHanQuyen(req.user, id)
+        .then(id => QuanLy.xoaQuyen(id))
+        .then(result => res.json(result))
+        .catch(err =>res.status(403).json({status: err}))
     }
 
     /* thông báo tiến dộ lên tuyến trên
@@ -96,11 +84,9 @@ class Data {
      */
     capNhatTienDo(req, res) {
         var tiendo = req.query.tiendo;
-        QuanLy.capNhatTienDo(req.user, tiendo).then(function(result) {
-            res.json(result);
-        }). catch(err =>{
-            res.status(500).json({status: err})
-        })
+        QuanLy.capNhatTienDo(req.user, tiendo)
+        .then(result => res.json({status: result}))
+        .catch(err => res.status(500).json({status: err}))
     }
 
     /**
@@ -111,14 +97,10 @@ class Data {
     timTenQuyenTiendo(req, res) {
         var id = Chung.trim(req.query.id); 
 
-        Chung.gioiHanQuyen(req.user, id).then(id =>{
-            QuanLy.timTenQuyenTiendo(id).then(function (s) { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
-                if (s=="") res.status(403).json({status: 'mã không hợp lệ'})
-                else res.send(s); //gửi dữ liệu
-            })
-        }).catch(err =>{
-            res.status(403).json({status: err})
-        })
+        Chung.gioiHanQuyen(req.user, id)
+        .then(id => QuanLy.timTenQuyenTiendo(id))
+        .then(s => res.send(s))
+        .catch(err => res.status(403).json({status: err}))
     }
 }
 

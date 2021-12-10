@@ -31,15 +31,15 @@ class DanhSach extends Chung {
 
     taoMoi(userid,ten,dientich) {
         var tuyen = this.timTuyenDuoi(userid);
+        if (dientich == "") dientich = 0;
 
         return new Promise((resolve, reject) => {   
             let que = "insert into "+ tuyen +
                     " SELECT MAX(id) + 1,'"+userid+"','" +ten+"','Không','Không',now(),now(),'Chua xong',"+dientich+
                     " FROM " +tuyen+" WHERE tuyentren = '" +userid+"'";
             this.connection.query(que, (err, rows) => {
-                if (tuyen == "") reject('ID sai')
-                if (err)
-                    return reject(err);
+                if (tuyen == "") return reject('ID sai')
+                if (err) return reject(err);
                 resolve("thêm địa phương thành công");
             })
         })
@@ -51,9 +51,8 @@ class DanhSach extends Chung {
         return new Promise((resolve, reject) => {   
             let que = "DELETE FROM "+tuyen+" WHERE id = '"+id+"'";
             this.connection.query(que, (err, rows) => {
-                if (tuyen == "") reject('ID sai')
-                if (err)
-                    return reject(err);
+                if (tuyen == "") return reject('ID sai')
+                if (err) return reject(err);
                 resolve("xóa địa phương thành công");
             })
 
@@ -68,10 +67,9 @@ class DanhSach extends Chung {
         else if (ten != "") que = "UPDATE "+tuyen+" SET Ten = '"+ten+"' WHERE id = '"+id+"'";
         else que = "UPDATE "+tuyen+" SET dientich = '"+dientich+"' WHERE id = '"+id+"'";
         return new Promise((resolve, reject) => {
-            if (tuyen == "") reject('ID sai')
+            if (tuyen == "") return reject('ID sai')
             this.connection.query(que, (err, rows) => {
-                if (err)
-                    return reject(err);
+                if (err) return reject(err);
                 resolve("Chỉnh sửa thành công");
             })
 

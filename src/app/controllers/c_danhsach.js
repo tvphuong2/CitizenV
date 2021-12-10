@@ -14,33 +14,23 @@ class Data {
         var id = Chung.trim(req.query.id);
         var ten = Chung.trim(req.query.name);
         var dientich = req.query.dientich;
-        if (!Chung.dinhDangSo([dientich])) {
-            res.status(400).json({status: 'Diện tích không hợp lệ'})
-            return
-        }
+        if (!Chung.dinhDangSo([dientich])) 
+            return res.status(400).json({status: 'Diện tích không hợp lệ'})
 
-        Chung.gioiHanQuyen(req.user, id).then(id =>{
-            m_danhsach.chinhSua(id, ten, dientich).then(function(s) {
-                if (s=="") res.status(500).json({status: 'Chỉnh sửa thất bại'})
-                else res.json({status: 'Chỉnh sửa thành công'})
-            })
-        }).catch(err =>{
-            res.status(403).json({status: err})
-        })
+        Chung.gioiHanQuyen(req.user, id)
+        .then(id => m_danhsach.chinhSua(id, ten, dientich))
+        .then(s => res.json({status: s}))
+        .catch(err => res.status(403).json({status: err}))
 
     }
 
     xoa(req, res) {
         var id = Chung.trim(req.query.id);
 
-        Chung.gioiHanQuyen(req.user, id).then(id =>{
-            m_danhsach.xoa(id).then(function(s){
-                if (s=="") res.status(500).json({status: 'xóa thất bại'})
-                else res.json({status: 'Xóa thành công'})
-            })
-        }).catch(err =>{
-            res.status(403).json({status: err})
-        })
+        Chung.gioiHanQuyen(req.user, id)
+        .then(id => m_danhsach.xoa(id))
+        .then(s => res.json({status: s}))
+        .catch(err => res.status(403).json({status: err}))
     }
 
     /* tạo một địa phương mới
@@ -50,15 +40,11 @@ class Data {
     taoMoi(req, res) {
         var name = Chung.trim(req.query.name);
         var dientich = req.query.dientich;
-        if (!Chung.dinhDangSo([dientich])) {
-            res.status(400).json({status: 'Diện tích không hợp lệ'})
-            return
-        }
+        if (!Chung.dinhDangSo([dientich])) 
+            return res.status(400).json({status: 'Diện tích không hợp lệ'})
 
-        m_danhsach.taoMoi(req.user,name,dientich).then(function(s){
-            if (s=="") res.status(500).json({status: 'tạo mới thất bại'})
-            else res.json({status: 'Tạo mới thành công'})
-        })
+        m_danhsach.taoMoi(req.user,name,dientich)
+        .then(s => res.json({status: s}))
     }
 
     /* thống kê (để làm cuối cùng, sử dụng react)
@@ -76,7 +62,8 @@ class Data {
     capDuoi(req, res) {
         var id = Chung.trim(req.query.id); // lấy trường id từ request (xem trong public/js/data_syn.js)
 
-        m_danhsach.timCapDuoi(id).then(function (s) { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
+        m_danhsach.timCapDuoi(id) //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
+        .then(s => { 
             if (s=="") res.status(403).json({status: 'mã không hợp lệ'})
             else res.send(s); //gửi dữ liệu
         })
@@ -89,7 +76,8 @@ class Data {
      */
     timTen(req, res) {
         var id = Chung.trim(req.query.id); 
-        m_danhsach.timTen(id).then(function (s) { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
+        m_danhsach.timTen(id)
+        .then(s => { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
             if (s=="") res.status(403).json({status: 'mã không hợp lệ'})
             else res.send(s); //gửi dữ liệu
         })
