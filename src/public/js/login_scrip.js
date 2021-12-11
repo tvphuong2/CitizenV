@@ -37,6 +37,7 @@ function log() {
                 else
                 document.location.pathname = "/nhaplieu"
             } else {
+                alert(res.status)
                 localStorage.setItem("token", '');
             }
         });

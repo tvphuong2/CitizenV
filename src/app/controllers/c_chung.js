@@ -4,7 +4,7 @@ var m_danhsach = require('../model/m_danhsach');
 class Chung {
     dinhDangNgay(array){
         for (var i = 0; i <array.length ; i++) {
-            if (array[i] != "" && !moment(array[i], "YYYY/MM/DD", true).isValid()) {
+            if (array[i] != "" && !moment(array[i], "DD/MM/YYYY", true).isValid()) {
                 return false;
             }
         }
@@ -22,6 +22,10 @@ class Chung {
 
     trim(s){
         return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
+    }
+
+    chuanHoaNgay(day) {
+        return day = moment(day, "DD/MM/YYYY", true).format('YYYY/MM/DD');
     }
 
     gioiHanQuyen(user, id) {

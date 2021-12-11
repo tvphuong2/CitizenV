@@ -8,11 +8,8 @@ class DangNhap extends Chung {
             if (tuyen == "") reject('ID sai')
             this.connection.query("select matkhau from " + tuyen + " where id = '" +id+"'", (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
-                if (!rows.length) {
-                    resolve('');
-                } else {
-                    resolve(rows); // trả về các hàng kết quả và chuyển dữ liệu đó về json
-                }
+                if (!rows.length) return resolve('Tài khoản chưa được cấp');
+                else return resolve(rows); // trả về các hàng kết quả và chuyển dữ liệu đó về json
             });
         });
     }

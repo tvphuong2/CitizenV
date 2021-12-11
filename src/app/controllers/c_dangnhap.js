@@ -46,7 +46,7 @@ class Login{
             
             bcrypt.compare(password, (data[0].matkhau).toString()) // so sánh mật khẩu nhận được với mk của id trong csdl (đã được mã hóa)
             .then(rs =>{
-                if(!rs) return res.status(400).json('Mật khẩu sai')
+                if(!rs) return res.status(400).json({status: 'Mật khẩu sai'})
 
                 if (id.length == 2) role = 'A2'
                 else if (id.length == 4) role = 'A3'

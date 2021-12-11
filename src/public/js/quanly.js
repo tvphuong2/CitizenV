@@ -2,6 +2,8 @@ var quanly = document.getElementById("list");
 var root_id = localStorage.getItem("id");
 var token = localStorage.getItem("token");
 
+if (root_id.length != 6) document.getElementById("inphieu").style.display = "none";
+
 quanly.innerHTML = "đang tải...";
 quanLyDanhSach = fetch("/quanly/capduoi/?id=" + root_id, {headers: {
   'Authorization': 'Basic '+ token
@@ -126,4 +128,39 @@ function chua_hoan_thanh() {
     .then((res) => {
       if (res.status) alert(res.status)
     })
+}
+
+function inphieu() {
+  var cb = document.getElementsByClassName('cb');
+
+  var style = "<style>"
+  style += "table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}"
+  style += "td, th {border: 1px solid #dddddd;text-align: left;padding: 8px; height:24px;}"
+  style += "tr:nth-child(even) {background-color: #dddddd;}"
+  style += "</style>"
+
+  var table = "<h1>Tên hộ:</h1><table><thead><tr>";
+  var len = 0;
+
+  for (var i = 0; i < cb.length; i++) {
+    if (cb[i].checked) {
+      len++;
+      table += "<th>" + cb[i].value + "</th>"
+    }
+  }
+  table += "</tr></thead><tbody>"
+  for (var j = 0; j < 15; j++) {
+    table += "<tr>"
+    for (var i = 0; i < len; i++) {
+      table += "<td></td>"
+    }
+    table += "</tr>"
+  }
+  table += "</tbody></table><h2>Người khai báo</h2><h3>(Ký tên)</h3>"
+
+  var win = window.open('', '', 'height=800,width=800');
+  win.document.write(style);
+  win.document.write(table);
+  win.document.close();
+  win.print();
 }

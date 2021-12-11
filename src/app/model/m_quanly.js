@@ -30,7 +30,6 @@ class QuanLy extends Chung {
         if (start != "") time_start = "timestart = '" + start + "'";
         if (end != "") time_end = "timeend = '" + end + "'";
 
-        console.log("pip")
         que = "UPDATE "+tuyen+" SET "+time_start+","+time_end+" WHERE id = '" +id+"'";
         return new Promise((resolve, reject) => { //trả về promise 
             if (tuyen == "") return reject('ID sai')

@@ -2,6 +2,7 @@ const QuanLy = require('../model/m_quanly');
 const m_dangnhap = require('../model/m_dangnhap');
 const bcrypt = require('bcrypt');
 const Chung = require('./c_chung');
+const { chuanHoaNgay } = require('./c_chung');
 
 class Data {
     index(req, res) {
@@ -57,6 +58,9 @@ class Data {
         var end = req.query.end;
         if (!Chung.dinhDangNgay([start, end])) 
             return res.status(400).json({status: 'Thời gian không hợp lệ'})
+        
+        start = chuanHoaNgay(start);
+        end = chuanHoaNgay(end);
 
         Chung.gioiHanQuyen(req.user, id)
         .then(id => QuanLy.timQuyen(req.user, id))
