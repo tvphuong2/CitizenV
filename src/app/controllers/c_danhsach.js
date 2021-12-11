@@ -52,6 +52,12 @@ class Data {
     output một trang mới chứa các lược đồ thống kê
     */
     thongKe(req, res) {
+        var arr_id = req.query.arr_id;
+        var type = req.query.type;
+        m_danhsach.thongKe(arr_id,type).then(function(s){
+            if (s=="") res.status(403).json({status: ''})
+            else res.send(s);   
+        })
 
     }
 

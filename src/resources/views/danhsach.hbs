@@ -7,7 +7,28 @@
         color: aqua;
         text-decoration: underline;
     }
+
+    #thongke {
+        position: fixed;
+        display: none;
+        width: 800px;
+        height: 600px;
+        background-color: #fff;
+        top: 50vh;
+        left: 50vw;
+        transform: translate(-50%, -50%);
+    }
+
+    #chart_div {
+        width: 80%;
+        height: 80%;
+    }
 </style>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="thongke">
+    <button onclick="tatThongKe()">Đóng</button>
+    <div id = "chart_div" ></div>
+</div>
 
 <div>
     <span>Nhập id</span><input type="text" id="id_">
@@ -17,6 +38,13 @@
     <button onclick="themDiaPhuong()">Thêm địa phương</button>
     <button onclick="xoaDiaPhuong()">Xóa địa phương</button>
     <button onclick="thongKe()">Thống kê</button>
+    <select id="bieudo">
+    <option value="1">Mật độ dân số</option>
+    <option value="2">Tháp tuổi</option>
+    <option value="3">Tỉ lệ nghề nghiệp</option>
+    <option value="4">Trình độ văn hóa</option>
+  </select>
+    <button onclick="thongKe2()">Thống kê 2</button>
 </div>
 
 <div id="navigation">
@@ -35,5 +63,8 @@
     <tbody id = "danhsach">
 </table> 
 
+{{!-- <script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script> --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/js/data_syn.js"></script>
