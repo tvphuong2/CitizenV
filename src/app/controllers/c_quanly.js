@@ -59,6 +59,7 @@ class Data {
             return res.status(400).json({status: 'Thời gian không hợp lệ'})
 
         Chung.gioiHanQuyen(req.user, id)
+        .then(id => QuanLy.timQuyen(req.user, id))
         .then(id => QuanLy.doiQuyen(id, start, end))
         .then(result => res.json({status: result}))
         .catch(err => res.status(403).json({status: err}))
@@ -73,6 +74,7 @@ class Data {
         var id = Chung.trim(req.query.id);
 
         Chung.gioiHanQuyen(req.user, id)
+        .then(id => QuanLy.timQuyen(req.user, id))
         .then(id => QuanLy.xoaQuyen(id))
         .then(result => res.json(result))
         .catch(err =>res.status(403).json({status: err}))
@@ -85,6 +87,7 @@ class Data {
     capNhatTienDo(req, res) {
         var tiendo = req.query.tiendo;
         QuanLy.capNhatTienDo(req.user, tiendo)
+        .then(id => QuanLy.timQuyen(req.user, id))
         .then(result => res.json({status: result}))
         .catch(err => res.status(500).json({status: err}))
     }

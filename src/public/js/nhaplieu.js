@@ -6,6 +6,7 @@ fetch("/nhaplieu/capduoi/?id=" + root_id, {headers: {
     'Authorization': 'Basic '+ token
   }}).then((response) => response.json())
   .then((res) => {
+      if (res.status) alert(res.status)
     for (i in res) {
       //tạo các hàng
       var tr = document.createElement("tr");

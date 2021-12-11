@@ -12,6 +12,9 @@ fetch("/danhsach/timten/?id=" + root_id, {headers: {
     'Authorization': 'Basic '+ token
   }}).then((response) => response.json()).then((res) => {
     root = "<p>"+res.ten+"</p>"
+    if (res.status) {
+      alert(res.status)
+    }
   });
 
 danhsach.innerHTML = "đang tải...";
@@ -20,6 +23,7 @@ laydanhsach = fetch("/danhsach/capduoi/?id=" + root_id, {headers: {
     'Authorization': 'Basic '+ token
   }}).then((response) => response.json())
   .then((res) => {
+    if (res.status) alert(res.status)
     //url có dạng đường dẫn/?biến=giá trị&biến=giá trị
     danhsach.innerHTML = "";
     nav.innerHTML = root;
@@ -57,6 +61,7 @@ $("#table").on("click", "tbody tr", function (e) {
   }})
     .then((response) => response.json())
     .then((res) => {
+      if (res.status) alert(res.status)
       for (i in res) {
         //tạo các hàng
         var tr = document.createElement("tr");
@@ -100,6 +105,7 @@ $("#navigation").on("click", "p", function () {
   }})
     .then((response) => response.json())
     .then((res) => {
+      if (res.status) alert(res.status)
       for (i in res) {
         //tạo các hàng
         var tr = document.createElement("tr");
@@ -124,19 +130,21 @@ function themDiaPhuong() {
   fetch("/danhsach/taomoi/?name=" + name + "&dientich=" + dientich, {headers: {
     'Authorization': 'Basic '+ token
   }})
-    .then((response) => {
-      console.log(response);
-    });
-}
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.status) alert(res.status)
+    })
+  }
 
 function xoaDiaPhuong() {
   var id_ = document.getElementById('id_').value;
   fetch("/danhsach/xoa/?id=" + id_, {headers: {
     'Authorization': 'Basic '+ token
   }})
-    .then((response) => {
-      console.log(response);
-    });
+  .then((response) => response.json())
+  .then((res) => {
+    if (res.status) alert(res.status)
+  })
 }
 
 function chinhSua() { //nếu như tên trống sẽ sửa mỗi diện tích và ngược lại
@@ -146,7 +154,8 @@ function chinhSua() { //nếu như tên trống sẽ sửa mỗi diện tích v�
   fetch("/danhsach/chinhsua/?id=" + id_ +"&name=" + name +"&dientich=" + dientich, {headers: {
     'Authorization': 'Basic '+ token
   }})
-    .then((response) => {
-      console.log(response);
-    });
+  .then((response) => response.json())
+  .then((res) => {
+    if (res.status) alert(res.status)
+  })
 }

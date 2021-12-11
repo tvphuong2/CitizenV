@@ -4,7 +4,7 @@ var m_danhsach = require('../model/m_danhsach');
 class Chung {
     dinhDangNgay(array){
         for (var i = 0; i <array.length ; i++) {
-            if (!moment(array[i], "YYYY/MM/DD", true).isValid()) {
+            if (array[i] != "" && !moment(array[i], "YYYY/MM/DD", true).isValid()) {
                 return false;
             }
         }

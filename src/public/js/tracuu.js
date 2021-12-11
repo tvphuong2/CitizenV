@@ -10,6 +10,7 @@ laycmnd = fetch("/danhsach/capduoi/?id=A01", {headers: {
         'Authorization': 'Basic '+ token
     }}).then((response) => response.json())
     .then((res) => {
+        if (res.status) alert(res.status)
         //url có dạng đường dẫn/?biến=giá trị&biến=giá trị
         for (i in res) {
             var option = document.createElement("option");
@@ -45,7 +46,8 @@ function timkiem() {
     var url = "/tracuu/timkiem/?cmnd=" + cmnd + "&hoten=" + hoten + "&diaphuong=" + diaphuong; 
     fetch(url , {headers: {
         'Authorization': 'Basic '+ token
-        }}).then(response => response.json()).then(res => {
-            console.log(res);
-        });
+        }}).then((response) => response.json())
+        .then((res) => {
+          if (res.status) alert(res.status)
+        })
 }

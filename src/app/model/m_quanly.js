@@ -13,7 +13,8 @@ class QuanLy extends Chung {
                 if (err) return reject(err);
 
                 for (var i = 0; i < rows.length; i++) {
-                    if (rows[i].matkhau[0] == "$") rows[i].matkhau = "Yes";
+                    if (!rows[i].matkhau) rows[i].matkhau = "No";
+                    else if (rows[i].matkhau[0] == "$") rows[i].matkhau = "Yes";
                     else rows[i].matkhau = "No";
                 }
                 resolve(JSON.stringify(rows));
@@ -29,6 +30,7 @@ class QuanLy extends Chung {
         if (start != "") time_start = "timestart = '" + start + "'";
         if (end != "") time_end = "timeend = '" + end + "'";
 
+        console.log("pip")
         que = "UPDATE "+tuyen+" SET "+time_start+","+time_end+" WHERE id = '" +id+"'";
         return new Promise((resolve, reject) => { //trả về promise 
             if (tuyen == "") return reject('ID sai')
@@ -61,6 +63,19 @@ class QuanLy extends Chung {
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
                 resolve('Đổi tiến độ thành công');
+            });
+        });
+    }
+
+    timQuyen(user, id) {
+        var tuyen = this.timTuyenChinh(user);
+        return new Promise((resolve, reject) => {
+            if (user.length == 3) return resolve(id);
+            var que = "select quyen from "+tuyen+" where id= '" + user + "'";
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err) return reject("Lỗi tìm quyền");
+                if(rows[0].quyen[0] == "K") reject("Bạn không có quyền chỉnh sửa");
+                resolve(id);
             });
         });
     }

@@ -7,6 +7,7 @@ quanLyDanhSach = fetch("/quanly/capduoi/?id=" + root_id, {headers: {
   'Authorization': 'Basic '+ token
 }}).then((response) => response.json())
   .then((res) => {
+    if (res.status) alert(res.status)
     quanly.innerHTML = "";
     for (var i = 0; i < res.length; i++) {
         var row = document.createElement("tr");
@@ -41,6 +42,7 @@ fetch("/quanly/kttenquyentiendo/?id=" + root_id, {headers: {
     'Authorization': 'Basic '+ token
   }}).then((response) => response.json())
   .then((res) => {
+    if (res.status) alert(res.status)
     var name = document.getElementById("ten");
     name.innerHTML = res.ten;
     var quyen = document.getElementById("quyen");
@@ -66,9 +68,10 @@ function doi_mk() {
                 'Authorization': 'Basic '+ token},
       body: JSON.stringify({"id": id, 
                             "password": pass})
-    }).then((response) => {
-      console.log(response);
-    });
+    }).then((response) => response.json())
+    .then((res) => {
+      if (res.status) alert(res.status)
+    })
 }
 
 function xoa_mk() {
@@ -79,9 +82,10 @@ function xoa_mk() {
               'Authorization': 'Basic '+ token},
     body: JSON.stringify({"id": id, 
                           "password": ""})
-    }).then((response) => {
-      console.log(response);
-    });
+    }).then((response) => response.json())
+    .then((res) => {
+      if (res.status) alert(res.status)
+    })
 }
 
 function doi_quyen() {
@@ -90,32 +94,36 @@ function doi_quyen() {
   var end = document.getElementById('time_end').value;
   fetch("/quanly/thayquyen/?id=" + id + "&start=" + start + "&end=" + end, {headers: {
       'Authorization': 'Basic '+ token
-    }}).then((response) => {
-      console.log(response);
-    });
+    }}).then((response) => response.json())
+    .then((res) => {
+      if (res.status) alert(res.status)
+    })
 }
 
 function xoa_quyen() {
   var id = document.getElementById('o_id').value;
   fetch("/quanly/xoaquyen/?id=" + id, {headers: {
       'Authorization': 'Basic '+ token
-    }}).then((response) => {
-      console.log(response);
-    });
+    }}).then((response) => response.json())
+    .then((res) => {
+      if (res.status) alert(res.status)
+    })
 }
 
 function hoan_thanh() {
   fetch("/quanly/tiendo/?tiendo=1", {headers: {
       'Authorization': 'Basic '+ token
-    }}).then((response) => {
-      console.log(response);
-    });
+    }}).then((response) => response.json())
+    .then((res) => {
+      if (res.status) alert(res.status)
+    })
 }
 
 function chua_hoan_thanh() {
   fetch("/quanly/tiendo/?tiendo=0", {headers: {
       'Authorization': 'Basic '+ token
-    }}).then((response) => {
-      console.log(response);
-    });
+    }}).then((response) => response.json())
+    .then((res) => {
+      if (res.status) alert(res.status)
+    })
 }

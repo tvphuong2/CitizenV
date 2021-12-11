@@ -8,7 +8,7 @@ class DanhSach extends Chung {
         else que = "select id,ten from "+tuyen+" where tuyentren =" + id;
 
         return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") reject('ID sai')
+            if (tuyen == "") return reject('ID sai')
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) //bắt lỗi
                     return reject(err);
