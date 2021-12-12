@@ -89,6 +89,25 @@ class DanhSach extends Chung {
         })
     }
 
+    thongTinNhanKhau(id) {
+        return new Promise((resolve, reject) => {
+          //trả về promise
+          this.connection.query(
+            "select hoten, DATE_FORMAT(ngaysinh, '%d/%m/%Y'), gioitinh, tongiao, quoctich, nghenghiep, cmnd, thuongtru, tamtru, trinhdo from nhan_khau where maho= '" +
+              id +
+              "'",
+            (err, rows) => {
+              //truyền truy vấn dữ liệu vào
+              if (err)
+                //bắt lỗi
+                return reject(err);
+              resolve(JSON.stringify(rows)); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            }
+          );
+        });
+      }
+    
+
     thongKe(arr_id, type) {
 
         var cac_dia_phuong_id = arr_id.split(',');

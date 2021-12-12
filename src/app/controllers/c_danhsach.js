@@ -88,6 +88,15 @@ class Data {
             else res.send(s); //gửi dữ liệu
         }).catch(err =>res.status(404).json({status: err}))
     }
+
+    danhSachNhanKhau(req, res) {
+        var id = req.query.id; // lấy trường id từ request (xem trong public/js/data_syn.js)
+        m_danhsach.thongTinNhanKhau(id).then(function (s) {
+          //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
+          if (s == "") res.status(403).json({ status: "mã không hợp lệ" });
+          else res.send(s); //gửi dữ liệu
+        });
+      }
 }
 
 module.exports = new Data;

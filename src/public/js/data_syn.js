@@ -74,56 +74,102 @@ laydanhsach = fetch("/danhsach/capduoi/?id=" + root_id, {
 
 // Hàm khi ấn vào một dòng
 $("#table").on("click", "tbody tr", function (e) {
+  if ($(e.target).closest("input").length) return;
   var index = this.getElementsByTagName("td")[1].innerHTML;
-  if ($(e.target).closest("input").length) {
-    if ((e.target).checked == true) {
-      arrIndexClicked.push(index);
-    } else {
-      arrIndexClicked = arrIndexClicked.filter(function (val) {
-        return val != index;
-      })
-    }
-    return;
-  }
-  str = "/danhsach/capduoi/?id=" + index;
-  arrIndexOfLocation.push(index);
-
-  navNameOfLocation[arrIndexOfLocation.length - 2] =
-    document.createElement("p");
-  navNameOfLocation[arrIndexOfLocation.length - 2].innerHTML =
-    ">>" + this.getElementsByTagName("td")[2].innerHTML;
-  nav.appendChild(navNameOfLocation[arrIndexOfLocation.length - 2]);
-
-  danhsach.innerHTML = "";
-  fet = fetch(str, {
-    headers: {
-      'Authorization': 'Basic ' + token
-    }
-  })
-    .then((response) => response.json())
-    .then((res) => {
-      for (i in res) {
-        //tạo các hàng
-        var tr = document.createElement("tr");
-        tr.innerHTML =
-          '<td><input type="checkbox" class = "ck" id="ck-1"></td>';
-        for (j in res[i]) {
-          //tạo trường cho các hàng
-          var td = document.createElement("td");
-          td.innerHTML = res[i][j];
-          tr.appendChild(td);
+ 
+  // Hiện thông tin mỗi người theo mỗi hộ khẩu la truy van cuoi cung
+  if (index.length == 10) {
+    subStr = "/danhsach/danhsachnhankhau/?id=" + index;
+    fet = fetch(subStr, {
+      headers: {
+        Authorization: "Basic " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        // Thanh dieu huong
+        arrIndexOfLocation.push(index);
+        navNameOfLocation[arrIndexOfLocation.length - 2] =
+          document.createElement("p");
+        navNameOfLocation[arrIndexOfLocation.length - 2].innerHTML =
+          ">>" + this.getElementsByTagName("td")[2].innerHTML;
+        nav.appendChild(navNameOfLocation[arrIndexOfLocation.length - 2]);
+ 
+        danhsach.innerHTML = "";
+ 
+        tieude.innerHTML = "";
+        var trHead = document.createElement("tr");
+        trHead.innerHTML =
+          "<th>Họ tên</th>" +
+          "<th>Ngày sinh</th>" +
+          "<th>Giới tính</th>" +
+          "<th>Tôn giáo</th>" +
+          "<th>Quốc tịch</th>" +
+          "<th>Nghề nghiệp</th>" +
+          "<th>CMND</th>" +
+          "<th>Địa chỉ thường trú</th>" +
+          "<th>Địa chỉ tạm trú</th>" +
+          "<th>Trình độ học vấn</th>";
+        tieude.appendChild(trHead);
+ 
+        for (i in res) {
+          //tạo các hàng
+          var tr = document.createElement("tr");
+          for (j in res[i]) {
+            //tạo trường cho các hàng
+            var td = document.createElement("td");
+            td.innerHTML = res[i][j];
+            tr.appendChild(td);
+          }
+          danhsach.appendChild(tr);
         }
-
-        danhsach.appendChild(tr);
-      }
-    });
+      });
+  } else {
+    str = "/danhsach/capduoi/?id=" + index;
+ 
+    arrIndexOfLocation.push(index);
+    navNameOfLocation[arrIndexOfLocation.length - 2] =
+      document.createElement("p");
+    navNameOfLocation[arrIndexOfLocation.length - 2].innerHTML =
+      ">>" + this.getElementsByTagName("td")[2].innerHTML;
+    nav.appendChild(navNameOfLocation[arrIndexOfLocation.length - 2]);
+ 
+    tieude.innerHTML = "";
+    var trHead = document.createElement("tr");
+    trHead.innerHTML = "<th></th>" + "<th>Mã</th>" + "<th>Địa phương</th>";
+    tieude.appendChild(trHead);
+ 
+    danhsach.innerHTML = "";
+    fet = fetch(str, {
+      headers: {
+        Authorization: "Basic " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        for (i in res) {
+          //tạo các hàng
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            '<td><input type="checkbox" class = "ck" id="ck-1"></td>';
+          for (j in res[i]) {
+            //tạo trường cho các hàng
+            var td = document.createElement("td");
+            td.innerHTML = res[i][j];
+            tr.appendChild(td);
+          }
+ 
+          danhsach.appendChild(tr);
+        }
+      });
+  }
 });
-
+ 
 // Hàm để ấn vào điều hướng
 $("#navigation").on("click", "p", function () {
   var index = $(this).index();
   nav.innerHTML = root;
-
+ 
   // Xử lý sự kiện khi ấn thanh điều hướng
   var temp = [];
   for (i = 0; i < index; i++) {
@@ -131,19 +177,24 @@ $("#navigation").on("click", "p", function () {
     temp[i].innerHTML = navNameOfLocation[i].innerHTML;
     nav.appendChild(temp[i]);
   }
-
+ 
   navNameOfLocation.splice(index, navNameOfLocation.length);
   arrIndexOfLocation.splice(index + 1, arrIndexOfLocation.length);
   str =
     "/danhsach/capduoi/?id=" +
     arrIndexOfLocation[arrIndexOfLocation.length - 1];
-
+ 
   danhsach.innerHTML = "";
-
+ 
+  tieude.innerHTML = "";
+  var trHead = document.createElement("tr");
+  trHead.innerHTML = "<th></th>" + "<th>Mã</th>" + "<th>Địa phương</th>";
+  tieude.appendChild(trHead);
+ 
   fet = fetch(str, {
     headers: {
-      'Authorization': 'Basic ' + token
-    }
+      Authorization: "Basic " + token,
+    },
   })
     .then((response) => response.json())
     .then((res) => {
@@ -158,11 +209,12 @@ $("#navigation").on("click", "p", function () {
           td.innerHTML = res[i][j];
           tr.appendChild(td);
         }
-
+ 
         danhsach.appendChild(tr);
       }
     });
 });
+
 
 
 
