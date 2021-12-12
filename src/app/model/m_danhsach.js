@@ -143,11 +143,11 @@ class DanhSach extends Chung {
             })
         }
         if (type == 'mat_do') {
-            var que = "SELECT " + tuyen + ".Ten, COUNT(nhan_khau.Manguoi) / tinh_thanh.Dientich   as Matdo FROM " + tuyen
+            var que = "SELECT " + tuyen + ".Ten, COUNT(nhan_khau.Manguoi) / "+tuyen+".Dientich   as Matdo FROM " + tuyen
                 + (tuyen == "tinh_thanh" ? join_huyen : "")
                 + (tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_phuong : "")
                 + (tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_thon : "")
-                + (tuyen == "ho_khau" || tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_ho : "")
+                + (tuyen == "thon_to" || tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_ho : "")
                 + " LEFT JOIN nhan_khau ON nhan_khau.Maho = ho_khau.Id "
                 + "WHERE " + where + " AND nhan_khau.Gioitinh is not null GROUP BY " + tuyen + ".Id; ";
             console.log(que);

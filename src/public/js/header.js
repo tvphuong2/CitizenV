@@ -9,6 +9,7 @@ var nl = document.getElementById("nl");
 if(root_id.length == 8) {
     ds.parentNode.removeChild(ds);
     ql.parentNode.removeChild(ql);
+    tc.parentNode.removeChild(tc);
 } 
 if([2,3,4].includes(root_id.length)) {
     nl.parentNode.removeChild(nl);
