@@ -63,8 +63,6 @@ class Login{
             res.status(404).json({status: err})
         })
     }
-
-    
 }
 
 module.exports = new Login;

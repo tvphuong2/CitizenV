@@ -59,8 +59,8 @@ class Data {
         if (!Chung.dinhDangNgay([start, end])) 
             return res.status(400).json({status: 'Thời gian không hợp lệ'})
         
-        start = chuanHoaNgay(start);
-        end = chuanHoaNgay(end);
+        if(start != "") start = chuanHoaNgay(start);
+        if(end != "") end = chuanHoaNgay(end);
 
         Chung.gioiHanQuyen(req.user, id)
         .then(id => QuanLy.timQuyen(req.user, id))

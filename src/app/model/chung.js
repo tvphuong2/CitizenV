@@ -9,6 +9,7 @@ class Chung {
 			user: 'root',
 			password: '',
 			database: 'citizenv', //tên csdl
+            multipleStatements: true,
 			debug: false
 		});
 	}

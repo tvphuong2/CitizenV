@@ -1,30 +1,32 @@
+
 var danhsach = document.getElementById("danhsach");
 var root_id = localStorage.getItem("id");
 var token = localStorage.getItem("token");
 
-fetch("/nhaplieu/capduoi/?id=" + root_id, {headers: {
-    'Authorization': 'Basic '+ token
-  }}).then((response) => response.json())
-  .then((res) => {
-      if (res.status) alert(res.status)
-    for (i in res) {
-      //tạo các hàng
-      var tr = document.createElement("tr");
-      tr.innerHTML = '<td><input type="checkbox" class = "ck" id="ck-1"></td>';
-      for (j in res[i]) {
-        //tạo trường cho các hàng
-        var td = document.createElement("td");
-        td.innerHTML = res[i][j];
-        tr.appendChild(td);
-      }
-      danhsach.appendChild(tr);
+fetch("/nhaplieu/capduoi/?id=" + root_id, {
+    headers: {
+        'Authorization': 'Basic ' + token
     }
-  });
+}).then((response) => response.json())
+    .then((res) => {
+        for (i in res) {
+            //tạo các hàng
+            var tr = document.createElement("tr");
+            tr.innerHTML = '<td><input type="checkbox" class = "ck" id="ck-1"></td>';
+            for (j in res[i]) {
+                //tạo trường cho các hàng
+                var td = document.createElement("td");
+                td.innerHTML = res[i][j];
+                tr.appendChild(td);
+            }
+            danhsach.appendChild(tr);
+        }
+    });
 
 // Thêm thành viên
-document.getElementById("add").onclick = function() {
+document.getElementById("add").onclick = function () {
     var str =
-        '<label>Nhập họ tên</label><input type="text"  class="name" /><label> CMND</label><input type="text"  class="cmnd" /><label> Dân tộc</label><input type="text"  class="dan_toc" /><label> Nam</label><input type="checkbox" /><label> Ngày sinh</label><input type="text" name="dob" placeholder="nn/tt/nnnn"  class="ngay_sinh" /><label> Quốc tịch</label><input type="text"  class="quoc_tich" /><label> Quan hệ với chủ hộ</label><input type="text" /><label> Tôn giáo</label><input type="text"  class="ton_giao" /><label> Trình độ học vấn</label><input type="text"  class="hoc_van" />';
+        '<label>Nhập họ tên</label><input type="text"  class="name" /><label> CMND</label><input type="text"  class="cmnd" /><label>Nghề nghiệp</label><input type="text" class="nghe_nghiep" /><label>Giới tính</label><input type="text" class="gioi_tinh" /><label> Ngày sinh</label><input type="text" name="dob" placeholder="nn/tt/nnnn"  class="ngay_sinh" /><label> Quốc tịch</label><input type="text"  class="quoc_tich" /><label> Tôn giáo</label><input type="text"  class="ton_giao" /><label> Trình độ học vấn</label><input type="text"  class="hoc_van" /><label>Địa chỉ thường trú</label><input type="text" class="thuong_tru" /><label>Địa chỉ tạm trú</label><input type="text" class="tam_tru"/>';
     var x = document.createElement("div");
     x.innerHTML = str;
     document.querySelector("#thanh_vien").appendChild(x);
@@ -32,17 +34,26 @@ document.getElementById("add").onclick = function() {
 
 
 // Xóa thành viên
-document.getElementById("remove").onclick = function() {
+document.getElementById("remove").onclick = function () {
     var myDiv = document.getElementById("thanh_vien");
     myDiv.removeChild(myDiv.lastChild);
 };
 
 
 // Xử lý sự kiện khi ấn submit
-document.getElementById("submit").onclick = function() {
+document.getElementById("submit").onclick = function () {
     var accept = true;
     var str = "";
+
     document.getElementById("err").innerHTML = "";
+
+    var elements = document.getElementsByClassName("name");
+
+
+    var list_send = new Array(elements.length);
+    for (var i = 0; i < list_send.length; i++) {
+        list_send[i] = new Array(11);
+    }
     var elements = document.getElementsByClassName("name");
     for (var i = 0; i < elements.length; i++) {
         if (elements[i].value == "") {
@@ -53,7 +64,19 @@ document.getElementById("submit").onclick = function() {
             break;
         }
     }
+    elements_id_ho = document.getElementsByClassName("id_ho");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements_id_ho[0].value == "") {
+            str_name = " Chưa nhập Id Hộ";
+            str = str + str_name + '<br>';
+            document.getElementById("err").innerHTML = str;
+            accept = false;
+            break;
+        }
+        list_send[i][1] = (elements[i].value)
+        list_send[i][0] = (elements_id_ho[0].value) // day auk
 
+    }
     elements = document.getElementsByClassName("cmnd");
     for (var i = 0; i < elements.length; i++) {
         if (elements[i].value == "") {
@@ -63,17 +86,31 @@ document.getElementById("submit").onclick = function() {
             accept = false;
             break;
         }
+        list_send[i][2] = (elements[i].value)
     }
 
-    elements = document.getElementsByClassName("dan_toc");
+    elements = document.getElementsByClassName("nghe_nghiep");
     for (var i = 0; i < elements.length; i++) {
         if (elements[i].value == "") {
-            str_dt = " Chưa nhập dân tộc";
+            str_cmnd = " Chưa nhập Nghề Nghiệp";
+            str = str + str_cmnd + '<br>';
+            document.getElementById("err").innerHTML = str;
+            accept = false;
+            break;
+        }
+        list_send[i][3] = (elements[i].value)
+    }
+
+    elements = document.getElementsByClassName("gioi_tinh");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].value == "") {
+            str_dt = " Chưa nhập giới tính";
             str = str + str_dt + '<br>';
             document.getElementById("err").innerHTML = str;
             accept = false;
             break;
         }
+        list_send[i][4] = (elements[i].value)
     }
 
     elements = document.getElementsByClassName("ngay_sinh");
@@ -91,8 +128,9 @@ document.getElementById("submit").onclick = function() {
             accept = false;
             break;
         }
+        list_send[i][5] = convertDOB(elements[i].value)
     }
-
+   
     elements = document.getElementsByClassName("quoc_tich");
     for (var i = 0; i < elements.length; i++) {
         if (elements[i].value == "") {
@@ -102,7 +140,11 @@ document.getElementById("submit").onclick = function() {
             accept = false;
             break;
         }
+        list_send[i][6] = (elements[i].value)
     }
+
+    
+    
 
     elements = document.getElementsByClassName("ton_giao");
     for (var i = 0; i < elements.length; i++) {
@@ -113,8 +155,8 @@ document.getElementById("submit").onclick = function() {
             accept = false;
             break;
         }
+        list_send[i][7] = (elements[i].value)
     }
-
     elements = document.getElementsByClassName("hoc_van");
     for (var i = 0; i < elements.length; i++) {
         if (elements[i].value == "") {
@@ -124,7 +166,38 @@ document.getElementById("submit").onclick = function() {
             accept = false;
             break;
         }
+        list_send[i][8] = (elements[i].value)
     }
+
+    elements = document.getElementsByClassName("thuong_tru");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].value == "") {
+            str_cmnd = " Chưa nhập địa chỉ thường trú";
+            str = str + str_cmnd + '<br>';
+            document.getElementById("err").innerHTML = str;
+            accept = false;
+            break;
+        }
+        list_send[i][9] = (elements[i].value)
+    }
+
+    elements = document.getElementsByClassName("tam_tru");
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i].value == "") {
+            str_cmnd = " Chưa nhập địa chỉ tạm trú";
+            str = str + str_cmnd + '<br>';
+            document.getElementById("err").innerHTML = str;
+            accept = false;
+            break;
+        }
+        list_send[i][10] = (elements[i].value)
+    }
+    console.log(list_send);
+    fetch('/nhaplieu/themnhankhau/?list_send=' + list_send, {
+        headers: {
+            'Authorization': 'Basic ' + token
+        }
+    }).then((response) => console.log(response));
 };
 
 function isDate(d) {
@@ -164,7 +237,7 @@ function isDate(d) {
 
 var elements = document.getElementsByClassName("name");
 for (var i = 0; i < elements.length; i++) {
-    elements[i].onblur = function() {
+    elements[i].onblur = function () {
         this.value = reName(this.value);
     }
 }
@@ -180,4 +253,12 @@ function reName(name) {
             normal_name = normal_name + ss[i].substring(1).toLowerCase();
         }
     return normal_name;
+}
+
+function convertDOB(dob) {
+    var ingre = dob.split('/');
+    var day = ingre[0];
+    var month = ingre[1];
+    var year = ingre[2];
+    return year+month+day;
 }

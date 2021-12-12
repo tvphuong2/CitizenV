@@ -5,7 +5,7 @@ class DangNhap extends Chung {
         var tuyen = this.timTuyenChinh(id);
 
         return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") reject('ID sai')
+            if (tuyen == "") reject('ID sai dangnhap')
             this.connection.query("select matkhau from " + tuyen + " where id = '" +id+"'", (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
                 if (!rows.length) return resolve('Tài khoản chưa được cấp');
@@ -31,7 +31,7 @@ class DangNhap extends Chung {
         var tuyen = this.timTuyenChinh(id);
 
         return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") return reject('ID sai')
+            if (tuyen == "") return reject('ID sai xoamk')
             this.connection.query("UPDATE "+tuyen+" set `Matkhau` = 'Không' WHERE id = '" +id+"'", (err, rows) => {
                 if (err) //bắt lỗi
                     return reject(err);

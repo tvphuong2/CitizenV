@@ -8,7 +8,7 @@ class DanhSach extends Chung {
         else que = "select id,ten from "+tuyen+" where tuyentren =" + id;
 
         return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") return reject('ID sai')
+            if (tuyen == "") return resolve('ID sai timcapduoi')
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) //bắt lỗi
                     return reject(err);
@@ -20,7 +20,7 @@ class DanhSach extends Chung {
     timTen(id) {
         var tuyen = this.timTuyen(id);
         return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") reject('ID sai')
+            if (tuyen == "") {return resolve('ID sai timten')}
             this.connection.query("select ten from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err)  return reject(err);
                 if (!rows.length) resolve('');
@@ -29,14 +29,27 @@ class DanhSach extends Chung {
         });
     }
 
-    taoMoi(userid,ten,dientich) {
+    taoMoi(userid, ten, dientich) {
+
+        var do_dai_id = 0;
         var tuyen = this.timTuyenDuoi(userid);
+        if (tuyen == "tinh_thanh") {
+            do_dai_id = 2;
+        } else if (tuyen == "huyen_quan") {
+            do_dai_id = 4;
+        } else if (tuyen == "xa_phuong") {
+            do_dai_id = 6;
+        } else if (tuyen == "thon_to") {
+            do_dai_id = 8;
+        } else if (tuyen == "ho_khau") {
+            do_dai_id = 10;
+        }
         if (dientich == "") dientich = 0;
 
-        return new Promise((resolve, reject) => {   
-            let que = "insert into "+ tuyen +
-                    " SELECT MAX(id) + 1,'"+userid+"','" +ten+"','Không','Không',now(),now(),'Chua xong',"+dientich+
-                    " FROM " +tuyen+" WHERE tuyentren = '" +userid+"'";
+        return new Promise((resolve, reject) => {
+            let que = "insert into " + tuyen +
+                " SELECT LPAD(max(id) + 1," + do_dai_id + ",'0'),'" + userid + "','" + ten + "','Không','Không',now(),now(),'Chua xong'," + dientich +
+                " FROM " + tuyen + " WHERE tuyentren = '" + userid + "'";
             this.connection.query(que, (err, rows) => {
                 if (tuyen == "") return reject('ID sai')
                 if (err) return reject(err);
@@ -51,7 +64,7 @@ class DanhSach extends Chung {
         return new Promise((resolve, reject) => {   
             let que = "DELETE FROM "+tuyen+" WHERE id = '"+id+"'";
             this.connection.query(que, (err, rows) => {
-                if (tuyen == "") return reject('ID sai')
+                if (tuyen == "") return reject('ID sai xoa')
                 if (err) return reject(err);
                 resolve("xóa địa phương thành công");
             })
@@ -67,7 +80,7 @@ class DanhSach extends Chung {
         else if (ten != "") que = "UPDATE "+tuyen+" SET Ten = '"+ten+"' WHERE id = '"+id+"'";
         else que = "UPDATE "+tuyen+" SET dientich = '"+dientich+"' WHERE id = '"+id+"'";
         return new Promise((resolve, reject) => {
-            if (tuyen == "") return reject('ID sai')
+            if (tuyen == "") return reject('ID sai chinhsua')
             this.connection.query(que, (err, rows) => {
                 if (err) return reject(err);
                 resolve("Chỉnh sửa thành công");
@@ -77,6 +90,7 @@ class DanhSach extends Chung {
     }
 
     thongKe(arr_id, type) {
+
         var cac_dia_phuong_id = arr_id.split(',');
 
         var tuyen = this.timTuyen(cac_dia_phuong_id[0]);
@@ -98,7 +112,7 @@ class DanhSach extends Chung {
                 + (tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_phuong : "")
                 + (tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_thon : "")
                 + (tuyen == "ho_khau" || tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_ho : "")
-                + "LEFT JOIN nhan_khau ON nhan_khau.Maho = ho_khau.Id "
+                + " LEFT JOIN nhan_khau ON nhan_khau.Maho = ho_khau.Id "
                 + "WHERE " + where + " AND nhan_khau.Gioitinh is not null ORDER BY nhan_khau.Gioitinh;";
             console.log('Cau truy van:')
             console.log(que);
@@ -116,7 +130,7 @@ class DanhSach extends Chung {
                 + (tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_phuong : "")
                 + (tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_thon : "")
                 + (tuyen == "ho_khau" || tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_ho : "")
-                + "LEFT JOIN nhan_khau ON nhan_khau.Maho = ho_khau.Id "
+                + " LEFT JOIN nhan_khau ON nhan_khau.Maho = ho_khau.Id "
                 + "WHERE " + where + " AND nhan_khau.Gioitinh is not null  ORDER BY nhan_khau.Gioitinh, Tuoi";
             console.log('Cau truy van:')
             console.log(que);
@@ -128,8 +142,23 @@ class DanhSach extends Chung {
                 })
             })
         }
-
-
+        if (type == 'mat_do') {
+            var que = "SELECT " + tuyen + ".Ten, COUNT(nhan_khau.Manguoi) / tinh_thanh.Dientich   as Matdo FROM " + tuyen
+                + (tuyen == "tinh_thanh" ? join_huyen : "")
+                + (tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_phuong : "")
+                + (tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_thon : "")
+                + (tuyen == "ho_khau" || tuyen == "xa_phuong" || tuyen == "huyen_quan" || tuyen == "tinh_thanh" ? join_ho : "")
+                + " LEFT JOIN nhan_khau ON nhan_khau.Maho = ho_khau.Id "
+                + "WHERE " + where + " AND nhan_khau.Gioitinh is not null GROUP BY " + tuyen + ".Id; ";
+            console.log(que);
+            return new Promise((resolve, reject) => {
+                this.connection.query(que, (err, rows) => {
+                    if (err)
+                        return reject(err);
+                    resolve(JSON.stringify(rows));
+                })
+            })
+        }
     }
 }
 

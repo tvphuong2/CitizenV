@@ -86,7 +86,7 @@ class Data {
         .then(s => { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
             if (s=="") res.status(403).json({status: 'mã không hợp lệ'})
             else res.send(s); //gửi dữ liệu
-        })
+        }).catch(err =>res.status(404).json({status: err}))
     }
 }
 

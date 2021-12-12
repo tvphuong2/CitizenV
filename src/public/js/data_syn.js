@@ -201,8 +201,12 @@ function chinhSua() { //nếu như tên trống sẽ sửa mỗi diện tích v�
     if (res.status) alert(res.status)
   })
 }
+
+var thap_tuoi_data;
+var mat_do_data;
+
 function thongKe() {
-  var type = "thap_tuoi";
+  var type = document.getElementById("bieudo").value;
   fetch("/danhsach/thongke/?arr_id=" + arrIndexClicked + "&type=" + type, {
     headers: {
       'Authorization': 'Basic ' + token
@@ -219,122 +223,193 @@ function thongKe() {
         console.log("Nam: " + so_luong_nam);
         console.log("Nữ: " + so_luong_nu)
       }
-      else {
+      else if (type == "thap_tuoi") {
+
         for (i in res) {
           if (res[i]['Gioitinh'] == "Nam") {
             so_luong_nam++;
             if (res[i]['Tuoi'] >= 0 && res[i]['Tuoi'] <= 9) {
               nam_thong_ke['0-9']++;
+
             } else if (res[i]['Tuoi'] <= 19) {
               nam_thong_ke['10-19']++;
+
             } else if (res[i]['Tuoi'] <= 29) {
               nam_thong_ke['20-29']++;
+
             } else if (res[i]['Tuoi'] <= 39) {
               nam_thong_ke['30-39']++;
+
             } else if (res[i]['Tuoi'] <= 49) {
               nam_thong_ke['40-49']++;
+
             } else if (res[i]['Tuoi'] <= 59) {
               nam_thong_ke['50-59']++;
+
             } else if (res[i]['Tuoi'] <= 69) {
               nam_thong_ke['60-69']++;
+
             } else if (res[i]['Tuoi'] <= 79) {
               nam_thong_ke['70-79']++;
+
             } else if (res[i]['Tuoi'] <= 89) {
               nam_thong_ke['80-89']++;
+
             } else if (res[i]['Tuoi'] <= 99) {
               nam_thong_ke['90-99']++;
+
             } else {
               nam_thong_ke['100-']++;
+
             }
           }
           if (res[i]['Gioitinh'] == "Nữ") {
             so_luong_nu++;
             if (res[i]['Tuoi'] >= 0 && res[i]['Tuoi'] <= 9) {
               nu_thong_ke['0-9']++;
+
             } else if (res[i]['Tuoi'] <= 19) {
               nu_thong_ke['10-19']++;
+
             } else if (res[i]['Tuoi'] <= 29) {
               nu_thong_ke['20-29']++;
+
             } else if (res[i]['Tuoi'] <= 39) {
               nu_thong_ke['30-39']++;
+
             } else if (res[i]['Tuoi'] <= 49) {
               nu_thong_ke['40-49']++;
+
             } else if (res[i]['Tuoi'] <= 59) {
               nu_thong_ke['50-59']++;
+
             } else if (res[i]['Tuoi'] <= 69) {
               nu_thong_ke['60-69']++;
+
             } else if (res[i]['Tuoi'] <= 79) {
               nu_thong_ke['70-79']++;
+
             } else if (res[i]['Tuoi'] <= 89) {
               nu_thong_ke['80-89']++;
+
             } else if (res[i]['Tuoi'] <= 99) {
               nu_thong_ke['90-99']++;
+
             } else {
               nu_thong_ke['100-']++;
+
             }
           }
+
+
         }
+        thap_tuoi_data = [
+          ['Age', 'Male', 'Female'],
+          ['0-9   years', nam_thong_ke["0-9"], -nu_thong_ke["0-9"]],
+          ['10-19 years', nam_thong_ke["10-19"], -nu_thong_ke["10-19"]],
+          ['20-29 years', nam_thong_ke["20-29"], -nu_thong_ke["20-29"]],
+          ['30-39 years', nam_thong_ke["30-39"], -nu_thong_ke["30-39"]],
+          ['40-49 years', nam_thong_ke["40-49"], -nu_thong_ke["40-49"]],
+          ['50-59 years', nam_thong_ke["50-59"], -nu_thong_ke["50-59"]],
+          ['60-69 years', nam_thong_ke["60-69"], -nu_thong_ke["60-69"]],
+          ['70-79 years', nam_thong_ke["70-79"], -nu_thong_ke["70-79"]],
+          ['80-89 years', nam_thong_ke["80-89"], -nu_thong_ke["80-89"]],
+          ['90-99 years', nam_thong_ke["90-99"], -nu_thong_ke["90-99"]],
+          ['100+  years', nam_thong_ke["100-"], -nu_thong_ke["100-"]]
+        ];
+
         console.log(nam_thong_ke);
         console.log(nu_thong_ke);
       }
-
-
-
+      else if (type == 'mat_do') {
+        mat_do_data = [
+          ['Tỉnh thành', 'Mật độ',],
+        ]
+        for (var i = 0 ; i < res.length ; i ++) {
+            mat_do_data.push([res[i]['Ten'], res[i]['Matdo']])
+        }
+       
+      }
+    }).then((_) => {
+      thongKe2();
+      nam_thong_ke = {
+        '0-9': 0,
+        '10-19': 0,
+        '20-29': 0,
+        '30-39': 0,
+        '40-49': 0,
+        '50-59': 0,
+        '60-69': 0,
+        '70-79': 0,
+        '80-89': 0,
+        '90-99': 0,
+        '100-': 0,
+      }
+      nu_thong_ke = {
+        '0-9': 0,
+        '10-19': 0,
+        '20-29': 0,
+        '30-39': 0,
+        '40-49': 0,
+        '50-59': 0,
+        '60-69': 0,
+        '70-79': 0,
+        '80-89': 0,
+        '90-99': 0,
+        '100-': 0,
+      }
     })
+
 }
 
 google.load("visualization", "1", {packages:["corechart"]});
 
 
 var thongke = document.getElementById("thongke");
-var bieudo = document.getElementById("bieudo");
 function thongKe2() {
+  var bieudo = document.getElementById("bieudo").value;
   thongke.style.display = "block";
-  if (bieudo.value == 1)
+  if (bieudo == 'mat_do')
     google.setOnLoadCallback(matdodanso);
-  else if (bieudo.value == 2)
+  else if (bieudo == 'thap_tuoi')
     google.setOnLoadCallback(danso);
-  else if (bieudo.value == 3)
-    google.setOnLoadCallback(tilenghenghiep);
-  else
-    google.setOnLoadCallback(trinhdovanhoa);
 }
 
 function danso() {
-  var data = new google.visualization.DataTable();
+  // var data = new google.visualization.DataTable();
 
-  var dataArray = [
-    ['Age', 'Male', 'Female'],
-    ['0-4 years',   106, -104],
-    ['5-9 years',   91,  -86 ],
-    ['10-14 years', 79,  -77 ],
-    ['15-19 years', 68,  -64 ],
-    ['20-24 years', 62,  -58 ],
-    ['25-29 years', 56,  -53 ],
-    ['30-34 years', 51,  -46 ],
-    ['35-39 years', 48,  -41 ],
-    ['40-44 years', 43,  -35 ],
-    ['45-49 years', 39,  -30 ],
-    ['50-54 years', 33,  -27 ],
-    ['55-59 years', 32,  -25 ],
-    ['60-64 years', 27,  -20 ],
-    ['64-69 years', 19,  -16 ],
-    ['70-74 years', 13,  -12 ],
-    ['75-79 years', 8,   -7  ],
-    ['80-84 years', 3,   -3  ],
-    ['85-89 years', 1,   -1  ],
-    ['90-94 years', 0,   0   ],
-    ['95+ years',   0,   0   ]
-  ];
+  // var dataArray = [
+  //   ['Age', 'Male', 'Female'],
+  //   ['0-4 years',   106, -104],
+  //   ['5-9 years',   91,  -86 ],
+  //   ['10-14 years', 79,  -77 ],
+  //   ['15-19 years', 68,  -64 ],
+  //   ['20-24 years', 62,  -58 ],
+  //   ['25-29 years', 56,  -53 ],
+  //   ['30-34 years', 51,  -46 ],
+  //   ['35-39 years', 48,  -41 ],
+  //   ['40-44 years', 43,  -35 ],
+  //   ['45-49 years', 39,  -30 ],
+  //   ['50-54 years', 33,  -27 ],
+  //   ['55-59 years', 32,  -25 ],
+  //   ['60-64 years', 27,  -20 ],
+  //   ['64-69 years', 19,  -16 ],
+  //   ['70-74 years', 13,  -12 ],
+  //   ['75-79 years', 8,   -7  ],
+  //   ['80-84 years', 3,   -3  ],
+  //   ['85-89 years', 1,   -1  ],
+  //   ['90-94 years', 0,   0   ],
+  //   ['95+ years',   0,   0   ]
+  // ];
 
-  var data = google.visualization.arrayToDataTable(dataArray);
+  var data = google.visualization.arrayToDataTable(thap_tuoi_data);
 
   var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
 
   var options = {
     isStacked: true,
-    'width':800,
-    'height':500,
+    'width': 800,
+    'height': 500,
     hAxis: {
       format: ';'
     },
@@ -354,18 +429,11 @@ function danso() {
 }
 
 function matdodanso() {
-  var data = google.visualization.arrayToDataTable([
-    ['Tỉnh thành', 'Mật độ',],
-    ['Ninh Bình', 8175],
-    ['Bắc Giang', 3792],
-    ['Lạng Sơn', 5695],
-    ['Cà Mau', 2099],
-    ['Phú Thọ', 3526]
-  ]);
+  var data = google.visualization.arrayToDataTable(mat_do_data);
 
   var options = {
     title: 'Mật độ dân số',
-    chartArea: {width: '50%'},
+    chartArea: { width: '50%' },
     hAxis: {
       title: 'Thành phố',
       minValue: 0
@@ -381,43 +449,43 @@ function matdodanso() {
   chart.draw(data, options);
 }
 
-function tilenghenghiep() {
+// function tilenghenghiep() {
 
-  var data = google.visualization.arrayToDataTable([
-    ['Nghề', 'Tỉ lệ nghề nghiệp'],
-    ['Nông dân',     11],
-    ['Giáo viên',      2],
-    ['Kinh doanh',  2],
-    ['Công nhân', 2],
-    ['Nhân viên văn phòng',    7]
-  ]);
+//   var data = google.visualization.arrayToDataTable([
+//     ['Nghề', 'Tỉ lệ nghề nghiệp'],
+//     ['Nông dân',     11],
+//     ['Giáo viên',      2],
+//     ['Kinh doanh',  2],
+//     ['Công nhân', 2],
+//     ['Nhân viên văn phòng',    7]
+//   ]);
 
-  var options = {
-    title: 'Tỉ lệ nghề nghiệp'
-  };
+//   var options = {
+//     title: 'Tỉ lệ nghề nghiệp'
+//   };
 
-  var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+//   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 
-  chart.draw(data, options);
-}
+//   chart.draw(data, options);
+// }
 
-function trinhdovanhoa() {
+// function trinhdovanhoa() {
 
-  var data = google.visualization.arrayToDataTable([
-    ['Trình độ', 'Trình độ văn hóa'],
-    ['8/12',     2],
-    ['9/12',      8],
-    ['12/12',  20]
-  ]);
+//   var data = google.visualization.arrayToDataTable([
+//     ['Trình độ', 'Trình độ văn hóa'],
+//     ['8/12',     2],
+//     ['9/12',      8],
+//     ['12/12',  20]
+//   ]);
 
-  var options = {
-    title: 'Trình độ văn hóa'
-  };
+//   var options = {
+//     title: 'Trình độ văn hóa'
+//   };
 
-  var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+//   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 
-  chart.draw(data, options);
-}
+//   chart.draw(data, options);
+// }
 
 function tatThongKe() {
   thongke.style.display = "none";

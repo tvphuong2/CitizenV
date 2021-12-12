@@ -27,6 +27,7 @@ class QuanLy extends Chung {
         var que = "";
         var time_start = "timestart = now()";
         var time_end = "timeend = now() + INTERVAL 1 DAY";
+        
         if (start != "") time_start = "timestart = '" + start + "'";
         if (end != "") time_end = "timeend = '" + end + "'";
 

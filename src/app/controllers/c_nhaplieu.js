@@ -22,6 +22,14 @@ class Data {
     chinhSua(req, res) {
         
     }
+
+    nhapLieu(req,res) {
+        var list_send = req.query.list_send;
+        m_nhaplieu.nhapLieu(list_send).then(function (s) { 
+            if (s=="") res.status(403).json({status: 'mã không hợp lệ'})
+            else res.send(s);
+        })
+    }
 }
 
 module.exports = new Data;
