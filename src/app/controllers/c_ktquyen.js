@@ -11,7 +11,7 @@ class Token {
         var token = req.headers['authorization'].split(' ')[1] // lấy token từ header
         if(token){ //nếu token tồn tại
             jwt.verify(token, SECRET_KEY, function(err, user){ // kiểm tra token và giải mã token với khóa 'bí mật quân sự'
-                if(err) return res.status(400).json('Token không hợp lệ')
+                if(err) return res.status(400).json({loi: 'Token không hợp lệ'})
 
                 m_dangnhap.timMatKhau(user.id).then(data => { //tìm xem tài khoản (được giải mã từ token) có tồn tại trong csdl ko
                     if (data == '') {

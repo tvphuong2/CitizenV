@@ -1,0 +1,194 @@
+<div class = "path1 .bg-success card shadow" id = "dsdachon">
+    <div class="card-header">
+        Đã chọn
+    </div>
+    <ul class="card-body list-group" id = "da_chon"></ul>
+    <div class="card-footer py-0" id="thongke">
+        <div class="input-group mb-2">
+            <select class="form-select">
+                <option>Tháp tuổi</option>
+                <option>Mật độ dân số</option>
+                <option>Tỉ lệ tăng dân số</option>
+                <option>Trung bình các chỉ số</option>
+            </select>
+            <button class="btn btn-outline-primary" type="button" onclick="thongKe()">Thống kê</button>
+            <span class="badge bg-primary rounded-pill soluong" id ="soluong">0</span>
+        </div>
+    </div>
+</div>
+<div class = "path2 p-5">
+    <h3 id = "quyen_han"><span class="spinner-border"></span></h3>
+    <h1 id ="ten"></h1>
+    <span class="badge bg-primary" id="trang_thai_kb"><span class="spinner-border"></span></span>
+    <br><br>
+    <div class="container-fluid row" id="thong_tin_kb">
+        <div class="col text-center">
+            <div id="the">
+                <h5>Hạn cuối</h5>
+                <h2 class="text-primary" id ="han_cuoi"><span class="spinner-border"></span></h2>
+            </div>
+        </div>
+        <div class="col text-center">
+            <div id ="the">
+                <h5>Đang khai báo</h5>
+                <h2 class="text-primary" id ="dang_kb"><span class="spinner-border"></span></h2>
+            </div>
+        </div>
+        <div class="col text-center">
+            <div id ="the">
+                <h5>Tiến độ</h5>
+                <h2 class="text-primary" id = "tien_do"><span class="spinner-border"></span></h2>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br>
+    <div class = "container-fluid">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr id="h_danhsach">
+                    <th colspan="3">
+                        <ul class="breadcrumb" id = "diachi">
+                        </ul>
+                    </th>
+                    <th></th>
+                    <th class = "text-center"><button class="xanh btn" onclick="them()" id="themdiaphuong">+ Địa phương</button></th>
+                </tr>
+            </thead>
+            <tbody id="danhsach">
+
+            </tbody>
+        </table>
+        <div id = "khaibao">
+            <hr>
+            <h2>Khai báo hộ khẩu</h2>
+            <strong></strong>
+            <div class="container-fluid cacthanhvien">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="tenho" placeholder="Nhập tên hộ">
+                    <label for="tenho">Tên hộ</label>
+                </div>
+
+                <div id = "cacthanhvien"></div>
+
+                <div class = "container-fluid text-center">
+                    <button class ="btn btn-outline-success" onclick="themNhanKhau()">+ Thêm nhân khẩu</button>
+                    <button class ="btn btn-outline-dark" onclick="thayDoiNhanKhau()">Thay đổi</button>
+                    <button class ="btn btn-outline-dark" onclick="huyBoNhanKhau()">Hủy bỏ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="bangchinhsua">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary">Chỉnh sửa</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Mã địa phương: <span></span></h5>
+                    <br>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Tên địa phương</span>
+                        <input type="text" class="form-control" id = "nhapten">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Diện tích</span>
+                        <input type="number" class="form-control" id = "nhapdientich">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id = "xnchinhsua" onclick="xnChinhSua()">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="bangxoa">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary">Xóa</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Mã địa phương: <span></span></h5>
+                    <br>
+                    <p>Tên địa phương: <span></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id = "xnxoa" onclick="xnXoa()">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="bangthem">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary">Thêm mới</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Tên địa phương</span>
+                        <input type="text" class="form-control" id = "nhaptenmoi">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Diện tích</span>
+                        <input type="number" class="form-control" id = "nhapdientichmoi">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id = "xnthem" onclick="xnThem()">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id = "an">
+        <div class="container-fluid row thanhvien"><div class="form-floating col ten">
+                <input type="text" class="form-control" placeholder="Họ tên thành viên">
+                <label>Họ tên thành viên</label>
+            </div><div class="form-floating col cmnd">
+                <input type="number" class="form-control" placeholder="CMND">
+                <label>CMND</label>
+            </div><div class="form-floating col nghe">
+                <input type="text" class="form-control" placeholder="Nghề nghiệp">
+                <label>Nghề nghiệp</label>
+            </div><div class="form-floating col gioi">
+                <select class="form-select">
+                    <option>Nam</option>
+                    <option>Nữ</option>
+                </select>
+                <label class="form-label">Giới tính</label>
+            </div><div class="form-floating col ngaysinh">
+                <input type="date" class="form-control">
+                <label >Ngày sinh</label>
+            </div><div class="form-floating col quoctich">
+                <input type="text" class="form-control" placeholder="Quốc tịch">
+                <label >Quốc tịch</label>
+            </div><div class="form-floating col tongiao">
+                <input type="text" class="form-control" placeholder="Tôn giáo">
+                <label >Tôn giáo</label>
+            </div><div class="form-floating col trinhdo">
+                <input type="text" class="form-control" placeholder="Trình độ học vấn">
+                <label >Trình độ học vấn</label>
+            </div><div class="form-floating col thuongtru">
+                <input type="text" class="form-control" placeholder="Địa chỉ thường chú">
+                <label >Địa chỉ thường trú</label>
+            </div><div class="form-floating col tamtru">
+                <input type="text" class="form-control" placeholder="Địa chỉ tạm trú">
+                <label >Địa chỉ tạm trú</label>
+            </div>
+            <button class="btn btn-outline-danger" onclick="xoaNhanKhau(this)">Xóa thành viên</button>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/trangchu.js"></script>

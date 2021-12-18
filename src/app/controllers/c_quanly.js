@@ -6,20 +6,18 @@ const { chuanHoaNgay } = require('./c_chung');
 
 class Data {
     index(req, res) {
-        res.render('quanly', {layout: 'main'});
+        res.render('w_quanly', {layout: 'l_main'});
     }
 
-    /**
-     * lấy dữ liệu thống kê việc khai báo tuyến dưới
-     * input: id
-     * output: mảng {havepass: yes/no, id, name, aut: yes/no, progress: yes/no}
-     */
     capDuoi(req, res) {
-        var id = Chung.trim(req.query.id);
-         
-        QuanLy.quanly(id)
+        QuanLy.capDuoi(req.user)
         .then(result => res.send(result))
+        .catch(err =>res.status(403).json({loi: "Yêu cầu không hợp lệ"}))
     }
+
+    //................................
+
+
 
     /**
      * thay đổi mk

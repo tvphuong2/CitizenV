@@ -1,11 +1,13 @@
-const Chung = require('./chung');
+const Chung = require('./m_chung');
 
 class QuanLy extends Chung {
-    quanly(id) {
+    capDuoi(id) {
         var tuyen = this.timTuyenDuoi(id);
         var que = ""
-        if (tuyen == "tinh_thanh") que = "select id,ten,matkhau,quyen,tiendo from "+tuyen+" where 1";
-        else que = "select id,ten,matkhau,quyen,tiendo from "+tuyen+" where tuyentren =" + id;
+        if (tuyen == "tinh_thanh") 
+        que = "select id,ten,matkhau,quyen,tiendo ,DATE_FORMAT(timestart, '%Y-%m-%d') batdau,DATE_FORMAT(timeend, '%Y-%m-%d') ketthuc, DATE_FORMAT(now(), '%Y-%m-%d') homnay from "+tuyen+" where 1";
+        else 
+        que = "select id,ten,matkhau,quyen,tiendo ,DATE_FORMAT(timestart, '%Y-%m-%d') batdau,DATE_FORMAT(timeend, '%Y-%m-%d') ketthuc, DATE_FORMAT(now(), '%Y-%m-%d') homnay from "+tuyen+" where tuyentren =" + id;
 
         return new Promise((resolve, reject) => { //trả về promise 
             if (tuyen == "") reject('ID sai')
@@ -13,9 +15,9 @@ class QuanLy extends Chung {
                 if (err) return reject(err);
 
                 for (var i = 0; i < rows.length; i++) {
-                    if (!rows[i].matkhau) rows[i].matkhau = "No";
-                    else if (rows[i].matkhau[0] == "$") rows[i].matkhau = "Yes";
-                    else rows[i].matkhau = "No";
+                    if (!rows[i].matkhau) rows[i].matkhau = "Không";
+                    else if (rows[i].matkhau[0] == "$") rows[i].matkhau = "Có";
+                    else rows[i].matkhau = "Không";
                 }
                 resolve(JSON.stringify(rows));
             });

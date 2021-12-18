@@ -22,6 +22,7 @@ class Chung {
         else if (id.length ==6) {tuyen = "xa_phuong";}
         else if (id.length ==8) {tuyen = "thon_to";}
         else if (id.length ==10) {tuyen = "ho_khau";}
+        else if (id.length ==12) {tuyen = "nhan_khau";}
         return tuyen;
     }
 

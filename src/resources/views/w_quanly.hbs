@@ -1,0 +1,135 @@
+<div class = "path1">
+
+</div>
+<div class = "path2 p-5">
+    <h3 id = "quyen_han"><span class="spinner-border"></span></h3>
+    <h1 id ="ten"></h1>
+    <br><hr>
+    <div class = "container-fluid row">
+        <div class = "col">
+            <h4>Quyền khai báo <span class="badge bg-primary" id ="quyen_kb">Có</span></h4>
+            <span class="badge bg-primary" id="trang_thai_kb">Đang mở khai báo</span>
+        </div>
+        <div class = "col">
+            <button class ="btn btn-outline-dark" id ="inkhaibao">In phiếu khai báo</button>
+        </div>
+    </div>
+
+    <br><br>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+            <th><h5>Mã</h5></th>
+            <th><h5>Địa phương</h5></th>
+            <th><h5>Mật khẩu</h5></th>
+            <th><h5>Quyền</h5></th>
+            <th><h5>Tiến độ</h5></th>
+            </tr>
+        </thead>
+        <tbody id="danhsach2"></tbody>
+    </table>
+</div>
+
+<div class="modal" id="bangdoimatkhau">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-primary">Đổi mật khẩu</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Mã địa phương: <span></span></h5>
+                <h2></h2>
+                <br>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Mật khẩu mới</span>
+                    <input type="password" class="form-control" id = "nhapmatkhau">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Nhập lại mật khẩu</span>
+                    <input type="password" class="form-control" id = "nhaplaimatkhau">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id = "xndoimatkhau" onclick="xnDoiMk()">Xác nhận</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="bangxoamatkhau">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-primary">Xóa mật khẩu</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Mã địa phương: <span></span></h5>
+                <h2></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id = "xnxoamatkhau" onclick="xnXoaMk()">Xác nhận</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="bangsuaquyen">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-primary">Sửa quyền</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Mã địa phương: <span></span></h5>
+                <h2></h2>
+                <br>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Từ </span>
+                    <input type="date" class="form-control" id = "nhapngaybatdau">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Đến</span>
+                    <input type="date" class="form-control" id = "nhapngayketthuc">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id = "xnsuaquyen" onclick="xnSuaQuyen()">Xác nhận</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="an">
+    <div class="toast show thongtin" id = "thongtin">
+        <div class="toast-header">
+            <h6 class='me-auto'>Số thứ tự: <span></span></h6>
+            <button type='button' class='btn-close' data-bs-dismiss='toast'></button>
+        </div>
+        <div class="toast-body card">
+            <div class="card-body">
+                <h2>Thành phố Hà Nội</h2><hr>
+                <strong class='me-auto'>Mã địa phương:</strong>
+                <h5 id = "mk">Mật khẩu <span class="badge bg-primary">Có</span></h5>
+                <button class="btn btn-outline-primary m-1" type="button" onclick="doiMatKhau()">Thay đổi</button>
+                <button class="btn btn-outline-danger m-1" type="button" onclick="xoaMatKhau()" id="xoamk">Xóa</button>
+                <hr>
+                <h5 id = "quyen">Quyền <span class="badge bg-primary">Có</span></h5>
+                <h6 id = "batdau">Từ: 10/12/2021</h6>
+                <h6 id = "ketthuc">Đến: 20/12/2021</h6>
+                <h6 class="text-danger" id = "homnay">Hôm nay: 13/12/2021</h6>
+                <button class="btn btn-outline-primary m-1" type="button" onclick="suaQuyen()">Thay đổi quyền</button>
+                <button class="btn btn-outline-danger m-1" type="button" onclick="xoaQuyen()" id = "xoaquyen">Khóa quyền</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/j_quanly.js"></script>

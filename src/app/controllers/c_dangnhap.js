@@ -7,7 +7,7 @@ const Chung = require('./c_chung');
 class Login{
 
     index(req, res) {
-        res.render('dangnhap', {layout: 'login_layout'}); // trả về view/dangnhap với layout là login_layout
+        res.render('dangnhap', {layout: 'login_layout.hbs'}); // trả về view/dangnhap với layout là login_layout
     }
 
     dangky(req, res) {
@@ -38,16 +38,16 @@ class Login{
     }
 
     p_dangnhap(req, res) {
-        var id = Chung.trim(req.body.id);
+        var id = Chung.chuanHoaIDDenThon(req.body.id);
         var password = req.body.password; //nhận id và pass từ client
-        var role = 'A1';
+
+        if (id == "") return res.status(400).json({status: "Tên đăng nhập không hợp lệ"});
         m_dangnhap.timMatKhau(id).then(data => { // tìm mật khẩu của id
-            if(data == '') return res.status(404).json({status: 'không tồn tại tài khoản'})
-            
             bcrypt.compare(password, (data[0].matkhau).toString()) // so sánh mật khẩu nhận được với mk của id trong csdl (đã được mã hóa)
             .then(rs =>{
                 if(!rs) return res.status(400).json({status: 'Mật khẩu sai'})
 
+                var role = 'A1';
                 if (id.length == 2) role = 'A2'
                 else if (id.length == 4) role = 'A3'
                 else if (id.length == 6) role = 'B1'
@@ -58,7 +58,7 @@ class Login{
                     id: id,
                     token: token
                 })
-            })            
+            })
         }).catch(err =>{
             res.status(404).json({status: err})
         })

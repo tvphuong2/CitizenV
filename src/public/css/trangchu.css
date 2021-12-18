@@ -1,0 +1,213 @@
+header {
+    font-size:18px;
+}
+
+header i {
+    margin-left: 12px;
+    margin-right: 5px;
+}
+
+.navbar {
+    padding:0px;
+}
+
+.active {
+    border-bottom: 3px solid rgb(110, 110, 110);
+}
+
+header li:hover {
+    background-color: rgb(233, 233, 233);
+}
+
+.body {
+    display: grid;
+    grid-template-columns: 350px auto 350px;
+    padding: 0;
+    margin: 0;
+}
+
+.path1 {
+    grid-column: 1;
+    position: fixed;
+    bottom:0;
+    height: 90vh;
+    width: 350px;
+    padding: 2px;
+}
+
+.path3 {
+    grid-column: 3;
+    height: 90vh;
+    width: 350px;
+    position:fixed;
+    bottom:0;
+    right:0;
+}
+
+.path2 {
+    grid-column: 2;
+    width: 100%;
+    padding:10px;
+}
+
+.loi {
+    display: block;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 2000;
+    width: 400px;
+    bottom: 0;
+}
+
+#da_chon li {
+    width: 100%;
+}
+
+#da_chon li:hover {
+    background-color: rgb(255, 193, 193);
+    cursor: pointer;
+}
+
+#h_danhsach li::before {
+    color: rgb(203, 217, 247);
+}
+
+#danhsach label, input:hover {
+    cursor: pointer;
+}
+
+#diachi li:hover {
+    cursor: pointer;
+}
+
+.baocao {
+    display: block;
+    height: 50px;
+}
+
+.soluong {
+    display: block;
+    position: absolute;
+    font-size:15px;
+    height: 26px;
+    right: -13px;
+    top: -10px;
+    z-index: 10;
+}
+
+#the {
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid rgb(58, 87, 182);
+    border-radius: 5px;
+}
+
+.cacthanhvien {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.thanhvien {
+    margin: 10px 0 10px 0;
+    padding: 10px;
+    border: 5px solid rgb(183, 193, 226);
+    border-radius: 5px;
+}
+
+.thanhvien .col{
+    min-width: 200px;
+    margin: 3px;
+    padding: 3px;
+}
+
+.thanhvien .gioi, .ngaysinh, .tongiao {
+    min-width: 80px;
+}
+
+.thanhvien .ten, .thuongtru, .tamtru {
+    min-width: 300px;
+}
+
+thead {
+    background-color: #6b82d6;
+    color: rgb(255, 255, 255);
+}
+
+.xanh {
+    background-color: #3b5ac9;
+    color: #fff;
+}
+
+.xanh:hover{
+    background-color: #8fa1e0;
+    color: #15214c;
+}
+
+.thongtin {
+    margin-top:20px;
+}
+
+#an {
+    display: none;
+}
+
+#danhsach2 td {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+    header {
+        font-size:22px;
+    }
+    
+    header span {
+        display: none;
+    }
+
+    #thongke {
+        background-color: rgb(216, 233, 255);
+        border-top: 1px solid rgb(100, 89, 255);
+        position:fixed;
+        display: block;
+        width: 100%;
+        bottom:0;
+        z-index: 1000;
+        visibility:visible;
+    }
+
+    .thongtin {
+        position:fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        visibility:visible;
+    }
+
+    .body {
+        display: grid;
+        grid-template-columns: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    .path1 {
+        width: 0;
+        visibility:hidden;
+    }
+
+    .path3 {
+        width: 0;
+        visibility:hidden;
+    }
+
+    .loi {
+        bottom: 60px;
+    }
+    
+}
+
+#inkhaibao {
+    float: right;
+}

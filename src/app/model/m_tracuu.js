@@ -1,4 +1,4 @@
-const Chung = require('./chung');
+const Chung = require('./m_chung');
 
 class TraCuu extends Chung {
     timKiem(cmnd, hoten, diaphuong) {

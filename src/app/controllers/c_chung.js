@@ -2,6 +2,48 @@ var moment = require('moment');
 var m_danhsach = require('../model/m_danhsach');
 
 class Chung {
+    chuanHoaSo(i) {
+        if (isNaN(i)) return ""
+        return i.trim()
+    }
+
+    chuanHoaNgay(date) {
+        var d = moment(array[i], "DD/MM/YYYY", true);
+        if (!d.isValid()) return d.format('YYYY/MM/DD');
+        return ""
+    }
+
+    chuanHoaID(id) {
+        id = id.trim();
+        if(![2,3,4,6,8,10,12].includes(id.length)) return "";
+        return id;
+    }
+
+    chuanHoaIDDenHo(id) {
+        id = id.trim();
+        if(![2,3,4,6,8,10].includes(id.length)) return "";
+        return id;
+    }
+
+    chuanHoaIDDenThon(id) {
+        id = id.trim();
+        if(![2,3,4,6,8].includes(id.length)) return "";
+        return id;
+    }
+
+    chuanHoaIDDenXa(id) {
+        id = id.trim();
+        if(![2,3,4,6].includes(id.length)) return "";
+        return id;
+    }
+
+    chuanHoaTen(ten) {
+        var t = ten.trim();
+        return t.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+    }
+
+
+    
     dinhDangNgay(array){
         for (var i = 0; i <array.length ; i++) {
             if (array[i] != "" && !moment(array[i], "DD/MM/YYYY", true).isValid()) {
@@ -30,7 +72,6 @@ class Chung {
 
     gioiHanQuyen(user, id) {
         return new Promise((resolve, reject) => {
-            if(![2,3,4,6,8,10].includes(id.length)) reject('ID không hợp lệ');
             m_danhsach.timTen(id).then(data => {
                 if (data == "") {
                     reject('ID không tồn tại');

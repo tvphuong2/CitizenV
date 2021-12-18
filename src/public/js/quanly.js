@@ -9,6 +9,7 @@ quanLyDanhSach = fetch("/quanly/capduoi/?id=" + root_id, {headers: {
   'Authorization': 'Basic '+ token
 }}).then((response) => response.json())
   .then((res) => {
+    console.log(res);
     if (res.status) alert(res.status)
     quanly.innerHTML = "";
     for (var i = 0; i < res.length; i++) {
