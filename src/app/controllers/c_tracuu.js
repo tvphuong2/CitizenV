@@ -3,7 +3,7 @@ const Chung = require('./c_chung');
 
 class Data {
     index(req, res) {
-        res.render('tracuu', {layout: 'main'});
+        res.render('w_tracuu', {layout: 'l_tracuu'});
     }
 
     /**
@@ -12,18 +12,20 @@ class Data {
      * output: mảng các thông tin cá nhân
      */
     timKiem(req, res) {
-        var cmnd = Chung.trim(req.query.cmnd);
-        var diaphuong = Chung.trim(req.query.diaphuong);
-        var hoten = Chung.trim(req.query.hoten);
+        var cmnd = req.query.cmnd.trim();
+        var ten = Chung.chuanHoaTen(req.query.ten);
+        var tuoi = Chung.chuanHoaSo(req.query.tuoi);
+        var gioi = req.query.gioi.trim();
+        var tongiao = req.query.tongiao.trim();
+        var quoctich = Chung.chuanHoaTen(req.query.quoctich);
+        var trinhdo = req.query.trinhdo.trim();
+        var max_id = Chung.chuanHoaID(req.query.id);
+        console.log("pip")
 
-        Chung.gioiHanQuyen(req.user, diaphuong).then(id =>{
-            m_tracuu.timKiem(cmnd, hoten,id).then(function (s) { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
-                if (s=="") res.status(400).json({status: 'thông tin điền không hợp lệ'})
-                else res.send(s); //gửi dữ liệu
-            })
-        }).catch(err =>{
-            res.status(403).json({status: err})
-        })
+        Chung.gioiHanQuyen(req.user, max_id)
+        .then(id => m_tracuu.timKiem(cmnd,ten,tuoi,gioi,tongiao,quoctich,trinhdo,id))
+        .then(s =>  res.send(s))
+        .catch(err => res.status(403).json({loi: "Không tìm được thông tin"}))
     }
 }
 

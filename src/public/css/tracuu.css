@@ -1,0 +1,79 @@
+#tracuu {
+    display: grid;
+    grid-template-columns: 350px auto 350px;
+    padding: 0;
+    margin: 0;
+}
+
+#timkiem {
+    grid-column: 1;
+    position: fixed;
+    bottom:0;
+    height: 90vh;
+    width: 350px;
+    padding: 2px;
+}
+
+#timkiem button {
+    width: 100%;
+}
+
+#thongtinnhankhau {
+    grid-column: 3;
+    height: 90vh;
+    width: 350px;
+    position:fixed;
+    bottom:0;
+    right:0;
+}
+
+#ketquatimkiem {
+    grid-column: 2;
+    width: 100%;
+    padding:10px;
+}
+
+#thongtinnhankhau p {
+    font-size: 18px;
+}
+
+#thongtinnhankhau h2 {
+    color: #5877e9;
+}
+
+
+@media screen and (max-width: 1200px) {
+    #tracuu {
+        display: block;
+    }
+
+    #thongtin {
+        position:fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        visibility:visible;
+    }
+
+    #ketquatimkiem {
+        display: block;
+        width: 100%;
+        padding: 0;
+    }
+
+    #timkiem {
+        position: static;
+        display:block;
+        width: 100%;
+    }
+
+    #thongtinnhankhau {
+        width: 0;
+        visibility:hidden;
+    }
+    
+}
+
+#inkhaibao {
+    float: right;
+}

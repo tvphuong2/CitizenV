@@ -113,19 +113,32 @@ class DanhSach extends Chung {
 
         })
     }
-    //............................
-
 
     timTen(id) {
         var tuyen = this.timTuyen(id);
         return new Promise((resolve, reject) => {
-            this.connection.query("select ten from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
+            this.connection.query("select ten, id from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err)  return reject(err);
-                if (!rows.length) resolve('');
+                if (!rows.length) reject("không tìm thấy");
                 resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json
             });
         });
     }
+
+    timTenCapDuoi(id) {
+        var tuyen = this.timTuyenDuoi(id);
+        var que = "select ten, id from "+tuyen;
+        if (id.length != 3) que += " where tuyentren= '" + id + "'";
+        return new Promise((resolve, reject) => {
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err)  return reject(err);
+                if (!rows.length) reject("không tìm thấy");
+                resolve(JSON.stringify(rows)); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            });
+        });
+    }
+    //............................
+
     
 
     thongKe(arr_id, type) {

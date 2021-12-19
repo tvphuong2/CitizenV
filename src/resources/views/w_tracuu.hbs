@@ -1,0 +1,100 @@
+<div id="timkiem" class="card shadow">
+    <div class="card-header">
+        <h5>Tra cứu</h5>
+    </div>
+    <div class="card-body" id = "dachon">
+        <div class="form-floating">
+            <input type="number" class="form-control m-2" placeholder="CMND" id ="cmnd">
+            <label for="cmnd">CMND</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control m-2" placeholder="ten" id ="ten">
+            <label for="ten">Tên</label>
+        </div>
+        <select class="m-2 form-select" id ="chontinh" onchange="timTiep('#chonhuyen', this, ['#chonxa', '#chonthon'])">
+            <option value="">-- Tất cả --</option>
+        </select>
+        <select class="m-2 form-select" id = "chonhuyen" onchange="timTiep('#chonxa', this, ['#chonthon'])">
+            <option value="">-- Tất cả --</option>
+        </select>
+        <select class="m-2 form-select" id = "chonxa" onchange="timTiep('#chonthon', this, [])">
+            <option value="">-- Tất cả --</option>
+        </select>
+        <select class="m-2 form-select" id = "chonthon">
+            <option value="">-- Tất cả --</option>
+        </select>
+        <div class="form-floating">
+            <input type="number" class="form-control m-2" placeholder="Tuổi" id ="tuoi">
+            <label for="tuoi">Tuổi</label>
+        </div>
+        <div class="form-floating col gioi">
+            <select class="form-select m-2" id = "gioi">
+                <option>Tất cả</option>
+                <option>Nam</option>
+                <option>Nữ</option>
+            </select>
+            <label class="form-label">Giới tính</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control m-2" placeholder="Tôn giáo" id ="tongiao">
+            <label for="tongiao">Tôn giáo</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control m-2" placeholder="Quốc tịch" id ="quoctich">
+            <label for="quoctich">Quốc tịch</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control m-2" placeholder="Nghề nghiệp" id ="nghenghiep">
+            <label for="nghenghiep">Nghề nghiệp</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control m-2" placeholder="Trình độ học vấn" id ="trinhdo">
+            <label for="trinhdo">Trình độ học vấn</label>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-outline-primary" type="button" onclick="traCuu()">Tra cứu</button>
+    </div>
+</div>
+<div id="ketquatimkiem">
+    <table class="table table-striped table-hover mt-5">
+        <thead>
+            <tr>
+                <th><h5>CMND</h5></th>
+                <th><h5>Họ và tên</h5></th>
+                <th><h5>Giới tính</h5></th>
+                <th><h5>Ngày sinh</h5></th>
+            </tr>
+        </thead>
+        <tbody id="danhsach2">
+            
+        </tbody>
+    </table>
+</div>
+
+<div id="an">
+    <div class="toast show" id = "thongtin">
+        <div class="toast-header">     
+            <span class='me-auto'>Thông tin nhân khẩu</span>
+            <button type='button' class='btn-close' data-bs-dismiss='toast'></button>
+        </div>
+        <div class="toast-body card">
+            <div class="card-body">
+                <h2></h2><hr>
+                <p><strong>CMND: </strong><span></span></p>
+                <p><strong>Ngày sinh: </strong><span></span></p>
+                <p><strong>Giới tính: </strong><span></span></p>
+                <p><strong>Tôn giáo: </strong><span></span></p>
+                <p><strong>Quốc tịch: </strong><span></span></p>
+                <p><strong>Nghề nghiệp: </strong><span></span></p>
+                <p><strong>Trình độ học vấn: </strong><span></span></p>
+                <p><strong>Địa chỉ thường trú: </strong><span></span></p>
+                <p><strong>Địa chỉ tạm trí: </strong><span></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src = "/js/j_tracuu.js"></script>

@@ -90,6 +90,28 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
+    /* Tìm tên của 1 id
+    input: id
+    output: tên của id đó
+     */
+    timTen(req, res) {
+        var id = Chung.chuanHoaIDDenThon(req.query.id);
+        if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
+
+        m_danhsach.timTen(id)
+        .then(s => res.send(s))
+        .catch(err =>res.status(404).json({loi: "Không tìm thấy địa phương"}))
+    }
+
+    timTenCapDuoi(req, res) {
+        var id = Chung.chuanHoaIDDenXa(req.query.id);
+        if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
+
+        m_danhsach.timTenCapDuoi(id)
+        .then(s => res.send(s))
+        .catch(err =>res.status(404).json({loi: "Không tìm thấy địa phương"}))
+    }
+
     //............................................................
     /* thống kê (để làm cuối cùng, sử dụng react)
     input: chuỗi các id cách nhau bằng dẫu cách
@@ -102,19 +124,6 @@ class Data {
             if (s=="") res.status(403).json({status: ''})
             else res.send(s);   
         })
-    }
-
-    /* Tìm tên của 1 id
-    input: id
-    output: tên của id đó
-     */
-    timTen(req, res) {
-        var id = Chung.trim(req.query.id); 
-        m_danhsach.timTen(id)
-        .then(s => { //gọi hàm timcapduoi trong model/chung.js, gửi dữ liệu sau khi hàm này được hoàn thành
-            if (s=="") res.status(403).json({status: 'mã không hợp lệ'})
-            else res.send(s); //gửi dữ liệu
-        }).catch(err =>res.status(404).json({status: err}))
     }
 }
 

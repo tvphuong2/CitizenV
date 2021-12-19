@@ -1,16 +1,46 @@
 const Chung = require('./m_chung');
 
 class TraCuu extends Chung {
-    timKiem(cmnd, hoten, diaphuong) {
-        var que = 'select cmnd, hoten, DATE_FORMAT(ngaysinh, "%d/%m/%Y"), gioitinh, quoctich, thuongtru, tamtru, tongiao, trinhdo, nghenghiep from nhan_khau where ';
+    timKiem(cmnd,ten,tuoi,gioi,tongiao,quoctich,trinhdo,id) {
+        var dautien = false;
+        var que = 'select cmnd, hoten, DATE_FORMAT(ngaysinh, "%d/%m/%Y") ngaysinh, gioitinh, quoctich, thuongtru, tamtru, tongiao, trinhdo, nghenghiep from nhan_khau where ';
         if (cmnd != "") que += "cmnd = " + cmnd
         else {
-            if (diaphuong != "") {
-                que += "manguoi like '" + diaphuong + "%'"
-                if (hoten != "") que += "and hoten like '%" + hoten + "%'"
+            if (id != "") {
+                que += "id like '" + id + "%'"
+                dautien = true;
             }
-            else if (hoten != "") que += "hoten like '%" + hoten + "%'"
-            else return "";
+            if (ten != "") {
+                if (dautien) que += " and ";
+                else dautien = true;
+                que += "hoten like '%" + ten + "%'"
+            }
+            if (tuoi != "") {
+                if (dautien) que += " and ";
+                else dautien = true;
+                que += " year(ngaysinh) = year(now()) - " + tuoi
+            }
+            if (gioi != "") {
+                if (dautien) que += " and ";
+                else dautien = true;
+                if (gioi =="Nam") que += " gioitinh = 0 "
+                else " gioitinh = 1 "
+            }
+            if (tongiao != "") {
+                if (dautien) que += " and ";
+                else dautien = true;
+                que += " tongiao = '" + tongiao + "'"
+            }
+            if (quoctich != "") {
+                if (dautien) que += " and ";
+                else dautien = true;
+                que += " quoctich = '" + quoctich + "'"
+            }
+            if (trinhdo != "") {
+                if (dautien) que += " and ";
+                else dautien = true;
+                que += " trinhdo = '" + trinhdo + "'"
+            }
         }
         console.log(que);
         return new Promise((resolve, reject) => { //trả về promise 
