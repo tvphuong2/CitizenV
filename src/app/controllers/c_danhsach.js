@@ -51,7 +51,7 @@ class Data {
     thongTin(req, res) {
         m_danhsach.tenQuyen(req.user)
         .then(ten_quyen => {
-            if (ten_quyen.quyen == "Có" && req.user.length < 8) {
+            if (ten_quyen.quyen == "1" && req.user.length < 8) {
                 return m_danhsach.thongTin(req.user, ten_quyen.ten, ten_quyen.quyen)
             } else {
                 return JSON.stringify(ten_quyen);

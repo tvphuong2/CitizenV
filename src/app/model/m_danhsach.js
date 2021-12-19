@@ -14,7 +14,7 @@ class DanhSach extends Chung {
 
     thongTin(id, ten, quyen) {
         var tuyen = this.timTuyenDuoi(id);
-        var que = "SELECT  DATE_FORMAT(max(Timeend), '%d/%m/%Y') han, count(id) dangkhaibao, sum(Tiendo) tiendo FROM "+tuyen+" WHERE quyen = 'Có' and Tuyentren = '" + id + "'";
+        var que = "SELECT  DATE_FORMAT(max(Timeend), '%d/%m/%Y') han, count(id) dangkhaibao, sum(Tiendo) tiendo FROM "+tuyen+" WHERE quyen = '1' and Tuyentren = '" + id + "'";
 
         return new Promise((resolve, reject) => {
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
@@ -54,7 +54,7 @@ class DanhSach extends Chung {
         var tuyen = this.timTuyenDuoi(id);
 
         return new Promise((resolve, reject) => {
-            this.connection.query("select id,ten,familymember from "+tuyen+" where tuyentren =" + id, (err, rows) => { //truyền truy vấn dữ liệu vào
+            this.connection.query("select id,ten,sothanhvien from "+tuyen+" where tuyentren =" + id, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) //bắt lỗi
                     return reject(err);
                 resolve(JSON.stringify(rows)); // trả về các hàng kết quả và chuyển dữ liệu đó về json
@@ -64,13 +64,13 @@ class DanhSach extends Chung {
 
     thongTinNhanKhau(id) {
         return new Promise((resolve, reject) => {
-          this.connection.query(
-            "select hoten, DATE_FORMAT(ngaysinh, '%Y-%m-%d') ngaysinh, gioitinh, tongiao, quoctich, nghenghiep, cmnd, thuongtru, tamtru, trinhdo from nhan_khau where maho= '" +
-              id + "'", (err, rows) => {
-              if (err) return reject(err);
-              resolve(JSON.stringify(rows));
-            }
-          );
+            this.connection.query(
+                "select hoten, DATE_FORMAT(ngaysinh, '%Y-%m-%d') ngaysinh, gioitinh, tongiao, quoctich, nghenghiep, cmnd, thuongtru, tamtru, trinhdo from nhan_khau where tuyentren= '" +
+                id + "'", (err, rows) => {
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows));
+                }
+            );
         });
     }
 

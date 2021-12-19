@@ -24,7 +24,7 @@ fetch("/danhsach/thongtin", {
         else if (root_id.length == 6) document.getElementById("quyen_han").innerHTML = "Quyền hạn B1";
         else if (root_id.length == 8) document.getElementById("quyen_han").innerHTML = "Quyền hạn B2";
 
-        if (res.quyen == "Không") {
+        if (res.quyen == "0") {
             quyen.innerHTML = "Không";
             quyen.className = "badge bg-secondary";
             trangthai.innerHTML = "Không có quyền khai báo";
@@ -75,9 +75,10 @@ function hienThiCapduoi() {
         td2.innerHTML = line.ten;
         if (line.matkhau == "Có") td3.innerHTML = "<span class='badge bg-primary'>Có</span>";
         else td3.innerHTML = "<span class='badge bg-secondary'>Không</span>";
-        if (line.quyen == "Có") td4.innerHTML = "<span class='badge bg-primary'>Có</span>";
+        if (line.quyen == "1") td4.innerHTML = "<span class='badge bg-primary'>Có</span>";
         else td4.innerHTML = "<span class='badge bg-secondary'>Không</span>";
-        td5.innerHTML = "75%";
+        if (line.tiendo == "1") td5.innerHTML = "<span class='badge bg-primary'>Đã xong</span>";
+        else td5.innerHTML = "<span class='badge bg-secondary'>Chưa xong</span>";
 
         tr.appendChild(td1);
         tr.appendChild(td2);
@@ -110,7 +111,7 @@ function thongTin(i) {
         $("#xoamk").hide();
     }
 
-    if (line.quyen == "Có") {
+    if (line.quyen == "1") {
         $("#quyen").html("Quyền: <span class='badge bg-primary'>Có</span>");
         $("#xoaquyen").show();
     } else {
@@ -131,6 +132,8 @@ function doiMatKhau() {
     line = trang[i];
     $("#bangdoimatkhau h5 span").text(line.id);
     $("#bangdoimatkhau h2").text(line.ten);
+    $("#nhapmatkhau").val("");
+    $("#nhaplaimatkhau").val("");
     xacnhan = document.getElementById("xndoimatkhau")
     xacnhan.innerHTML = "Xác nhận";
     xacnhan.disabled = false;

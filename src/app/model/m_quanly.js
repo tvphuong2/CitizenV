@@ -5,9 +5,9 @@ class QuanLy extends Chung {
         var tuyen = this.timTuyenDuoi(id);
         var que = ""
         if (tuyen == "tinh_thanh") 
-        que = "select id,ten,matkhau,quyen,tiendo ,DATE_FORMAT(timestart, '%Y-%m-%d') batdau,DATE_FORMAT(timeend, '%Y-%m-%d') ketthuc, DATE_FORMAT(now(), '%Y-%m-%d') homnay from "+tuyen+" where 1";
+        que = "select id,ten,matkhau,quyen,tiendo ,DATE_FORMAT(timestart, '%Y-%m-%d') batdau,DATE_FORMAT(timeend, '%Y-%m-%d') ketthuc, DATE_FORMAT(now(), '%Y-%m-%d') homnay, tiendo  from "+tuyen+" where 1";
         else 
-        que = "select id,ten,matkhau,quyen,tiendo ,DATE_FORMAT(timestart, '%Y-%m-%d') batdau,DATE_FORMAT(timeend, '%Y-%m-%d') ketthuc, DATE_FORMAT(now(), '%Y-%m-%d') homnay from "+tuyen+" where tuyentren =" + id;
+        que = "select id,ten,matkhau,quyen,tiendo ,DATE_FORMAT(timestart, '%Y-%m-%d') batdau,DATE_FORMAT(timeend, '%Y-%m-%d') ketthuc, DATE_FORMAT(now(), '%Y-%m-%d') homnay, tiendo  from "+tuyen+" where tuyentren =" + id;
 
         return new Promise((resolve, reject) => { //trả về promise 
             if (tuyen == "") reject('ID sai')
@@ -30,7 +30,7 @@ class QuanLy extends Chung {
             var que = "select quyen from "+tuyen+" where id= '" + user + "'";
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject("Lỗi tìm quyền");
-                if(rows[0].quyen[0] == "K") reject("Bạn không có quyền chỉnh sửa");
+                if(rows[0].quyen == "0") reject("Bạn không có quyền chỉnh sửa");
                 resolve(id);
             });
         });
@@ -62,8 +62,8 @@ class QuanLy extends Chung {
         var que = "";
         return new Promise((resolve, reject) => { //trả về promise 
             if (id.length == 3) reject('A1 không có tiến độ');
-            if (tiendo == '0') que = "UPDATE "+tuyen+" SET `Tiendo` = 'Chưa xong' WHERE `Id` = '"+id+"'";
-            else if (tiendo == '1') que = "UPDATE "+tuyen+" SET `Tiendo` = 'Đã xong' WHERE `Id` = '"+id+"'";
+            if (tiendo == '0') que = "UPDATE "+tuyen+" SET `Tiendo` = '0' WHERE `Id` = '"+id+"'";
+            else if (tiendo == '1') que = "UPDATE "+tuyen+" SET `Tiendo` = '1' WHERE `Id` = '"+id+"'";
             else reject('Tiến độ không hợp lệ');
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);

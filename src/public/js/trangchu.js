@@ -26,6 +26,7 @@ fetch("/danhsach/thongtin", {
         if (res.loi) {
             document.location.pathname = "/"
         }
+
         var trangthai = document.getElementById("trang_thai_kb");
         var thongtin = document.getElementById("thong_tin_kb");
         
@@ -36,7 +37,7 @@ fetch("/danhsach/thongtin", {
         else if (root_id.length == 6) document.getElementById("quyen_han").innerHTML = "Quyền hạn B1";
         else if (root_id.length == 8) document.getElementById("quyen_han").innerHTML = "Quyền hạn B2";
 
-        if (res.quyen == "Không") {
+        if (res.quyen == "0") {
             trangthai.innerHTML = "Không có quyền khai báo";
             trangthai.className = "badge bg-secondary";
             thongtin.innerHTML = "";
@@ -52,7 +53,7 @@ fetch("/danhsach/thongtin", {
                 trangthai.className = "badge bg-primary";
                 document.getElementById("han_cuoi").innerHTML = res.han;
                 document.getElementById("dang_kb").innerHTML = res.dangkhaibao + " Địa phương";
-                document.getElementById("tien_do").innerHTML = res.tiendo/res.dangkhaibao + "%";
+                document.getElementById("tien_do").innerHTML = (res.tiendo * 100/res.dangkhaibao).toString().substring(0,5) + "%";
             }
         }
         return res.ten;
@@ -194,6 +195,9 @@ function xemThongTin(i) {
         xemNhanKhau(i);
     } else {
         line = danh_sach[trang][i];
+        if (line.quyen == "0") line.quyen = "Không";
+        else if(line.quyen == "1") line.quyen = "Có";
+
         var dsthongtin = document.getElementById("danhsachthongtin");
         while (dsthongtin.firstChild) {
             dsthongtin.firstChild.remove()
