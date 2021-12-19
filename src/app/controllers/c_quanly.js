@@ -15,6 +15,40 @@ class Data {
         .catch(err =>res.status(403).json({loi: "Yêu cầu không hợp lệ"}))
     }
 
+    /**
+     * thay đổi quyền
+     * input: id, thời gian bắt đầu và tg kết thúc
+     * output: thông báo thành công/lỗi
+     */
+    thayQuyen(req, res) {
+        var id = Chung.chuanHoaIDDenThon(req.query.id);
+        var start = Chung.chuanHoaNgay(req.query.start);
+        var end = Chung.chuanHoaNgay(req.query.end);
+
+        if (id == "" || start == "" || end == "") return res.status(404).json({status: 'Yêu cầu không hợp lệ'});
+
+        Chung.gioiHanQuyen(req.user, id)
+        .then(id => QuanLy.timQuyen(req.user, id))
+        .then(id => QuanLy.doiQuyen(id, start, end))
+        .then(result => res.json({status: 'Thành công'}))
+        .catch(err => res.status(403).json({loi: "Thay đổi quyền thất bại"}))
+    }
+
+    /*
+    Dóng quyền
+    input: id
+    output: thông báo thành công/lỗi
+     */
+    xoaQuyen(req, res) {
+        var id = Chung.chuanHoaIDDenThon(req.query.id);
+        if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
+
+        Chung.gioiHanQuyen(req.user, id)
+        .then(id => QuanLy.timQuyen(req.user, id))
+        .then(id => QuanLy.xoaQuyen(id))
+        .then(result => res.json(result))
+        .catch(err =>res.status(403).json({status: err}))
+    }
     //................................
 
 
@@ -43,43 +77,6 @@ class Data {
         }).catch(err =>{
             res.status(403).json({status: err})
         })
-    }
-
-    /**
-     * thay đổi quyền
-     * input: id, thời gian bắt đầu và tg kết thúc
-     * output: thông báo thành công/lỗi
-     */
-    thayQuyen(req, res) {
-        var id = Chung.trim(req.query.id);
-        var start = req.query.start;
-        var end = req.query.end;
-        if (!Chung.dinhDangNgay([start, end])) 
-            return res.status(400).json({status: 'Thời gian không hợp lệ'})
-        
-        if(start != "") start = chuanHoaNgay(start);
-        if(end != "") end = chuanHoaNgay(end);
-
-        Chung.gioiHanQuyen(req.user, id)
-        .then(id => QuanLy.timQuyen(req.user, id))
-        .then(id => QuanLy.doiQuyen(id, start, end))
-        .then(result => res.json({status: result}))
-        .catch(err => res.status(403).json({status: err}))
-    }
-
-    /*
-    Dóng quyền
-    input: id
-    output: thông báo thành công/lỗi
-     */
-    xoaQuyen(req, res) {
-        var id = Chung.trim(req.query.id);
-
-        Chung.gioiHanQuyen(req.user, id)
-        .then(id => QuanLy.timQuyen(req.user, id))
-        .then(id => QuanLy.xoaQuyen(id))
-        .then(result => res.json(result))
-        .catch(err =>res.status(403).json({status: err}))
     }
 
     /* thông báo tiến dộ lên tuyến trên

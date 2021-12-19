@@ -14,7 +14,8 @@ class DanhSach extends Chung {
 
     thongTin(id, ten, quyen) {
         var tuyen = this.timTuyenDuoi(id);
-        var que = "SELECT max(Timeend) han, count(id) dangkhaibao, sum(Tiendo) tiendo FROM "+tuyen+" WHERE quyen = 'Có' and Tuyentren = '" + id + "'";
+        var que = "SELECT  DATE_FORMAT(max(Timeend), '%d/%m/%Y') han, count(id) dangkhaibao, sum(Tiendo) tiendo FROM "+tuyen+" WHERE quyen = 'Có' and Tuyentren = '" + id + "'";
+
         return new Promise((resolve, reject) => {
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err)  return reject(err);

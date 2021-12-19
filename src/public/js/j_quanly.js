@@ -3,7 +3,7 @@ var token = localStorage.getItem("token");
 var trang = "";
 
 var danhsach = document.getElementById("danhsach2");
-if (root_id.length == 6) $("inkhaibao").hide();
+if (root_id.length != 6) $("#inkhaibao").hide();
 
 fetch("/danhsach/thongtin", {
     headers: {
@@ -162,7 +162,14 @@ function suaQuyen() {
 }
 
 function xoaQuyen() {
-    baoLoi(false, "Cái này chưa làm bạn êyy");
+    var i = $("#danhsachthongtin h6 span").text();
+    line = trang[i];
+    $("#bangxoaquyen h5 span").text(line.id);
+    $("#bangxoaquyen h2").text(line.ten);
+    xacnhan = document.getElementById("xnxoaquyen")
+    xacnhan.innerHTML = "Xác nhận";
+    xacnhan.disabled = false;
+    $("#bangxoaquyen").modal('show');
 }
 
 function xnDoiMk() {
@@ -235,23 +242,45 @@ function xnSuaQuyen() {
     xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
     xacnhan.disabled = true;
 
-    baoLoi(false, "Cái này chưa làm bạn êyy");
-    // fetch("/quanly/thaymk", {
-    //     method: 'POST',
-    //     headers: {'Content-Type': 'application/json',
-    //                 'Authorization': 'Basic '+ token},
-    //     body: JSON.stringify({"id": line.id, 
-    //                             "password": ""})
-    //     }).then((response) => {
-    //         if (response.status == 200) {
-    //             $("#bangxoamatkhau").modal('hide');
-    //             while (dsthongtin.firstChild) {
-    //                 dsthongtin.firstChild.remove()
-    //             }
-    //             baoLoi(true, "Xóa mật khẩu thành công");
-    //             capDuoi(root_id);
-    //         }
-    //         else
-    //             baoLoi(false, "Xóa mật khẩu thất bại");
-    //     })
+    var batdau = $("#nhapngaybatdau").val();
+    var ketthuc = $("#nhapngayketthuc").val();
+
+    fetch("/quanly/thayquyen/?id=" + line.id + "&start=" + batdau + "&end=" + ketthuc, {headers: {
+            'Authorization': 'Basic '+ token
+        }}).then((response) => {
+            if (response.status == 200) {
+                $("#bangsuaquyen").modal('hide');
+                while (dsthongtin.firstChild) {
+                    dsthongtin.firstChild.remove()
+                }
+                baoLoi(true, "Thay đổi quyền thành công");
+                capDuoi(root_id);
+            }
+            else
+                baoLoi(false, "Thay đổi quyền thất bại");
+        })
+}
+
+function xnXoaQuyen() {
+    var i = $("#danhsachthongtin h6 span").text();
+    line = trang[i];
+    var xacnhan = document.getElementById("xnxoaquyen");
+    var dsthongtin = document.getElementById("danhsachthongtin");
+    xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
+    xacnhan.disabled = true;
+
+    fetch("/quanly/xoaquyen/?id=" + line.id , {headers: {
+            'Authorization': 'Basic '+ token
+        }}).then((response) => {
+            if (response.status == 200) {
+                $("#bangxoaquyen").modal('hide');
+                while (dsthongtin.firstChild) {
+                    dsthongtin.firstChild.remove()
+                }
+                baoLoi(true, "Xóa quyền thành công");
+                capDuoi(root_id);
+            }
+            else
+                baoLoi(false, "Xóa quyền thất bại");
+        })
 }

@@ -50,8 +50,7 @@ fetch("/danhsach/thongtin", {
             } else {
                 trangthai.innerHTML = "Đang mở khai báo";
                 trangthai.className = "badge bg-primary";
-                var day = res.han.split("T")[0].split("-");
-                document.getElementById("han_cuoi").innerHTML = day[2] + "/" + day[1] + "/" + day[0];
+                document.getElementById("han_cuoi").innerHTML = res.han;
                 document.getElementById("dang_kb").innerHTML = res.dangkhaibao + " Địa phương";
                 document.getElementById("tien_do").innerHTML = res.tiendo/res.dangkhaibao + "%";
             }

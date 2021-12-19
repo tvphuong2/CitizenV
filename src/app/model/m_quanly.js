@@ -24,18 +24,22 @@ class QuanLy extends Chung {
         }); 
     }
 
-    doiQuyen(id, start, end) {
-        var tuyen = this.timTuyenChinh(id);
-        var que = "";
-        var time_start = "timestart = now()";
-        var time_end = "timeend = now() + INTERVAL 1 DAY";
-        
-        if (start != "") time_start = "timestart = '" + start + "'";
-        if (end != "") time_end = "timeend = '" + end + "'";
+    timQuyen(user, id) {
+        var tuyen = this.timTuyen(user);
+        return new Promise((resolve, reject) => {
+            var que = "select quyen from "+tuyen+" where id= '" + user + "'";
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err) return reject("Lỗi tìm quyền");
+                if(rows[0].quyen[0] == "K") reject("Bạn không có quyền chỉnh sửa");
+                resolve(id);
+            });
+        });
+    }
 
-        que = "UPDATE "+tuyen+" SET "+time_start+","+time_end+" WHERE id = '" +id+"'";
-        return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") return reject('ID sai')
+    doiQuyen(id, start, end) {
+        var tuyen = this.timTuyen(id);
+        var que = "UPDATE "+tuyen+" SET timestart ='"+start+"', timeend ='"+end+"' WHERE id = '" +id+"'";
+        return new Promise((resolve, reject) => {
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
                 resolve('Đổi quyền thành công');
@@ -45,8 +49,7 @@ class QuanLy extends Chung {
 
     xoaQuyen(id) {
         var tuyen = this.timTuyenChinh(id);
-        return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") return reject('ID sai')
+        return new Promise((resolve, reject) => {
             this.connection.query("update "+tuyen+" SET timeend = now() - interval 1 day where id = '" +id+"'", (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
                 resolve('Xóa quyền thành công');
@@ -65,19 +68,6 @@ class QuanLy extends Chung {
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
                 resolve('Đổi tiến độ thành công');
-            });
-        });
-    }
-
-    timQuyen(user, id) {
-        var tuyen = this.timTuyenChinh(user);
-        return new Promise((resolve, reject) => {
-            if (user.length == 3) return resolve(id);
-            var que = "select quyen from "+tuyen+" where id= '" + user + "'";
-            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
-                if (err) return reject("Lỗi tìm quyền");
-                if(rows[0].quyen[0] == "K") reject("Bạn không có quyền chỉnh sửa");
-                resolve(id);
             });
         });
     }

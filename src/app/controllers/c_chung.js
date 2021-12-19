@@ -8,9 +8,15 @@ class Chung {
     }
 
     chuanHoaNgay(date) {
-        var d = moment(array[i], "DD/MM/YYYY", true);
-        if (!d.isValid()) return d.format('YYYY/MM/DD');
+        var d = moment(date.trim(), "YYYY-MM-DD", true);
+        if (d.isValid()) return date.trim();
         return ""
+    }
+
+    kiemTraNgay(date) {
+        if (date != "" && !moment(date, "YYYY-MM-DD", true).isValid()) {
+            return false
+        } else return true;
     }
 
     chuanHoaID(id) {
@@ -42,17 +48,6 @@ class Chung {
         return t.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
     }
 
-
-    
-    dinhDangNgay(array){
-        for (var i = 0; i <array.length ; i++) {
-            if (array[i] != "" && !moment(array[i], "DD/MM/YYYY", true).isValid()) {
-                return false;
-            }
-        }
-        return true;
-    }  
-
     dinhDangSo(array) {
         for (var i = 0; i <array.length; i++) {
             if (isNaN(array[i])) {
@@ -64,10 +59,6 @@ class Chung {
 
     trim(s){
         return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
-    }
-
-    chuanHoaNgay(day) {
-        return day = moment(day, "DD/MM/YYYY", true).format('YYYY/MM/DD');
     }
 
     gioiHanQuyen(user, id) {
