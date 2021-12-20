@@ -92,6 +92,8 @@ function hienThiCapduoi() {
 }
 
 function thongTin(i) {
+    $(".chonhang").removeClass("chonhang");
+    $("#danhsach2 tr").eq(i).addClass("chonhang");
     var line = trang[i];
     var dsthongtin = document.getElementById("danhsachthongtin");
     while (dsthongtin.firstChild) {

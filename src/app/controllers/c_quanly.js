@@ -59,24 +59,22 @@ class Data {
      * output: mất khẩu sau khi chỉnh sửa('pass'/'')
      */
     thayMK(req, res) {
-        var id = Chung.trim(req.body.id);
+        var id = Chung.chuanHoaIDDenThon(req.body.id);
         var password = req.body.password;
 
         Chung.gioiHanQuyen(req.user, id).then(id =>{
             if (password == "") {
                 m_dangnhap.xoaMatKhau(id)
-                .then(data => res.json({status: data}))
+                .then(result => res.json(result))
             } else {
                 bcrypt.hash(password, 10, function(err, hashedPass) {
-                    if (err) res.status(500).json({status: err});
+                    if (err) res.status(500).json({loi: "Mật khẩu không hợp lệ"});
 
                     m_dangnhap.taoMatKhau(id, hashedPass)
-                    .then(result => res.json({status: result}))
+                    .then(result => res.json(result))
                 })
             }
-        }).catch(err =>{
-            res.status(403).json({status: err})
-        })
+        }).catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
     /* thông báo tiến dộ lên tuyến trên
@@ -89,20 +87,6 @@ class Data {
         .then(id => QuanLy.timQuyen(req.user, id))
         .then(result => res.json({status: result}))
         .catch(err => res.status(500).json({status: err}))
-    }
-
-    /**
-     * kiểm tra quyền hiện tại và tên của một id
-     * input: id
-     * output: tên và quyền của id
-     */
-    timTenQuyenTiendo(req, res) {
-        var id = Chung.trim(req.query.id); 
-
-        Chung.gioiHanQuyen(req.user, id)
-        .then(id => QuanLy.timTenQuyenTiendo(id))
-        .then(s => res.send(s))
-        .catch(err => res.status(403).json({status: err}))
     }
 }
 

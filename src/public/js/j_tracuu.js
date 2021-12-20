@@ -65,6 +65,7 @@ function timTiep(id, sel, after) {
 }
 
 function traCuu() {
+    $("#danhsach2").empty();
     var cmnd = $("#cmnd").val();
     var ten = $("#ten").val();
     var tuoi = $("#tuoi").val();
@@ -110,6 +111,7 @@ function traCuu() {
                 baoLoi(false, "Yêu cầu không hợp lệ")
             } else {
                 ketqua = res;
+                if (ketqua.length == 0) baoLoi(false, "Không tìm được kết quả nào")
                 hienThiDanhSach();
             }
         })
@@ -129,6 +131,8 @@ function hienThiDanhSach() {
 }
 
 function hienThiNhanKhau(i) {
+    $(".chonhang").removeClass("chonhang");
+    $("#danhsach2 tr").eq(i).addClass("chonhang");
     $("#thongtinnhankhau").empty();
     $("#an #thongtin h2").text(ketqua[i].hoten);
     $("#an #thongtin p span").eq(0).text(ketqua[i].cmnd);

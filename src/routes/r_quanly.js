@@ -4,7 +4,6 @@ const router = express.Router();
 const Controller = require('../app/controllers/c_quanly');
 const K = require('../app/controllers/c_ktquyen'); // kiểm tra truy cập
 
-router.get('/kttenquyentiendo',K.kientratruycap,K.quyenA123B1, Controller.timTenQuyenTiendo);
 router.post('/thaymk',K.kientratruycap,K.quyenA123B1, Controller.thayMK);
 router.get('/thayquyen',K.kientratruycap,K.quyenA123B1, Controller.thayQuyen);
 router.get('/xoaquyen',K.kientratruycap,K.quyenA123B1, Controller.xoaQuyen);

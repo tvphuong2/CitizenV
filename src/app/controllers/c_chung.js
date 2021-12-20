@@ -48,15 +48,6 @@ class Chung {
         return t.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
     }
 
-    dinhDangSo(array) {
-        for (var i = 0; i <array.length; i++) {
-            if (isNaN(array[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     trim(s){
         return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
     }

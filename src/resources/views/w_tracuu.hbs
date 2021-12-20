@@ -11,18 +11,34 @@
             <input type="text" class="form-control m-2" placeholder="ten" id ="ten">
             <label for="ten">Tên</label>
         </div>
-        <select class="m-2 form-select" id ="chontinh" onchange="timTiep('#chonhuyen', this, ['#chonxa', '#chonthon'])">
-            <option value="">-- Tất cả --</option>
-        </select>
-        <select class="m-2 form-select" id = "chonhuyen" onchange="timTiep('#chonxa', this, ['#chonthon'])">
-            <option value="">-- Tất cả --</option>
-        </select>
-        <select class="m-2 form-select" id = "chonxa" onchange="timTiep('#chonthon', this, [])">
-            <option value="">-- Tất cả --</option>
-        </select>
-        <select class="m-2 form-select" id = "chonthon">
-            <option value="">-- Tất cả --</option>
-        </select>
+
+        <div class="form-floating col">
+            <select class="m-2 form-select" id ="chontinh" onchange="timTiep('#chonhuyen', this, ['#chonxa', '#chonthon'])">
+                <option value="">-- Tất cả --</option>
+            </select>
+            <label class="form-label">Chọn tỉnh</label>
+        </div>
+
+        <div class="form-floating col">
+            <select class="m-2 form-select" id = "chonhuyen" onchange="timTiep('#chonxa', this, ['#chonthon'])">
+                <option value="">-- Tất cả --</option>
+            </select>
+            <label class="form-label">Chọn huyện</label>
+        </div>
+
+        <div class="form-floating col">
+            <select class="m-2 form-select" id = "chonxa" onchange="timTiep('#chonthon', this, [])">
+                <option value="">-- Tất cả --</option>
+            </select>
+            <label class="form-label">Chọn xã</label>
+        </div>
+        
+        <div class="form-floating col">
+            <select class="m-2 form-select" id = "chonthon">
+                <option value="">-- Tất cả --</option>
+            </select>
+            <label class="form-label">Chọn thôn</label>
+        </div>
         <div class="form-floating">
             <input type="number" class="form-control m-2" placeholder="Tuổi" id ="tuoi">
             <label for="tuoi">Tuổi</label>

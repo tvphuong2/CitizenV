@@ -157,6 +157,10 @@ thead {
     cursor: pointer;
 }
 
+.chonhang {
+    background-color: #bad2e0;
+}
+
 @media screen and (max-width: 1200px) {
     header {
         font-size:22px;
