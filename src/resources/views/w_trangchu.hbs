@@ -72,7 +72,7 @@
 
                 <div class = "container-fluid text-center">
                     <button class ="btn btn-outline-success" onclick="themNhanKhau()">+ Thêm nhân khẩu</button>
-                    <button class ="btn btn-outline-dark" onclick="thayDoiNhanKhau()">Thay đổi</button>
+                    <button class ="btn btn-outline-dark" onclick="thayDoiNhanKhau()">Xác nhận</button>
                     <button class ="btn btn-outline-dark" onclick="huyBoNhanKhau()">Hủy bỏ</button>
                 </div>
             </div>
@@ -110,7 +110,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title text-primary">Xóa</h4>
+                    <h4 class="modal-title text-primary">Xác nhận xóa</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -120,6 +120,26 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id = "xnxoa" onclick="xnXoa()">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="bangxoaho">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary">Xác nhận xóa</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Mã hộ: <span></span></h5>
+                    <br>
+                    <p>Tên hộ: <span></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id = "xnxoaho" onclick="xnXoaHo()">Xác nhận</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
                 </div>
             </div>

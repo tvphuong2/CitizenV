@@ -15,6 +15,78 @@ class TraCuu extends Chung {
         });
     }
 
+    themHo(tenho, idthon, sothanhvien) {
+        var que = "insert into ho_khau SELECT LPAD(max(id) + 1,10,'0'), tuyentren, '"+
+            sothanhvien+"', '"+tenho+"' from ho_khau where tuyentren = '" + idthon + 
+            "'; select max(id) id from ho_khau where tuyentren = '" + idthon + "';";
+        console.log(que);
+        
+        return new Promise((resolve, reject) => {
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err) return reject(err);
+                resolve(rows[1][0].id); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            });
+        });
+    }
+
+    suaHo(tenho, idho, sothanhvien) {
+        var que = "update ho_khau set sothanhvien = '"+
+            sothanhvien+"', ten ='"+tenho+"' where id = '" + idho + "'";
+        console.log(que);
+        
+        return new Promise((resolve, reject) => {
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            });
+        });
+    }
+
+    xoaHo(id) {
+        return new Promise((resolve, reject) => {
+            this.connection.query("delete from ho_khau where id = '" +id+ "'", (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            });
+        });
+    }
+
+    xoaNhanKhau(idho) {
+        var que = "DELETE FROM nhan_khau WHERE tuyentren = '" + idho + "'";
+        return new Promise((resolve, reject) => {
+            this.connection.query(que, (err, rows) => {
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows));
+            });
+        });
+    }
+
+    thayDoiNhanKhau(idho, cacthanhvien) {
+        var que = "";
+        for (var i = 0; i < cacthanhvien.length; i++) {
+            var tv = cacthanhvien[i];
+            que += ('insert into nhan_khau SELECT if(max(id),LPAD(max(id) + 1,12,"0"), "'+idho+'01"),"' + idho 
+            + '","' + tv.ten 
+            + '","' + tv.ngaysinh 
+            + '","' + tv.gioi 
+            + '","' + tv.tongiao 
+            + '","' + tv.quoctich 
+            + '","' + tv.nghe 
+            + '",' + tv.cmnd 
+            + ',"' + tv.thuongtru 
+            + '","' + tv.tamtru 
+            + '","' + tv.trinhdo 
+            + '" from nhan_khau where tuyentren = "' + idho + '";');
+        }
+        console.log(que);
+        return new Promise((resolve, reject) => {
+            this.connection.query(que, (err, rows) => {
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows));
+            });
+        });
+    }
+
     nhapLieu(list_send) {
         var last_que = "";
         var words = list_send.split(',');

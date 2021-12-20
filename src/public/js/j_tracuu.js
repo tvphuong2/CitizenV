@@ -78,18 +78,17 @@ function traCuu() {
         max_id = root_id;
     } else if (document.getElementById("chonhuyen").selectedIndex == 0) {
         var i = document.getElementById("chontinh");
-        max_id = i.options[i.selectedIndex];
+        max_id = i.options[i.selectedIndex].id.substring(2);
     } else if (document.getElementById("chonxa").selectedIndex == 0) {
         var i = document.getElementById("chonhuyen");
-        max_id = i.options[i.selectedIndex];
+        max_id = i.options[i.selectedIndex].id.substring(2);
     } else if (document.getElementById("chonthon").selectedIndex == 0) {
         var i = document.getElementById("chonxa");
-        max_id = i.options[i.selectedIndex];
+        max_id = i.options[i.selectedIndex].id.substring(2);
     } else {
         var i = document.getElementById("chonthon");
-        max_id = i.options[i.selectedIndex];
+        max_id = i.options[i.selectedIndex].id.substring(2);
     }
-    max_id = max_id.id.substring(2);
 
     if(gioi == "Tất cả") gioi = "";
     var url = "/tracuu/timkiem" + 

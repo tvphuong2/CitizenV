@@ -208,6 +208,16 @@ thead {
     
 }
 
+@media screen and (max-width: 600px) {
+    header {
+        font-size:18px;
+    }
+
+    .navbar-nav {
+        flex-direction: row;
+    }
+}
+
 #inkhaibao {
     float: right;
 }

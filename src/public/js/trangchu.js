@@ -5,6 +5,8 @@ var danhsach = document.getElementById("danhsach");
 var danh_sach = new Array(5);
 var trang_max = 0;
 var trang = -1;
+var mode = "them";
+var id_hien_tai = root_id;
 
 $("#dsdachon").hide();
 
@@ -61,6 +63,7 @@ fetch("/danhsach/thongtin", {
     .then(ten => capDuoi(root_id, ten));
 
 function capDuoi(id, name) {
+    id_hien_tai = id;
     trang += 1;
     fetch("/danhsach/capduoi?id=" + id, {
         headers: {'Authorization': 'Basic ' + token}
@@ -244,6 +247,7 @@ function xemNhanKhau(i) {
 }
 
 function chinhSua(i) {
+    mode = "sua";
     var line = danh_sach[trang][i];
 
     if (trang != trang_max) {
@@ -263,6 +267,7 @@ function chinhSua(i) {
 }
 
 function them() {
+    mode = "them";
     if (trang != trang_max) {
         $("#nhaptenmoi").val("");
         $("#nhapdientichmoi").val("");
@@ -285,7 +290,10 @@ function xoa(i) {
 
         $("#bangxoa").modal('show');
     } else {
-        baoLoi(false, "Cái này chưa làm bạn êyy");
+        $("#bangxoaho h5 span").text(line.id);
+        $("#bangxoaho p span").text(line.ten);
+
+        $("#bangxoaho").modal('show');
     }
 }
 
@@ -341,6 +349,29 @@ function xnXoa() {
         })
 }
 
+function xnXoaHo() {
+    var id = $("#bangxoaho h5 span").text();
+    var xacnhan = document.getElementById('xnxoaho')
+
+    xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
+    xacnhan.disabled = true;
+
+    fetch("/nhaplieu/xoaho/?idho=" + id, {headers: {
+        'Authorization': 'Basic '+ token
+        }})
+        .then((response) => {
+            xacnhan.innerHTML = "Xác nhận";
+            xacnhan.disabled = false;
+            if (response.status == 200) {
+                $("#bangxoaho").modal('hide');
+                taiLaiNhanKhau();
+                baoLoi(true, "Xóa hộ thành công");
+            } else {
+                baoLoi(false, "Xóa hộ thất bại");
+            }
+        })
+}
+
 function xnThem() {
     var xacnhan = document.getElementById('xnthem');
     var ten = $("#nhaptenmoi").val();
@@ -384,11 +415,11 @@ function hienThiNhanKhau(id, xem) {
                 children[0].childNodes[1].value = res[i].hoten;
                 children[1].childNodes[1].value = res[i].cmnd;
                 children[2].childNodes[1].value = res[i].nghenghiep;
-                children[3].childNodes[1].value = res[i].gioitinh;
+                children[3].childNodes[1].value = res[i].gioitinh == "1" ? "Nữ" : "Nam";
                 children[4].childNodes[1].value = res[i].ngaysinh;
                 children[5].childNodes[1].value = res[i].quoctich;
-                children[6].childNodes[1].value = res[i].trinhdo;
-                children[7].childNodes[1].value = res[i].tongiao;
+                children[6].childNodes[1].value = res[i].tongiao;
+                children[7].childNodes[1].value = res[i].trinhdo;
                 children[8].childNodes[1].value = res[i].thuongtru;
                 children[9].childNodes[1].value = res[i].tamtru;
                 cacthanhvien.appendChild(tv);
@@ -417,7 +448,6 @@ function themHoKhau() {
     $("#khaibao button").show();
     $("#khaibao input").prop('disabled', false);
     $("#khaibao select").prop('disabled', false);
-
 }
 
 function themNhanKhau() {
@@ -432,7 +462,68 @@ function xoaNhanKhau(node) {
 }
 
 function thayDoiNhanKhau() {
-    baoLoi(false, "Cái này chưa làm bạn êyy");
+    var tenho = $("#tenho").val();
+    var ten = $("#cacthanhvien .ten input");
+    var cmnd = $("#cacthanhvien .cmnd input");
+    var nghe = $("#cacthanhvien .nghe input");
+    var gioi = $("#cacthanhvien .gioi select");
+    var ngaysinh = $("#cacthanhvien .ngaysinh input");
+    var quoctich = $("#cacthanhvien .quoctich input");
+    var tongiao = $("#cacthanhvien .tongiao input");
+    var trinhdo = $("#cacthanhvien .trinhdo input");
+    var thuongtru = $("#cacthanhvien .thuongtru input");
+    var tamtru = $("#cacthanhvien .tamtru input");
+
+    var cacthanhvien = [];
+    for (var i = 0; i < ten.length; i++) {
+        var thanhvien = {ten: ten[i].value,
+                        cmnd: cmnd[i].value,
+                        nghe: nghe[i].value,
+                        gioi: gioi[i].value == "Nữ" ? "1" : "0",
+                        ngaysinh: ngaysinh[i].value,
+                        quoctich: quoctich[i].value,
+                        tongiao: tongiao[i].value,
+                        trinhdo: trinhdo[i].value,
+                        thuongtru: thuongtru[i].value,
+                        tamtru: tamtru[i].value
+                        }
+        cacthanhvien .push(thanhvien);
+    }
+
+    if (mode == "them") {
+        fetch('/nhaplieu/themho',{
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',
+                      'Authorization': 'Basic '+ token},
+            body: JSON.stringify({"tenho": tenho,
+                                  "idthon": id_hien_tai,
+                                  "cacthanhvien": cacthanhvien})
+            }).then(response => {
+                if (response.status == 200) {
+                    taiLaiNhanKhau();
+                    baoLoi(true, "Thêm hộ thành công");
+                } else {
+                    baoLoi(false, "Thêm hộ thất bại");
+                }
+            })
+    } else {
+        var id = $("#khaibao strong").text().substring(7);
+        fetch('/nhaplieu/suaho',{
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',
+                      'Authorization': 'Basic '+ token},
+            body: JSON.stringify({"tenho": tenho,
+                                  "idho": id,
+                                  "cacthanhvien": cacthanhvien})
+            }).then(response => {
+                if (response.status == 200) {
+                    taiLaiNhanKhau();
+                    baoLoi(true, "Sửa hộ thành công");
+                } else {
+                    baoLoi(false, "Sửa hộ thất bại");
+                }
+            })
+    }
 }
 
 function huyBoNhanKhau() {
@@ -441,4 +532,22 @@ function huyBoNhanKhau() {
 
 function thongKe() {
     baoLoi(false, "Cái này chưa làm bạn êyy");
+}
+
+function taiLaiNhanKhau() {
+    fetch("/danhsach/capduoi?id=" + id_hien_tai, {
+        headers: {'Authorization': 'Basic ' + token}
+    })
+    .then((response) => response.json())
+    .then(res => {
+        if (res.loi) {
+            baoLoi(false, "Không tìm được thông tin");
+        } else {
+            danh_sach[trang] = res;
+            hienThiCapduoi();
+            for (var i = 0; i < res.length; i++) {
+                if (res[i].ten == $("#tenho").val().trim()) xemNhanKhau(i);
+            }
+        }
+    })
 }
