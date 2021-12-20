@@ -72,8 +72,8 @@ class TraCuu extends Chung {
             + '","' + tv.tongiao 
             + '","' + tv.quoctich 
             + '","' + tv.nghe 
-            + '",' + tv.cmnd 
-            + ',"' + tv.thuongtru 
+            + '","' + tv.cmnd 
+            + '","' + tv.thuongtru 
             + '","' + tv.tamtru 
             + '","' + tv.trinhdo 
             + '" from nhan_khau where tuyentren = "' + idho + '";');

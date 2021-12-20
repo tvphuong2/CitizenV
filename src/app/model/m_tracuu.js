@@ -24,7 +24,7 @@ class TraCuu extends Chung {
                 if (dautien) que += " and ";
                 else dautien = true;
                 if (gioi =="Nam") que += " gioitinh = 0 "
-                else " gioitinh = 1 "
+                else que += " gioitinh = 1 "
             }
             if (tongiao != "") {
                 if (dautien) que += " and ";

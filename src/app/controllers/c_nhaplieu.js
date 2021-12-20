@@ -5,10 +5,11 @@ class Data {
 
     themHo(req, res) {
         var idthon = Chung.chuanHoaIDDenThon(req.body.idthon);
-        if (idthon == "") return res.status(404).json({status: 'ID không tồn tại'});
         var tenho = req.body.tenho.trim();
         var cacthanhvien = req.body.cacthanhvien;
         var sothanhvien = cacthanhvien.length;
+
+        if (idthon == "" || tenho =="") return res.status(404).json({loi: 'Dữ liệu gửi đi không hợp lệ'});
 
         Chung.gioiHanQuyen(req.user, idthon)
         .then(id => m_nhaplieu.themHo(tenho, id, sothanhvien))
@@ -19,10 +20,11 @@ class Data {
 
     suaHo(req, res) {
         var idho = Chung.chuanHoaIDDenHo(req.body.idho);
-        if (idho == "") return res.status(404).json({status: 'ID không tồn tại'});
         var tenho = req.body.tenho.trim();
         var cacthanhvien = req.body.cacthanhvien;
         var sothanhvien = cacthanhvien.length;
+
+        if (idho == "" || tenho == "") return res.status(404).json({loi: 'Dữ liệu gửi đi không hợp lệ'});
 
         Chung.gioiHanQuyen(req.user, idho)
         .then(idho => m_nhaplieu.suaHo(tenho, idho, sothanhvien))

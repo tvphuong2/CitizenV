@@ -2,7 +2,6 @@ const QuanLy = require('../model/m_quanly');
 const m_dangnhap = require('../model/m_dangnhap');
 const bcrypt = require('bcrypt');
 const Chung = require('./c_chung');
-const { chuanHoaNgay } = require('./c_chung');
 
 class Data {
     index(req, res) {
