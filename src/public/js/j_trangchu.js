@@ -18,6 +18,7 @@ if (root_id.length == 8) {trang_max = 0}
 if (root_id.length <6) $("#khaibao").html("")
 else $("#khaibao").hide()
 
+// tìm và hiển thị thông tin bản thân
 fetch("/danhsach/thongtin", {
     headers: {
         'Authorization': 'Basic ' + token
@@ -62,6 +63,11 @@ fetch("/danhsach/thongtin", {
     })
     .then(ten => capDuoi(root_id, ten));
 
+/**
+ * Tìm và tiển thị cấp dưới của một địa phương và sang trang tiếp theo
+ * @param {int} id mã địa phương
+ * @param {string} name tên địa phương
+ */
 function capDuoi(id, name) {
     id_hien_tai = id;
     trang += 1;
@@ -80,6 +86,9 @@ function capDuoi(id, name) {
         })
 }
 
+/**
+ * Hiển thị danh sách địa phương của trang hiện tại
+ */
 function hienThiCapduoi() {
     while (danhsach.firstChild) {
         danhsach.firstChild.remove()
@@ -126,6 +135,10 @@ function hienThiCapduoi() {
     }
 }
 
+/**
+ * Thêm tên địa phương vào ô địa chỉ
+ * @param {string} ten tên địa phương
+ */
 function suaDiaChi(ten) {
     boChonHet()
     diachi = document.getElementById("diachi");
@@ -144,6 +157,12 @@ function suaDiaChi(ten) {
     diachi.appendChild(li);
 }
 
+/**
+ * Chọn hoặc bỏ chọn một địa phương
+ * @param {event} event sự kiện
+ * @param {int} id mã địa phương
+ * @param {string} ten tên địa phương
+ */
 function chon(event, id, ten) {
     if (event.currentTarget.checked) {
         chonDiaPhuong(id, ten);
@@ -152,6 +171,11 @@ function chon(event, id, ten) {
     }
 }
 
+/**
+ * Thêm địa phương được chọn vào danh sách 'đã chọn'
+ * @param {int} id mã địa phương
+ * @param {string} ten tên địa phương
+ */
 function chonDiaPhuong(id, ten) {
     var dachon = document.getElementById("da_chon");
     var li = document.createElement("li");
@@ -173,6 +197,10 @@ function chonDiaPhuong(id, ten) {
     $("#dsdachon").show();
 }
 
+/**
+ * Xóa địa phương khỏi danh sách đã chọn
+ * @param {int} id mã địa phương
+ */
 function boChon(id) {
     var diaphuong = document.getElementById("l_" + id);
     if (diaphuong) {
@@ -184,6 +212,9 @@ function boChon(id) {
         $("#dsdachon").hide();
 }
 
+/**
+ * Xóa toàn bộ địa phương khỏi danh sách đã chọn
+ */
 function boChonHet() {
     var dachon = document.getElementById("da_chon");
     document.getElementById("soluong").innerHTML = 0;
@@ -193,6 +224,10 @@ function boChonHet() {
     }
 }
 
+/**
+ * hiển thị bảng thông tin về một địa phương
+ * @param {int} i số thứ tự địa phương trong bộ nhớ
+ */
 function xemThongTin(i) {
     if (trang == trang_max) {
         xemNhanKhau(i);
@@ -237,6 +272,10 @@ function xemThongTin(i) {
     } 
 }
 
+/**
+ * Hiển thị nhân khẩu và khóa tất cả input
+ * @param {int} i số thứ tự hộ khẩu trong bộ nhớ
+ */
 function xemNhanKhau(i) {
     var line = danh_sach[trang][i];
     $("#khaibao").show();
@@ -246,6 +285,10 @@ function xemNhanKhau(i) {
     hienThiNhanKhau(line.id, true)
 }
 
+/**
+ * Hiển thị nhân khẩu với các input mở
+ * @param {int} i số thứ tự hộ khẩu trong bộ nhớ
+ */
 function chinhSua(i) {
     mode = "sua";
     var line = danh_sach[trang][i];
@@ -266,6 +309,9 @@ function chinhSua(i) {
     }
 }
 
+/**
+ * Hiện bảng thêm địa phương. Nếu đang ở trang hộ khẩu sẽ hiện bảng thêm hộ khẩu
+ */
 function them() {
     mode = "them";
     if (trang != trang_max) {
@@ -282,6 +328,10 @@ function them() {
     }
 }
 
+/**
+ * Xóa hộ khẩu
+ * @param {int} i số thứ tự hộ khẩu trong bộ nhớ
+ */
 function xoa(i) {
     var line = danh_sach[trang][i];
     if (trang != trang_max) {
@@ -297,6 +347,9 @@ function xoa(i) {
     }
 }
 
+/**
+ * Gửi truy vấn yêu cầu sửa thông tin một địa phương
+ */
 function xnChinhSua() {
     var ten = $("#nhapten").val();
     var dientich = $("#nhapdientich").val();
@@ -324,6 +377,9 @@ function xnChinhSua() {
         })
 }
 
+/**
+ * Gửi truy vấn yêu cấu xóa địa phương
+ */
 function xnXoa() {
     var id = $("#bangxoa h5 span").text();
     var xacnhan = document.getElementById('xnxoa')
@@ -349,6 +405,9 @@ function xnXoa() {
         })
 }
 
+/**
+ * Gửi truy vấn yêu cầu xóa hộ khẩu
+ */
 function xnXoaHo() {
     var id = $("#bangxoaho h5 span").text();
     var xacnhan = document.getElementById('xnxoaho')
@@ -372,6 +431,9 @@ function xnXoaHo() {
         })
 }
 
+/**
+ * Gửi truy vấn yêu cầu thêm địa phương
+ */
 function xnThem() {
     var xacnhan = document.getElementById('xnthem');
     var ten = $("#nhaptenmoi").val();
@@ -398,9 +460,12 @@ function xnThem() {
         })
 }
 
+/**
+ * Hiển thị hộ khẩu được chọn
+ * @param {int} id mã nhân khẩu trong bộ nhớ
+ * @param {boolean} xem true nếu muốn xem nhân khẩu, false nếu muốn sưa nhân khẩu
+ */
 function hienThiNhanKhau(id, xem) {
-    var thanhvien = document.getElementById("an").getElementsByClassName("thanhvien")[0];
-    var cacthanhvien = document.getElementById("cacthanhvien");
     $("#cacthanhvien").empty();
     fetch("/danhsach/danhsachnhankhau/?id=" + id, {headers: {
     'Authorization': 'Basic '+ token
@@ -410,19 +475,20 @@ function hienThiNhanKhau(id, xem) {
             baoLoi(false, "Không tìm được nhân khẩu");
         } else {
             for (i = 0; i < res.length; i++) {
-                let tv = thanhvien.cloneNode(true);
-                let children = tv.childNodes;
-                children[0].childNodes[1].value = res[i].hoten;
-                children[1].childNodes[1].value = res[i].cmnd;
-                children[2].childNodes[1].value = res[i].nghenghiep;
-                children[3].childNodes[1].value = res[i].gioitinh == "1" ? "Nữ" : "Nam";
-                children[4].childNodes[1].value = res[i].ngaysinh;
-                children[5].childNodes[1].value = res[i].quoctich;
-                children[6].childNodes[1].value = res[i].tongiao;
-                children[7].childNodes[1].value = res[i].trinhdo;
-                children[8].childNodes[1].value = res[i].thuongtru;
-                children[9].childNodes[1].value = res[i].tamtru;
-                cacthanhvien.appendChild(tv);
+                var children = $("#an .thanhvien input")
+                children.eq(0).val(res[i].hoten)
+                children.eq(1).val(res[i].cmnd)
+                children.eq(2).val(res[i].nghenghiep)
+                children.eq(3).val(res[i].ngaysinh)
+                children.eq(4).val(res[i].quoctich)
+                children.eq(5).val(res[i].tongiao)
+                children.eq(6).val(res[i].trinhdo)
+                children.eq(7).val(res[i].thuongtru)
+                children.eq(8).val(res[i].tamtru)
+                $("#an .thanhvien select").eq(0).val(res[i].gioitinh == "1" ? "Nữ" : "Nam")
+                $("#cacthanhvien").append($("#an .thanhvien").eq(0).clone())
+                children.val("");
+                $("#an .thanhvien select").eq(0).val("")
             }
             if (xem) {
                 $("#khaibao button").hide();
@@ -437,6 +503,9 @@ function hienThiNhanKhau(id, xem) {
     })
 }
 
+/**
+ * Hiện phần thêm hộ khẩu
+ */
 function themHoKhau() {
     var thanhvien = document.getElementById("an").getElementsByClassName("thanhvien")[0];
     var cacthanhvien = document.getElementById("cacthanhvien");
@@ -450,6 +519,9 @@ function themHoKhau() {
     $("#khaibao select").prop('disabled', false);
 }
 
+/**
+ * Hiện thêm node chứa nhân khẩu
+ */
 function themNhanKhau() {
     let thanhvien = document.getElementById("an").getElementsByClassName("thanhvien")[0];
     let cacthanhvien = document.getElementById("cacthanhvien");
@@ -457,10 +529,17 @@ function themNhanKhau() {
     cacthanhvien.appendChild(tv);
 }
 
+/**
+ * Xóa một node chứa nhân khẩu
+ * @param {object} node node chứa nhân khẩu
+ */
 function xoaNhanKhau(node) {
     node.parentNode.parentNode.removeChild(node.parentNode);
 }
 
+/**
+ * gửi truy vấn lưu thay đổi về hộ khẩu
+ */
 function thayDoiNhanKhau() {
     var tenho = $("#tenho").val();
     var ten = $("#cacthanhvien .ten input");
@@ -526,10 +605,16 @@ function thayDoiNhanKhau() {
     }
 }
 
+/**
+ * hủy bỏ việc khai báo
+ */
 function huyBoNhanKhau() {
     $("#khaibao").hide();
 }
 
+/**
+ * Tải lại cả hộ khẩu
+ */
 function taiLaiNhanKhau() {
     fetch("/danhsach/capduoi?id=" + id_hien_tai, {
         headers: {'Authorization': 'Basic ' + token}
@@ -548,6 +633,9 @@ function taiLaiNhanKhau() {
     })
 }
 
+/**
+ * gửi yêu cầu thống kê qua share worker
+ */
 function thongKe() {
     var arr = []
     var ten = []

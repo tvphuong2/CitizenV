@@ -9,6 +9,6 @@ router.get('/thayquyen',K.kientratruycap,K.quyenA123B1, Controller.thayQuyen);
 router.get('/xoaquyen',K.kientratruycap,K.quyenA123B1, Controller.xoaQuyen);
 router.get('/tiendo',K.kientratruycap,K.quyenA123B1, Controller.capNhatTienDo);
 router.get('/capduoi',K.kientratruycap,K.quyenA123B1, Controller.capDuoi);
-router.use('/', Controller.index); // tương tự login.js
+router.use('/', Controller.index);
 
 module.exports = router;

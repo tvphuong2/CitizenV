@@ -5,6 +5,7 @@ var trang = "";
 var danhsach = document.getElementById("danhsach2");
 if (root_id.length != 6) $("#inkhaibao").hide();
 
+// lẩy thông tin về đối tượng đang sử dụng
 fetch("/danhsach/thongtin", {
     headers: {
         'Authorization': 'Basic ' + token
@@ -40,7 +41,10 @@ fetch("/danhsach/thongtin", {
         }
     })
     .then(capDuoi(root_id));
-
+/**
+ * Tìm và hiển thị các địa phương trực thuộc 
+ * @param {int} id id địa phương
+ */
 function capDuoi(id) {
     fetch("/quanly/capduoi?id=" + id, {
         headers: {'Authorization': 'Basic ' + token}
@@ -56,6 +60,10 @@ function capDuoi(id) {
         })
 }
 
+/**
+ * hiển thị danh sách các địa phương
+ */
+
 function hienThiCapduoi() {
     while (danhsach.firstChild) {
         danhsach.firstChild.remove()
@@ -69,7 +77,6 @@ function hienThiCapduoi() {
         var td2 = document.createElement("td");
         var td4 = document.createElement("td");
         var td5 = document.createElement("td");
-        var td6 = document.createElement("td");
 
         td1.innerHTML = line.id;
         td2.innerHTML = line.ten;
@@ -90,6 +97,11 @@ function hienThiCapduoi() {
         danhsach.appendChild(tr);
     }
 }
+
+/**
+ * Hiển thị bảng thông tin về quyền, mật khẩu và chỉnh sửa quyền, mật khẩu
+ * @param {int} i số thứ tự của địa phương trong bộ nhớ
+ */
 
 function thongTin(i) {
     $(".chonhang").removeClass("chonhang");
@@ -129,6 +141,10 @@ function thongTin(i) {
     dsthongtin.appendChild(ds);
 }
 
+/**
+ * Hiển thị bảng đối mật khẩu
+ */
+
 function doiMatKhau() {
     var i = $("#danhsachthongtin h6 span").text();
     line = trang[i];
@@ -142,6 +158,10 @@ function doiMatKhau() {
     $("#bangdoimatkhau").modal('show');
 }
 
+/**
+ * Hiển thị bảng xóa mật khẩu
+ */
+
 function xoaMatKhau() {
     var i = $("#danhsachthongtin h6 span").text();
     line = trang[i];
@@ -152,6 +172,10 @@ function xoaMatKhau() {
     xacnhan.disabled = false;
     $("#bangxoamatkhau").modal('show');
 }
+
+/**
+ * Hiển thị bảng sửa quyền
+ */
 
 function suaQuyen() {
     var i = $("#danhsachthongtin h6 span").text();
@@ -166,6 +190,10 @@ function suaQuyen() {
     $("#bangsuaquyen").modal('show');
 }
 
+/**
+ * Hiển thị bảng xóa quyền
+ */
+
 function xoaQuyen() {
     var i = $("#danhsachthongtin h6 span").text();
     line = trang[i];
@@ -176,6 +204,10 @@ function xoaQuyen() {
     xacnhan.disabled = false;
     $("#bangxoaquyen").modal('show');
 }
+
+/**
+ * Gửi request yêu cầu server đổi mật khẩu của địa phương thầy mật khẩu đã nhập trong form
+ */
 
 function xnDoiMk() {
     var i = $("#danhsachthongtin h6 span").text();
@@ -211,6 +243,10 @@ function xnDoiMk() {
     }
 }
 
+/**
+ * Yêu cầu server xóa mật khẩu
+ */
+
 function xnXoaMk() {
     var i = $("#danhsachthongtin h6 span").text();
     line = trang[i];
@@ -239,6 +275,10 @@ function xnXoaMk() {
         })
 }
 
+/**
+ * Yêu cầu server sửa quyền
+ */
+
 function xnSuaQuyen() {
     var i = $("#danhsachthongtin h6 span").text();
     line = trang[i];
@@ -265,6 +305,10 @@ function xnSuaQuyen() {
                 baoLoi(false, "Thay đổi quyền thất bại");
         })
 }
+
+/**
+ * Yêu cầu server xóa quyền
+ */
 
 function xnXoaQuyen() {
     var i = $("#danhsachthongtin h6 span").text();

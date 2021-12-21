@@ -9,7 +9,6 @@ router.get('/taomoi',K.kientratruycap,K.quyenA123B1, DataController.taoMoi); // 
 router.get('/xoa',K.kientratruycap,K.quyenA123B1, DataController.xoa);
 router.get('/danhsachnhankhau',K.kientratruycap, DataController.danhSachNhanKhau);
 router.get('/thongtin',K.kientratruycap, DataController.thongTin);
-router.get('/thongke',K.kientratruycap, DataController.thongKe);
 router.get('/capduoi',K.kientratruycap, DataController.capDuoi);
 router.get('/timten',K.kientratruycap, DataController.timTen);
 router.get('/timtencapduoi',K.kientratruycap, DataController.timTenCapDuoi);

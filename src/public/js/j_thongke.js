@@ -1,5 +1,6 @@
 var token = localStorage.getItem("token");
 
+// nhận yêu cầu từ share worker để xử lý
 var worker = new SharedWorker('/js/share.js');
 worker.port.postMessage("getData");
 worker.port.onmessage = function(e) {
@@ -26,6 +27,10 @@ worker.port.onmessage = function(e) {
     }
 }
 
+/**
+ * Yêu cầu dữ liệu từ server và xử lý, hiển thị tháp tuổi lên canvas
+ * @param {array} danhsach mảng id của các địa phương được chọn
+ */
 function thapTuoi(danhsach) {
     fetch('/thongke/thaptuoi',{
         method: 'POST',
@@ -38,6 +43,11 @@ function thapTuoi(danhsach) {
         })
 }
 
+/**
+ * Yêu cầu dữ liệu từ server và xử lý, hiển thị biểu đồ mật độ dân số lên canvas
+ * @param {array} danhsach mảng id các địa phương được chọn
+ * @param {array} ten mảng tên các địa phương được chọn
+ */
 function matDoDanSo(danhsach, ten) {
     fetch('/thongke/matdodanso',{
         method: 'POST',
@@ -50,6 +60,10 @@ function matDoDanSo(danhsach, ten) {
         })
 }
 
+/**
+ * Yêu cầu dữ liệu từ server và xử lý, hiển thị biểu đồ tỉ lệ nghề nghiệp lên canvas
+ * @param {array} danhsach mảng id của các địa phương được chọn
+ */
 function tiLeNghe(danhsach) {
     fetch('/thongke/tilenghe',{
         method: 'POST',
@@ -62,6 +76,10 @@ function tiLeNghe(danhsach) {
         })
 }
 
+/**
+ * Yêu cầu dữ liệu từ server và xử lý, hiển thị biểu đồ tỉ lệ tôn giáo lên canvas
+ * @param {array} danhsach mảng id của các địa phương được chọn
+ */
 function tiLeTonGiao(danhsach) {
     fetch('/thongke/tiletongiao',{
         method: 'POST',
@@ -74,6 +92,12 @@ function tiLeTonGiao(danhsach) {
         })
 }
 
+/**
+ * Chuẩn hóa dữ liệu đưa vào thành dữ liệu để tạo biểu đồ và hiển thị dữ liệu lên bảng
+ * @param {array} soluong mảng số người theo độ tuổi
+ * @param {array} nu mảng số nữ theo độ tuổi
+ * @param {array} muc mảng độ tuổi
+ */
 function chuanHoaThapTuoi(soluong, nu, muc) {
     console.log(soluong, nu, muc);
     var labels = ['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70+'];
@@ -109,6 +133,11 @@ function chuanHoaThapTuoi(soluong, nu, muc) {
     hienThiThapTuoi(d_nam, d_nu, labels);
 }
 
+/**
+ * Chuẩn hóa dữ liệu để tạo biểu đồ mật độ dân số và hiện dữ liệu lên bảng
+ * @param {array} matdo Mật độ dân số theo địa phương
+ * @param {array} ten Tên địa phương
+ */
 function chuanHoaMatDoDanSo(matdo, ten) {
     var d_matdo = []
     for (var i = 0; i < matdo.length; i++) {
@@ -120,7 +149,11 @@ function chuanHoaMatDoDanSo(matdo, ten) {
     hienThiMatDoDanSo(d_matdo,ten);
 }
 
-
+/**
+ * Chuẩn hóa dữ liệu để tạo biểu đồ tỉ lệ nghề và hiện dữ liệu lên bảng
+ * @param {array} soluong số lượng người theo nghề
+ * @param {array} nghe nghề
+ */
 function chuanHoaTiLeNghe(soluong, nghe) {
     for (var i = 0; i < nghe.length; i++) {
         $("#danhsach").append($("<tr></tr>").append($("<td></th>").text(nghe[i]),
@@ -130,6 +163,11 @@ function chuanHoaTiLeNghe(soluong, nghe) {
     hienThiBieuDoTron(soluong, nghe)
 }
 
+/**
+ * Chuẩn hóa duex liệu để tạo biểu đồ tỉ lệ tôn giáo và hiện dữ liệu lên bảng
+ * @param {array} soluong số lượng người theo tôn giáo
+ * @param {array} tongiao tôn giáo
+ */
 function chuanHoaTiLeTonGiao(soluong, tongiao) {
     for (var i = 0; i < tongiao.length; i++) {
         $("#danhsach").append($("<tr></tr>").append($("<td></th>").text(tongiao[i]),
@@ -139,6 +177,12 @@ function chuanHoaTiLeTonGiao(soluong, tongiao) {
     hienThiBieuDoTron(soluong, tongiao)
 }
 
+/**
+ * Hiển thị tháp tuổi
+ * @param {array} nam Số lượng nam giới theo tuổi
+ * @param {array} nu Số lượng nữ giới theo tuổi
+ * @param {array} label Nhãn của từng mức tuổi
+ */
 function hienThiThapTuoi(nam, nu, label) {
     console.log(nam,nu)
     var type = 'bar'
@@ -177,6 +221,11 @@ function hienThiThapTuoi(nam, nu, label) {
     hienThiBieuDo(type, label, dataset);
 }
 
+/**
+ * Hiển thị biểu đồ mật độ đân số
+ * @param {array} matdo mật độ dân số theo tên
+ * @param {array} ten tên
+ */
 function hienThiMatDoDanSo(matdo,ten) {
     console.log(matdo,ten)
     var color = ['#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
@@ -205,6 +254,11 @@ function hienThiMatDoDanSo(matdo,ten) {
     hienThiBieuDo(type, label, dataset);
 }
 
+/**
+ * Hiển thị biểu đồ tròn
+ * @param {array} soluong số lượng người theo tên
+ * @param {array} ten tên
+ */
 function hienThiBieuDoTron(soluong,ten) {
     $("#bieudo").css("width", "50%");
     var color = ['#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
@@ -226,6 +280,12 @@ function hienThiBieuDoTron(soluong,ten) {
     hienThiBieuDo(type, label, dataset);
 }
 
+/**
+ * hiển thị biểu đồ lên canvas
+ * @param {string} type Kiểu biểu đồ
+ * @param {array} label Nhãn
+ * @param {object} dataset Dữ liệu
+ */
 function hienThiBieuDo(type, label, dataset) {
     var config = {
         type: type,
@@ -239,10 +299,3 @@ function hienThiBieuDo(type, label, dataset) {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, config);
 }
-
-var dynamicColors = function() {
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
-    return "rgb(" + r + "," + g + "," + b + ")";
- };

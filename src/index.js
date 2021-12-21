@@ -1,6 +1,5 @@
 const path = require('path'); //để thao tác với địa chỉ
 const express = require('express'); //khung chương trình
-const morgan = require('morgan'); // để hiển thị request lên terminal
 const handlebars = require('express-handlebars'); // để tách file html
 const hbs = handlebars.create({extname: '.hbs'}) // đổi đuôi handlebars thành hbs cho gọn
 const app = express(); // chương trình
@@ -8,8 +7,6 @@ const port = 3000; //cổng
 
 const route = require('./routes'); //nơi điều hướng url
 
-// sử dụng morgan
-app.use(morgan('combined'));
 //những file tĩnh như html, css, img,... sẽ được điều hướng vào public
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -12,6 +12,11 @@ if(root_id.length == 2) timTuyenDuoi("#chonhuyen", 2)
 if(root_id.length == 4) timTuyenDuoi("#chonxa", 4)
 if(root_id.length == 6) timTuyenDuoi("#chonthon", 6)
 
+/**
+ * hiển thị tên địa phương vào thẻ <select> được chỉ định
+ * @param {string} id #id của <select>
+ * @param {int} end độ dài của id
+ */
 function timTen(id, end) {
     $(id).prop('disabled', true);
     fetch("/danhsach/timten/?id="  + root_id.substring(0,end), {headers: {
@@ -24,6 +29,11 @@ function timTen(id, end) {
         })
 }
 
+/**
+ * Hiển thị các địa phương cấp dưới dưới dạng các <option>
+ * @param {string} id #id của <select>
+ * @param {int} end độ dài của id
+ */
 function timTuyenDuoi(id, end) {
     console.log("pip")
     if($(id).prop('disabled') == false) {
@@ -39,6 +49,13 @@ function timTuyenDuoi(id, end) {
     }
 }
 
+/**
+ * Hiển thị các địa phương tuyến dưới xuống <Select> phía dưới.
+ * Nếu sửa là 'tất cả', sửa tất cả tuyến dưới thành 'tất cả'
+ * @param {string} id #id của <select>
+ * @param {object} sel đối tượng gọi hàm
+ * @param {array} after mảng các đối tượng phía sau
+ */
 function timTiep(id, sel, after) {
     var options = sel.options;
     var i = sel.selectedIndex;
@@ -64,6 +81,9 @@ function timTiep(id, sel, after) {
     }
 }
 
+/**
+ * Tra cứu nhân khẩu với các điều kiện đã được nhập ở mục tìm kiếm
+ */
 function traCuu() {
     $("#danhsach2").empty();
     var cmnd = $("#cmnd").val();
@@ -117,6 +137,9 @@ function traCuu() {
         })
 }
 
+/**
+ * Hiển thị danh sách trong bộ nhớ lên màn hình
+ */
 function hienThiDanhSach() {
     for (var i = 0; i < ketqua.length; i++) {
         var cmnd = $("<td></td>").text(ketqua[i].cmnd);
@@ -129,7 +152,10 @@ function hienThiDanhSach() {
         $("#danhsach2").append(tr);
     }
 }
-
+/**
+ * Hiển thị bảng thông tin về một nhân khẩu
+ * @param {int} i Số thứ tự của nhân khẩu trong bộ nhớ
+ */
 function hienThiNhanKhau(i) {
     $(".chonhang").removeClass("chonhang");
     $("#danhsach2 tr").eq(i).addClass("chonhang");
