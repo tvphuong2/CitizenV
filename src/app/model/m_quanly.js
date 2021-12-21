@@ -9,8 +9,7 @@ class QuanLy extends Chung {
         else 
         que = "select id,ten,matkhau,quyen,tiendo ,DATE_FORMAT(timestart, '%Y-%m-%d') batdau,DATE_FORMAT(timeend, '%Y-%m-%d') ketthuc, DATE_FORMAT(now(), '%Y-%m-%d') homnay, tiendo  from "+tuyen+" where tuyentren =" + id;
 
-        return new Promise((resolve, reject) => { //trả về promise 
-            if (tuyen == "") reject('ID sai')
+        return new Promise((resolve, reject) => {
             this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
 

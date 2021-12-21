@@ -3,6 +3,7 @@ const danh_sach = require('./r_danhsach');
 const quan_ly = require('./r_quanly');
 const tra_cuu = require('./r_tracuu');
 const nhap_lieu = require('./r_nhaplieu');
+const thong_ke = require('./r_thongke');
 
 // truyền vào chương trình
 function route(app) {
@@ -10,6 +11,7 @@ function route(app) {
     app.use('/quanly', quan_ly);
     app.use('/tracuu', tra_cuu);
     app.use('/nhaplieu', nhap_lieu);
+    app.use('/thongke', thong_ke);
     app.use('/', dang_nhap);
 }
 // trả về hàm vừa tạo (cái này là quy ước)

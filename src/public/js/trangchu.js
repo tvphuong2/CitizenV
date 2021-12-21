@@ -157,7 +157,7 @@ function chonDiaPhuong(id, ten) {
     var li = document.createElement("li");
     li.id = "l_" + id;
     li.className = "list-group-item mt-2";
-    li.innerHTML = "<strong>"+id+"</strong> | " + ten;
+    li.innerHTML = "<strong>"+id+"</strong> | <span>" + ten + "</span>";
     li.onclick = function () {
         id = this.id.substring(2);
         var diaphuong = document.getElementById("ds_" + id).firstChild.firstChild;
@@ -487,7 +487,7 @@ function thayDoiNhanKhau() {
                         thuongtru: thuongtru[i].value,
                         tamtru: tamtru[i].value
                         }
-        cacthanhvien .push(thanhvien);
+        cacthanhvien.push(thanhvien);
     }
 
     if (mode == "them") {
@@ -530,10 +530,6 @@ function huyBoNhanKhau() {
     $("#khaibao").hide();
 }
 
-function thongKe() {
-    baoLoi(false, "Cái này chưa làm bạn êyy");
-}
-
 function taiLaiNhanKhau() {
     fetch("/danhsach/capduoi?id=" + id_hien_tai, {
         headers: {'Authorization': 'Basic ' + token}
@@ -550,4 +546,26 @@ function taiLaiNhanKhau() {
             }
         }
     })
+}
+
+function thongKe() {
+    var arr = []
+    var ten = []
+    var list = $("#da_chon li strong")
+    var ten_list = $("#da_chon li span")
+    var type = $("#thongke select").eq(0).val();
+    for (var i = 0; i < list.length; i++) {
+        arr.push(list[i].innerHTML)
+        ten.push(ten_list[i].innerHTML)
+    }
+    console.log(arr);
+
+    let worker = new SharedWorker("/js/share.js");
+    var data = {
+        'mes': arr,
+        'ten': ten,
+        'type': type
+    }
+    worker.port.postMessage(data);
+    window.open('/thongke', '_blank').focus();
 }
