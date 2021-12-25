@@ -9,19 +9,19 @@ worker.port.onmessage = function(e) {
     var ten = e.data.ten;
     var type = e.data.type;
     if(type == "Tháp tuổi") {
-        $("h1").eq(0).text("Tháp tuổi của");
+        $("h1").eq(0).text("Tháp tuổi");
         $("h5").eq(0).text(ten);
         thapTuoi(danhsach)
     } else if (type == "Mật độ dân số") {
-        $("h1").eq(0).text("So sánh mật độ dân số của");
+        $("h1").eq(0).text("So sánh mật độ dân số");
         $("h5").eq(0).text(ten);
         matDoDanSo(danhsach, ten)
     } else if (type == "Tỉ lệ nghề nghiệp") {
-        $("h1").eq(0).text("Tỉ lệ nghề nghiệp của");
+        $("h1").eq(0).text("Tỉ lệ nghề nghiệp");
         $("h5").eq(0).text(ten);
         tiLeNghe(danhsach)
     } else if (type == "Tỉ lệ tôn giáo") {
-        $("h1").eq(0).text("Tỉ lệ tôn giáo của");
+        $("h1").eq(0).text("Tỉ lệ tôn giáo");
         $("h5").eq(0).text(ten);
         tiLeTonGiao(danhsach)
     }

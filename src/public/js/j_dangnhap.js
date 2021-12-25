@@ -1,3 +1,6 @@
+$("#loidangnhap").hide()
+$("#loimatkhau").hide()
+
 function reg() {
     var id = document.getElementById('id').value;
     var psw = document.getElementById('psw').value;
@@ -22,6 +25,25 @@ function reg() {
 function log() {
     var id = document.getElementById('id').value;
     var psw = document.getElementById('psw').value;
+    if (id == "")  {
+        $("#loidangnhap").text("Vui lòng điền tên đăng nhập")
+        $("#loidangnhap").show()
+        $("#id").css('border-color', 'red');
+        return
+    } else {
+        $("#id").css('border-color', '#ced4da');
+        $("#loidangnhap").hide()
+    }
+
+    if (psw == "") {
+        $("#loimatkhau").text("Vui lòng điền mật khẩu")
+        $("#loimatkhau").show()
+        $("#psw").css('border-color', 'red');
+        return
+    } else {
+        $("#psw").css('border-color', '#ced4da');
+        $("#loimatkhau").hide()
+    }
 
     fetch('/',{
         method: 'POST',
@@ -35,9 +57,14 @@ function log() {
 
                 document.location.pathname = "/danhsach";
 
+            } else if (res.status == 'Mật khẩu sai') {
+                $("#loimatkhau").text("Mật khẩu sai")
+                $("#loimatkhau").show()
+                $("#psw").css('border-color', 'red');
             } else {
-                alert(res.status)
-                localStorage.setItem("token", '');
+                $("#loidangnhap").text(res.status)
+                $("#loidangnhap").show()
+                $("#id").css('border-color', 'red');
             }
         });
 }

@@ -7,11 +7,11 @@ const Chung = require('./c_chung');
 class Login{
 
     index(req, res) {
-        res.render('dangnhap', {layout: 'login_layout.hbs'}); // trả về view/dangnhap với layout là login_layout
+        res.render('w_dangnhap', {layout: 'l_trong.hbs'}); // trả về view/dangnhap với layout là login_layout
     }
 
     dangky(req, res) {
-        res.render('dangky', {layout: 'login_layout'}); //tải trang đăng ký (cái này sau sẽ xóa)
+        res.render('w_dangky', {layout: 'l_trong.hbs'}); //tải trang đăng ký (cái này sau sẽ xóa)
     }
 
     p_dangky(req, res) {

@@ -35,3 +35,13 @@ function baoLoi(success, status) {
     ds_loi.appendChild(div);
 }
 
+function chuanHoaTen(self) {
+    var s = self.value;
+
+    var arr = s.toLowerCase().split(" ");
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i][0].toUpperCase() + arr[i].substr(1);
+    }
+    s = arr.join(" ");
+    self.value = s;
+}

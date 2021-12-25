@@ -92,7 +92,7 @@ function hienThiCapduoi() {
         tr.appendChild(td3);
         tr.appendChild(td4);
         tr.appendChild(td5);
-        tr.setAttribute('onclick', "thongTin(\""+i+"\")")
+        tr.setAttribute('onclick', "thongTin(\""+i+"\",this)")
 
         danhsach.appendChild(tr);
     }
@@ -103,9 +103,9 @@ function hienThiCapduoi() {
  * @param {int} i số thứ tự của địa phương trong bộ nhớ
  */
 
-function thongTin(i) {
+function thongTin(i,self) {
     $(".chonhang").removeClass("chonhang");
-    $("#danhsach2 tr").eq(i).addClass("chonhang");
+    self.className ="chonhang";
     var line = trang[i];
     var dsthongtin = document.getElementById("danhsachthongtin");
     while (dsthongtin.firstChild) {
@@ -332,4 +332,25 @@ function xnXoaQuyen() {
             else
                 baoLoi(false, "Xóa quyền thất bại");
         })
+}
+
+var trangthai = [0,0,0]
+function sapXep(id,self, trangthai1) {
+    document.getElementById("cotmatkhau").innerHTML = "Mật khẩu";
+    document.getElementById("cotquyen").innerHTML = "Quyền";
+    document.getElementById("cottiendo").innerHTML = "Tiến độ";
+    for (var i = 0; i < trangthai.length; i++) {
+        if (i != id) trangthai[i] = 0
+        else if (trangthai[i] == 0 || trangthai[i] == 2) trangthai[i] = 1
+        else trangthai[i] = 2
+    }
+    self.innerHTML += trangthai[id] != 1 ? " ▲" : " ▼";
+    var danhsach2 = document.getElementById("danhsach2");
+    var dong = danhsach2.childNodes;
+    for (var i = dong.length - 1; i >= 0; i--) {
+        var p = dong[i].getElementsByTagName("span")[id].innerHTML
+        if ((p != trangthai1 && trangthai[id] != 2) || (p == trangthai1 && trangthai[id] == 2)) {
+            danhsach2.appendChild(dong[i]);
+        }
+    }
 }

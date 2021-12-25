@@ -93,8 +93,13 @@ function hienThiCapduoi() {
     while (danhsach.firstChild) {
         danhsach.firstChild.remove()
     }
-    if (trang == trang_max) $("#themdiaphuong").text("+ Hộ khẩu")
-    else $("#themdiaphuong").text("+ Địa phương")
+    if ((trang == trang_max && root_id.length >= 6)){
+        $("#themdiaphuong").show()
+        $("#themdiaphuong").text("+ Hộ khẩu")
+    } else if (trang == 0) {
+        $("#themdiaphuong").show()
+        $("#themdiaphuong").text("+ Địa phương")
+    } else $("#themdiaphuong").hide()
 
     boChonHet()
     for (i = 0; i < danh_sach[trang].length; i++) {
@@ -566,8 +571,15 @@ function thayDoiNhanKhau() {
                         thuongtru: thuongtru[i].value,
                         tamtru: tamtru[i].value
                         }
+        for(var t in thanhvien) {
+            if (thanhvien[t] == "") {
+                $("#cacthanhvien").addClass("was-validated");
+                return
+            }
+        }
         cacthanhvien.push(thanhvien);
     }
+    $("#cacthanhvien").removeClass();
 
     if (mode == "them") {
         fetch('/nhaplieu/themho',{

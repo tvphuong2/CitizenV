@@ -173,13 +173,13 @@
 
     <div id = "an">
         <div class="container-fluid row thanhvien"><div class="form-floating col ten">
-                <input type="text" class="form-control" placeholder="Họ tên thành viên">
+                <input type="text" class="form-control" placeholder="Họ tên thành viên" onblur="chuanHoaTen(this)" required>
                 <label>Họ tên thành viên</label>
             </div><div class="form-floating col cmnd">
-                <input type="number" class="form-control" placeholder="CMND">
+                <input type="number" class="form-control" placeholder="CMND" required>
                 <label>CMND</label>
             </div><div class="form-floating col nghe">
-                <input type="text" class="form-control" placeholder="Nghề nghiệp">
+                <input type="text" class="form-control" placeholder="Nghề nghiệp" required>
                 <label>Nghề nghiệp</label>
             </div><div class="form-floating col gioi">
                 <select class="form-select">
@@ -188,22 +188,22 @@
                 </select>
                 <label class="form-label">Giới tính</label>
             </div><div class="form-floating col ngaysinh">
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" required>
                 <label >Ngày sinh</label>
             </div><div class="form-floating col quoctich">
-                <input type="text" class="form-control" placeholder="Quốc tịch">
+                <input type="text" class="form-control" placeholder="Quốc tịch" onblur="chuanHoaTen(this)" required>
                 <label >Quốc tịch</label>
             </div><div class="form-floating col tongiao">
-                <input type="text" class="form-control" placeholder="Tôn giáo">
+                <input type="text" class="form-control" placeholder="Tôn giáo" required>
                 <label >Tôn giáo</label>
             </div><div class="form-floating col trinhdo">
-                <input type="text" class="form-control" placeholder="Trình độ học vấn">
+                <input type="text" class="form-control" placeholder="Trình độ học vấn" required>
                 <label >Trình độ học vấn</label>
             </div><div class="form-floating col thuongtru">
-                <input type="text" class="form-control" placeholder="Địa chỉ thường chú">
+                <input type="text" class="form-control" placeholder="Địa chỉ thường chú" required>
                 <label >Địa chỉ thường trú</label>
             </div><div class="form-floating col tamtru">
-                <input type="text" class="form-control" placeholder="Địa chỉ tạm trú">
+                <input type="text" class="form-control" placeholder="Địa chỉ tạm trú" required>
                 <label >Địa chỉ tạm trú</label>
             </div>
             <button class="btn btn-outline-danger" onclick="xoaNhanKhau(this)">Xóa thành viên</button>

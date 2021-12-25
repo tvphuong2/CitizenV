@@ -173,3 +173,42 @@ function hienThiNhanKhau(i) {
     $("#an #thongtin").clone().appendTo("#thongtinnhankhau");
 
 }
+
+var trangthai = [0,0,0,0]
+function sapXep(id, self) {
+    document.getElementById("cothoten").innerHTML = "Họ và tên";
+    document.getElementById("cotgioitinh").innerHTML = "Giới tính";
+    document.getElementById("cotngaysinh").innerHTML = "Ngày sinh";
+    for (var i = 0; i < trangthai.length; i++) {
+        if (i != id) trangthai[i] = 0
+        else if (trangthai[i] == 0 || trangthai[i] == 2) trangthai[i] = 1
+        else trangthai[i] = 2
+    }
+    self.innerHTML += trangthai[id] != 1 ? " ▲" : " ▼";
+    var danhsach2 = document.getElementById("danhsach2");
+    var dong = danhsach2.childNodes;
+    for (var i = 0; i < dong.length; i++) {
+        var kt = true;
+        for (var j = 1; j <dong.length; j++) {
+            var x = dong[j].getElementsByTagName("td")[id].innerHTML.toLowerCase();
+            var y = dong[j - 1].getElementsByTagName("td")[id].innerHTML.toLowerCase();
+            var key = id == 3 ? "/" : " "; 
+            if (soSanh(x,y,key) == trangthai[id]) {
+                dong[j].parentNode.insertBefore(dong[j], dong[j - 1]);
+                kt = false;
+            }
+        }
+        if (kt) break;
+    }
+}
+
+function soSanh(a,b,key) {
+    var a_ = a.split(key)
+    var b_ = b.split(key)
+    var min = Math.min(a_.length,b_.length)
+    for (var i = 1; i <= min; i++) {
+        if (a_.at(-i) < b_.at(-i)) return 1
+        if (a_.at(-i) > b_.at(-i)) return 2
+    }
+    return 0
+}

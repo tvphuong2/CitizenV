@@ -3,7 +3,7 @@ const Chung = require('./c_chung');
 
 class Data {
     index(req, res) {
-        res.render('w_thongke', {layout: 'login_layout'});
+        res.render('w_thongke', {layout: 'l_trong'});
     }
 
     thapTuoi(req, res) {

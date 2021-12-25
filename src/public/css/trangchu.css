@@ -161,6 +161,10 @@ thead {
     background-color: #bad2e0;
 }
 
+.contro {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1200px) {
     header {
         font-size:22px;
