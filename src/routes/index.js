@@ -4,14 +4,15 @@ const quan_ly = require('./r_quanly');
 const tra_cuu = require('./r_tracuu');
 const nhap_lieu = require('./r_nhaplieu');
 const thong_ke = require('./r_thongke');
+const K = require('../app/controllers/c_ktquyen'); // kiểm tra truy cập
 
 // Định tuyến
 function route(app) {
-    app.use('/danhsach', danh_sach); 
-    app.use('/quanly', quan_ly);
-    app.use('/tracuu', tra_cuu);
-    app.use('/nhaplieu', nhap_lieu);
-    app.use('/thongke', thong_ke);
+    app.use('/danhsach',K.kientratruycap, danh_sach); 
+    app.use('/quanly',K.kientratruycap, quan_ly);
+    app.use('/tracuu',K.kientratruycap, tra_cuu);
+    app.use('/nhaplieu',K.kientratruycap, nhap_lieu);
+    app.use('/thongke',K.kientratruycap, thong_ke);
     app.use('/', dang_nhap);
 }
 

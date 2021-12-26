@@ -56,6 +56,9 @@ function chuanHoaTen(self) {
     self.value = s;
 }
 
+/**
+ * Trả về danh sách thành viên
+ */
 function danhSachThanhVien() {
     var ds_loi = document.getElementById("ds_loi");
     var div = document.createElement("div");
@@ -70,4 +73,15 @@ function danhSachThanhVien() {
     div.innerHTML = info;
 
     ds_loi.appendChild(div);
+}
+
+function soSanh(a,b,key) {
+    var a_ = a.split(key)
+    var b_ = b.split(key)
+    var min = Math.min(a_.length,b_.length)
+    for (var i = 1; i <= min; i++) {
+        if (a_.at(-i) < b_.at(-i)) return 1
+        if (a_.at(-i) > b_.at(-i)) return 2
+    }
+    return 0
 }

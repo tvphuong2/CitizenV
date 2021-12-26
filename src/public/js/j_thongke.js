@@ -1,5 +1,3 @@
-var token = localStorage.getItem("token");
-
 // nhận yêu cầu từ share worker để xử lý
 var worker = new SharedWorker('/js/share.js');
 worker.port.postMessage("getData");
@@ -34,8 +32,7 @@ worker.port.onmessage = function(e) {
 function thapTuoi(danhsach) {
     fetch('/thongke/thaptuoi',{
         method: 'POST',
-        headers: {'Content-Type': 'application/json',
-                  'Authorization': 'Basic '+ token},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"danhsach": danhsach})
         }).then(response => response.json())
         .then((res) => {
@@ -51,8 +48,7 @@ function thapTuoi(danhsach) {
 function matDoDanSo(danhsach, ten) {
     fetch('/thongke/matdodanso',{
         method: 'POST',
-        headers: {'Content-Type': 'application/json',
-                  'Authorization': 'Basic '+ token},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"danhsach": danhsach})
         }).then(response => response.json())
         .then((res) => {
@@ -67,8 +63,7 @@ function matDoDanSo(danhsach, ten) {
 function tiLeNghe(danhsach) {
     fetch('/thongke/tilenghe',{
         method: 'POST',
-        headers: {'Content-Type': 'application/json',
-                  'Authorization': 'Basic '+ token},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"danhsach": danhsach})
         }).then(response => response.json())
         .then((res) => {
@@ -83,8 +78,7 @@ function tiLeNghe(danhsach) {
 function tiLeTonGiao(danhsach) {
     fetch('/thongke/tiletongiao',{
         method: 'POST',
-        headers: {'Content-Type': 'application/json',
-                  'Authorization': 'Basic '+ token},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"danhsach": danhsach})
         }).then(response => response.json())
         .then((res) => {

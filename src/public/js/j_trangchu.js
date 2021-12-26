@@ -1,5 +1,4 @@
 var root_id = localStorage.getItem("id");
-var token = localStorage.getItem("token");
 
 var danhsach = document.getElementById("danhsach");
 var danh_sach = new Array(5);
@@ -19,11 +18,7 @@ if (root_id.length <6) $("#khaibao").html("")
 else $("#khaibao").hide()
 
 // tìm và hiển thị thông tin bản thân
-fetch("/danhsach/thongtin", {
-    headers: {
-        'Authorization': 'Basic ' + token
-    }
-    })
+fetch("/danhsach/thongtin")
     .then((response) => response.json())
     .then(res => {
         if (res.loi) {
@@ -73,9 +68,7 @@ fetch("/danhsach/thongtin", {
 function capDuoi(id, name) {
     id_hien_tai = id;
     trang += 1;
-    fetch("/danhsach/capduoi?id=" + id, {
-        headers: {'Authorization': 'Basic ' + token}
-        })
+    fetch("/danhsach/capduoi?id=" + id)
         .then((response) => response.json())
         .then(res => {
             if (res.loi) {
@@ -366,9 +359,7 @@ function xnChinhSua() {
     xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
     xacnhan.disabled = true;
 
-    fetch("/danhsach/chinhsua/?id=" + id +"&name=" + ten +"&dientich=" + dientich, {headers: {
-        'Authorization': 'Basic '+ token
-        }})
+    fetch("/danhsach/chinhsua/?id=" + id +"&name=" + ten +"&dientich=" + dientich)
         .then((response) => {
             xacnhan.innerHTML = "Xác nhận";
             xacnhan.disabled = false;
@@ -394,9 +385,7 @@ function xnXoa() {
     xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
     xacnhan.disabled = true;
 
-    fetch("/danhsach/xoa/?id=" + id, {headers: {
-        'Authorization': 'Basic '+ token
-        }})
+    fetch("/danhsach/xoa/?id=" + id)
         .then((response) => {
             xacnhan.innerHTML = "Xác nhận";
             xacnhan.disabled = false;
@@ -422,9 +411,7 @@ function xnXoaHo() {
     xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
     xacnhan.disabled = true;
 
-    fetch("/nhaplieu/xoaho/?idho=" + id, {headers: {
-        'Authorization': 'Basic '+ token
-        }})
+    fetch("/nhaplieu/xoaho/?idho=" + id)
         .then((response) => {
             xacnhan.innerHTML = "Xác nhận";
             xacnhan.disabled = false;
@@ -442,16 +429,24 @@ function xnXoaHo() {
  * Gửi truy vấn yêu cầu thêm địa phương
  */
 function xnThem() {
+    var loi = false;
     var xacnhan = document.getElementById('xnthem');
     var ten = $("#nhaptenmoi").val();
     var dientich = $("#nhapdientichmoi").val();
+    if (dientich == 0 || dientich == "") {
+        baoLoi(false, "Diện tích không hợp lệ")
+        loi = true
+    }
+    if (ten == "") {
+        baoLoi(false, "Chưa nhập tên địa phương")
+        loi = true
+    }
+    if (loi) return
 
     xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
     xacnhan.disabled = true;
 
-    fetch("/danhsach/taomoi/?name=" + ten + "&dientich=" + dientich, {headers: {
-        'Authorization': 'Basic '+ token
-        }})
+    fetch("/danhsach/taomoi/?name=" + ten + "&dientich=" + dientich)
         .then((response) => {
             xacnhan.innerHTML = "Xác nhận";
             xacnhan.disabled = false;
@@ -474,9 +469,7 @@ function xnThem() {
  */
 function hienThiNhanKhau(id, xem) {
     $("#cacthanhvien").empty();
-    fetch("/danhsach/danhsachnhankhau/?id=" + id, {headers: {
-    'Authorization': 'Basic '+ token
-    }})
+    fetch("/danhsach/danhsachnhankhau/?id=" + id)
     .then(response => response.json()).then(res => {
         if (res.loi) {
             baoLoi(false, "Không tìm được nhân khẩu");
@@ -586,8 +579,7 @@ function thayDoiNhanKhau() {
     if (mode == "them") {
         fetch('/nhaplieu/themho',{
             method: 'POST',
-            headers: {'Content-Type': 'application/json',
-                      'Authorization': 'Basic '+ token},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({"tenho": tenho,
                                   "idthon": id_hien_tai,
                                   "cacthanhvien": cacthanhvien})
@@ -603,8 +595,7 @@ function thayDoiNhanKhau() {
         var id = $("#khaibao strong").text().substring(7);
         fetch('/nhaplieu/suaho',{
             method: 'POST',
-            headers: {'Content-Type': 'application/json',
-                      'Authorization': 'Basic '+ token},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({"tenho": tenho,
                                   "idho": id,
                                   "cacthanhvien": cacthanhvien})
@@ -630,9 +621,7 @@ function huyBoNhanKhau() {
  * Tải lại cả hộ khẩu
  */
 function taiLaiNhanKhau() {
-    fetch("/danhsach/capduoi?id=" + id_hien_tai, {
-        headers: {'Authorization': 'Basic ' + token}
-    })
+    fetch("/danhsach/capduoi?id=" + id_hien_tai)
     .then((response) => response.json())
     .then(res => {
         if (res.loi) {

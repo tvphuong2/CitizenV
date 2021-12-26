@@ -52,9 +52,7 @@ function log() {
                               "password": psw})
         }).then(response => response.json()).then(res => {
             if (res.status == 'thanhcong') {
-                localStorage.setItem("token", res.token);
                 localStorage.setItem("id", res.id);
-
                 document.location.pathname = "/danhsach";
 
             } else if (res.status == 'Mật khẩu sai') {

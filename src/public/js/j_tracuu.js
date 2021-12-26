@@ -1,5 +1,4 @@
 var root_id = localStorage.getItem("id");
-var token = localStorage.getItem("token");
 var ketqua = "";
 
 if (root_id.length != 3) timTen("#chontinh", 2)
@@ -19,9 +18,7 @@ if(root_id.length == 6) timTuyenDuoi("#chonthon", 6)
  */
 function timTen(id, end) {
     $(id).prop('disabled', true);
-    fetch("/danhsach/timten/?id="  + root_id.substring(0,end), {headers: {
-        'Authorization': 'Basic '+ token
-        }})
+    fetch("/danhsach/timten/?id="  + root_id.substring(0,end))
         .then((response) => response.json())
         .then(res => {
             $(id).append($("<option id=o_"+res.id+"></option>").text(res.ten));
@@ -37,9 +34,7 @@ function timTen(id, end) {
 function timTuyenDuoi(id, end) {
     console.log("pip")
     if($(id).prop('disabled') == false) {
-        fetch("/danhsach/timtencapduoi/?id="  + root_id.substring(0,end), {headers: {
-            'Authorization': 'Basic '+ token
-            }})
+        fetch("/danhsach/timtencapduoi/?id="  + root_id.substring(0,end))
             .then((response) => response.json())
             .then(res => {
                 for (var i = 0; i <res.length; i++) {
@@ -65,9 +60,7 @@ function timTiep(id, sel, after) {
             $(after[j]).html('<option value="">-- Tất cả --</option>');
         }
     } else {
-        fetch("/danhsach/timtencapduoi/?id="  + options[i].id.substring(2), {headers: {
-            'Authorization': 'Basic '+ token
-            }})
+        fetch("/danhsach/timtencapduoi/?id="  + options[i].id.substring(2))
             .then((response) => response.json())
             .then(res => {
                 $(id).html('<option value="">-- Tất cả --</option>');
@@ -122,9 +115,7 @@ function traCuu() {
             "&trinhdo=" + trinhdo +
             "&id=" + max_id
 
-    fetch(url, {headers: {
-        'Authorization': 'Basic '+ token
-        }})
+    fetch(url)
         .then((response) => response.json())
         .then(res => {
             if (res.loi) {
@@ -200,15 +191,4 @@ function sapXep(id, self) {
         }
         if (kt) break;
     }
-}
-
-function soSanh(a,b,key) {
-    var a_ = a.split(key)
-    var b_ = b.split(key)
-    var min = Math.min(a_.length,b_.length)
-    for (var i = 1; i <= min; i++) {
-        if (a_.at(-i) < b_.at(-i)) return 1
-        if (a_.at(-i) > b_.at(-i)) return 2
-    }
-    return 0
 }

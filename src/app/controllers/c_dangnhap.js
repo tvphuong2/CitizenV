@@ -7,6 +7,7 @@ const Chung = require('./c_chung');
 class Login{
 
     index(req, res) {
+        delete req.session.token
         res.render('w_dangnhap', {layout: 'l_trong.hbs'}); // trả về view/dangnhap với layout là login_layout
     }
 
@@ -56,11 +57,11 @@ class Login{
                 else if (id.length == 4) role = 'A3'
                 else if (id.length == 6) role = 'B1'
                 else if (id.length == 8) role = 'B2' 
-                var token = jwt.sign({id: id, role:role}, SECRET_KEY, {expiresIn: 60*30}) //mã hóa id và quyền thành token hop le trong 30phut với chìa là 'bimatquansu'
+                var token = jwt.sign({id: id, role:role}, SECRET_KEY, {expiresIn: 60*60*4}) //mã hóa id và quyền thành token hop le trong 4 giờ với chìa là 'bimatquansu'
+                req.session.token = token
                 res.json({
                     status: 'thanhcong', //trả về trạng thái, id của tài khoản và token cho client
-                    id: id,
-                    token: token
+                    id: id
                 })
             })
         }).catch(err =>{

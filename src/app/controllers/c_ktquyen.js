@@ -7,11 +7,11 @@ class Token {
      * kiểm tra truy cập của khách, nếu hợp lệ thì cho dữ liệu đi tiếp
      */
     kientratruycap(req, res, next) {
-        if (!req.headers['authorization']) { // nếu như header trống
-            return res.status(400).json('Chưa có token');
+        if (!req.session.token) {
+            console.log('pip')
+            return res.redirect('/');
         }
-
-        var token = req.headers['authorization'].split(' ')[1] // lấy token từ header
+        var token = req.session.token
         if(token){ //nếu token tồn tại
             jwt.verify(token, SECRET_KEY, function(err, user){ // kiểm tra token và giải mã token với khóa 'bí mật quân sự'
                 if(err) return res.status(400).json({loi: 'Token không hợp lệ'})

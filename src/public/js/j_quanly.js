@@ -1,16 +1,11 @@
 var root_id = localStorage.getItem("id");
-var token = localStorage.getItem("token");
 var trang = "";
 
 var danhsach = document.getElementById("danhsach2");
 if (root_id.length != 6) $("#inkhaibao").hide();
 
 // lẩy thông tin về đối tượng đang sử dụng
-fetch("/danhsach/thongtin", {
-    headers: {
-        'Authorization': 'Basic ' + token
-    }
-    })
+fetch("/danhsach/thongtin")
     .then((response) => response.json())
     .then(res => {
         if (res.loi) document.location.pathname = "/"
@@ -47,11 +42,8 @@ fetch("/danhsach/thongtin", {
 if (root_id.length == 3) {
     $("#baocaohoanthanh").hide()
 } else {
-    fetch("/danhsach/timtiendo?id=" + root_id, {
-        headers: {
-            'Authorization': 'Basic ' + token
-        }
-        }).then((response) => response.json())
+    fetch("/danhsach/timtiendo?id=" + root_id)
+    .then((response) => response.json())
         .then(res => {
             if (res.tiendo == 0) {
                 $("#baocaohoanthanh").text("Báo cáo hoàn thành")
@@ -70,9 +62,7 @@ if (root_id.length == 3) {
  * @param {int} id id địa phương
  */
 function capDuoi(id) {
-    fetch("/quanly/capduoi?id=" + id, {
-        headers: {'Authorization': 'Basic ' + token}
-        })
+    fetch("/quanly/capduoi?id=" + id)
         .then((response) => response.json())
         .then(res => {
             if (res.loi) {
@@ -238,18 +228,20 @@ function xnDoiMk() {
     line = trang[i];
     var xacnhan = document.getElementById("xndoimatkhau");
     var dsthongtin = document.getElementById("danhsachthongtin");
-    xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
-    xacnhan.disabled = true;
-
     var n = $("#nhapmatkhau").val();
     var r = $("#nhaplaimatkhau").val();
+    if (n == "")  {
+        baoLoi(false, "Vui lòng nhập mật khẩu")
+        return
+    }
+    xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
+    xacnhan.disabled = true;
     if (n != r) {
         baoLoi(false, "Mật khẩu nhập lại sai")
     } else {
         fetch("/quanly/thaymk", {
             method: 'POST',
-            headers: {'Content-Type': 'application/json',
-                        'Authorization': 'Basic '+ token},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({"id": line.id, 
                                     "password": n})
             }).then((response) => {
@@ -281,8 +273,7 @@ function xnXoaMk() {
 
     fetch("/quanly/thaymk", {
         method: 'POST',
-        headers: {'Content-Type': 'application/json',
-                    'Authorization': 'Basic '+ token},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"id": line.id, 
                                 "password": ""})
         }).then((response) => {
@@ -308,15 +299,17 @@ function xnSuaQuyen() {
     line = trang[i];
     var xacnhan = document.getElementById("xnsuaquyen");
     var dsthongtin = document.getElementById("danhsachthongtin");
-    xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
-    xacnhan.disabled = true;
 
     var batdau = $("#nhapngaybatdau").val();
     var ketthuc = $("#nhapngayketthuc").val();
+    if (batdau > ketthuc) {
+        return baoLoi(false, "Ngày bắt đầu phải nhỏ hơn ngày kết thúc")
+    }
+    xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
+    xacnhan.disabled = true;
 
-    fetch("/quanly/thayquyen/?id=" + line.id + "&start=" + batdau + "&end=" + ketthuc, {headers: {
-            'Authorization': 'Basic '+ token
-        }}).then((response) => {
+    fetch("/quanly/thayquyen/?id=" + line.id + "&start=" + batdau + "&end=" + ketthuc)
+        .then((response) => {
             if (response.status == 200) {
                 $("#bangsuaquyen").modal('hide');
                 while (dsthongtin.firstChild) {
@@ -342,9 +335,8 @@ function xnXoaQuyen() {
     xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
     xacnhan.disabled = true;
 
-    fetch("/quanly/xoaquyen/?id=" + line.id , {headers: {
-            'Authorization': 'Basic '+ token
-        }}).then((response) => {
+    fetch("/quanly/xoaquyen/?id=" + line.id )
+        .then((response) => {
             if (response.status == 200) {
                 $("#bangxoaquyen").modal('hide');
                 while (dsthongtin.firstChild) {
@@ -384,9 +376,8 @@ function sapXep(id,self, trangthai1) {
  * @param {int} i trạng thái
  */
 function baoCaoHoanThanh(i) {
-    fetch("/quanly/tiendo/?tiendo=" + i , {headers: {
-        'Authorization': 'Basic '+ token
-    }}).then((response) => {
+    fetch("/quanly/tiendo/?tiendo=" + i)
+    .then((response) => {
         if (response.status == 200) {
             if (i == 0) {
                 baoLoi(true, "Đã hủy báo cáo hoàn thành");

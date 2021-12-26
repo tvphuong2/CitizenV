@@ -1,12 +1,20 @@
 const path = require('path'); //để thao tác với địa chỉ
 const express = require('express'); //khung chương trình
 const handlebars = require('express-handlebars'); // để tách file html
-const hbs = handlebars.create({extname: '.hbs'}) // đổi đuôi handlebars thành hbs cho gọn
+const session = require('express-session') // sử dụng phiên
+const hbs = handlebars.create({extname: '.hbs'})
 const app = express(); // chương trình
 const port = 3000; //cổng
 
 const route = require('./routes'); //nơi điều hướng url
 
+// sử dụng phiên
+app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'sieucapbaomat',
+    cookie: {maxAge: 3600 * 24 * 60 * 60}
+}))
 //những file tĩnh như html, css, img,... sẽ được điều hướng vào public
 app.use(express.static(path.join(__dirname, 'public')));
 

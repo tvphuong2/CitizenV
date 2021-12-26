@@ -10,7 +10,8 @@ class TraCuu extends Chung {
         if (cmnd != "") que += "cmnd = " + cmnd
         else {
             if (id != "") {
-                que += "id like '" + id + "%'"
+                if (id.length == 3) que += " 1 "
+                else que += "id like '" + id + "%'"
                 dautien = true;
             }
             if (ten != "") {
