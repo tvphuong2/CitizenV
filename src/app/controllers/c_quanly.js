@@ -8,6 +8,9 @@ class Data {
         res.render('w_quanly', {layout: 'l_main'});
     }
 
+    /**
+     * trả về id, tên, trạng thái mật khẩu, quyền, tiến độ, ngày bắt đầu, kết thúc khai báo, ngày hiện tại
+     */
     capDuoi(req, res) {
         QuanLy.capDuoi(req.user)
         .then(result => res.send(result))
@@ -17,7 +20,6 @@ class Data {
     /**
      * thay đổi quyền
      * input: id, thời gian bắt đầu và tg kết thúc
-     * output: thông báo thành công/lỗi
      */
     thayQuyen(req, res) {
         var id = Chung.chuanHoaIDDenThon(req.query.id);
@@ -33,10 +35,9 @@ class Data {
         .catch(err => res.status(403).json({loi: "Thay đổi quyền thất bại"}))
     }
 
-    /*
-    Dóng quyền
-    input: id
-    output: thông báo thành công/lỗi
+    /**
+     * Đóng quyền của một địa phương
+     * input: id địa phương
      */
     xoaQuyen(req, res) {
         var id = Chung.chuanHoaIDDenThon(req.query.id);
@@ -48,14 +49,10 @@ class Data {
         .then(result => res.json(result))
         .catch(err =>res.status(403).json({status: err}))
     }
-    //................................
-
-
 
     /**
-     * thay đổi mk
-     * input: id, mật khẩu mới(yes/no)
-     * output: mất khẩu sau khi chỉnh sửa('pass'/'')
+     * thay đổi mậ khẩu
+     * input: id, mật khẩu
      */
     thayMK(req, res) {
         var id = Chung.chuanHoaIDDenThon(req.body.id);
@@ -76,9 +73,9 @@ class Data {
         }).catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
-    /* thông báo tiến dộ lên tuyến trên
-    input: 1/0
-    output: thông báo thành công/ lỗi
+    /**
+     * thay đổi tiến độ của khách
+     * input: tiến độ
      */
     capNhatTienDo(req, res) {
         var tiendo = req.query.tiendo;

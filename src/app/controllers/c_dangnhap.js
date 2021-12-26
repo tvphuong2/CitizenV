@@ -14,6 +14,11 @@ class Login{
         res.render('w_dangky', {layout: 'l_trong.hbs'}); //tải trang đăng ký (cái này sau sẽ xóa)
     }
 
+    /**
+     * được gọi khi submit form đăng ký (đang bị khóa)
+     * input: id, password
+     * output: trả về trạng thái đăng ký (thất bại hoặc thành công)
+     */
     p_dangky(req, res) {
         var id = Chung.chuanHoaIDDenThon(req.body.id);
         var password = req.body.password; //lấy id và pass từ body của req (POST)
@@ -31,6 +36,11 @@ class Login{
         }
     }
 
+    /**
+     * được gọi khi submit form đăng nhập
+     * input: id, password
+     * output: trả về trạng thái đăng nhập (thất bại hoặc thành công)
+     */
     p_dangnhap(req, res) {
         var id = Chung.chuanHoaIDDenThon(req.body.id);
         var password = req.body.password; //nhận id và pass từ client

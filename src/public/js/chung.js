@@ -35,13 +35,39 @@ function baoLoi(success, status) {
     ds_loi.appendChild(div);
 }
 
+/**
+ * viết hoa các ký tự đầu và viết thường các ký tự còn lại, chuẩn hóa dấu cách
+ * @param {object} self 
+ */
 function chuanHoaTen(self) {
-    var s = self.value;
+    var s = self.value.trim();
 
     var arr = s.toLowerCase().split(" ");
     for (var i = 0; i < arr.length; i++) {
-        arr[i] = arr[i][0].toUpperCase() + arr[i].substr(1);
+        if (arr[i] != "") 
+            arr[i] = arr[i][0].toUpperCase() + arr[i].substr(1);
+        else {
+            arr.splice(i, 1);
+            i--;
+        }
+            
     }
     s = arr.join(" ");
     self.value = s;
+}
+
+function danhSachThanhVien() {
+    var ds_loi = document.getElementById("ds_loi");
+    var div = document.createElement("div");
+
+    div.className = "alert alert-success alert-dismissible";
+    var info = "<button type='button' class='btn-close' data-bs-dismiss='alert'></button>"
+    info += "<h4>Nếu có bất kỳ câu hỏi nào xin vui lòng liên hệ với chúng tôi qua email 19020397@vnu.edu.vn</h4>"
+    info += "<h5>Danh sách tác giả:</h5>"
+    info += "<p>Tạ Viết Phương</p>"
+    info += "<p>Bùi Quang Trường</p>"
+    info += "<p>Trương Hoàng Tùng</p>"
+    div.innerHTML = info;
+
+    ds_loi.appendChild(div);
 }

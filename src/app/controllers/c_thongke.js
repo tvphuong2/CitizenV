@@ -6,6 +6,10 @@ class Data {
         res.render('w_thongke', {layout: 'l_trong'});
     }
 
+    /**
+     * trả về dữ liệu để tạo tháp tuổi
+     * input: danh sách id
+     */
     thapTuoi(req, res) {
         var danhsach = req.body.danhsach;
         for (var i = 0; i < danhsach.length; i++) {
@@ -18,6 +22,10 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
+    /**
+     * trả về dữ liệu để biểu đồ mật độ dân số
+     * input: danh sách id
+     */
     matDoDanSo(req, res) {
         var danhsach = req.body.danhsach;
         for (var i = 0; i < danhsach.length; i++) {
@@ -30,6 +38,10 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
+    /**
+     * trả về dữ liệu để tạo biểu đồ tỉ lệ nghề
+     * input: danh sách id
+     */
     tiLeNghe(req, res) {
         var danhsach = req.body.danhsach;
         for (var i = 0; i < danhsach.length; i++) {
@@ -42,6 +54,10 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
+    /**
+     * trả về dữ liệu để tạo biểu đồ tỉ lệ tôn giáo
+     * input: danh sách id
+     */
     tiLeTonGiao(req, res) {
         var danhsach = req.body.danhsach;
         for (var i = 0; i < danhsach.length; i++) {

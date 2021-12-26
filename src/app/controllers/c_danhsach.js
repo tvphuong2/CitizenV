@@ -6,10 +6,11 @@ class Data {
         res.render('w_trangchu', {layout: 'l_main'}); // trả về vews/danhsach với layout: main
     }
 
-    /* chỉnh sửa tên của một địa phương
-    input id, new_name, dientich
-    output 'no' nếu như id và name mới không bị trùng. Nếu hợp lệ trả về 'yes'
-    */
+    /**
+     * chỉnh sửa một địa phương trực thuộc
+     * input: id, ten, dientich
+     * output: trả về trạng thái chỉnh sửa (thất bại hoặc thành công)
+     */
     chinhSua(req, res) {
         var id = Chung.chuanHoaIDDenThon(req.query.id);
         var ten = Chung.chuanHoaTen(req.query.name);
@@ -25,6 +26,11 @@ class Data {
 
     }
 
+    /**
+     * xóa một địa phương trực thuộc
+     * input: id
+     * output: trả về trạng thái xóa địa phương (thất bại hoặc thành công)
+     */
     xoa(req, res) {
         var id = Chung.chuanHoaIDDenHo(req.query.id);
         if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
@@ -35,10 +41,11 @@ class Data {
         .catch(err => res.status(403).json({status: err}))
     }
 
-    /* tạo một địa phương mới
-    input id, new_name, dientich
-    output 'no' nếu như id và name mới không bị trùng. Nếu hợp lệ trả về 'yes'
-    */
+    /**
+     * tạo mới một địa phương
+     * input: name, dientich
+     * output: trả về trạng thái tạo mới (thất bại hoặc thành công)
+     */
     taoMoi(req, res) {
         var name = Chung.chuanHoaTen(req.query.name);
         var dientich = Chung.chuanHoaSo(req.query.dientich);
@@ -48,6 +55,10 @@ class Data {
         .then(s => res.json({status: s}))
     }
 
+    /**
+     * trả về một bản báo cáo ngắn về tài khoản khách
+     * output: trả về tên và quyền nếu có quyền trả thêm tiến độ tuyến dưới, số địa phương đang khai báo, hạn
+     */
     thongTin(req, res) {
         m_danhsach.tenQuyen(req.user)
         .then(ten_quyen => {
@@ -61,10 +72,10 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
-    /* lấy các địa phương thuộc địa phương đó nếu id ='-1' lấy hết tất cả các tỉnh
-    input: id
-    output mảng các id địa phương
-    */
+    /**
+     * trả về danh sách tuyến dưới
+     * input: id
+     */
     capDuoi(req, res) {
         var id = Chung.chuanHoaIDDenThon(req.query.id);
         if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
@@ -80,6 +91,9 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
+    /**
+     * trả về danh sách nhân khẩu thộc id
+     */
     danhSachNhanKhau(req, res) {
         var id = Chung.chuanHoaIDDenHo(req.query.id);
         if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
@@ -99,6 +113,15 @@ class Data {
         if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
 
         m_danhsach.timTen(id)
+        .then(s => res.send(s))
+        .catch(err =>res.status(404).json({loi: "Không tìm thấy địa phương"}))
+    }
+
+    timTienDo(req, res) {
+        var id = Chung.chuanHoaIDDenThon(req.query.id);
+        if (id == "") return res.status(404).json({status: 'ID không tồn tại'});
+
+        m_danhsach.timTienDo(id)
         .then(s => res.send(s))
         .catch(err =>res.status(404).json({loi: "Không tìm thấy địa phương"}))
     }

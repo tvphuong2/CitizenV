@@ -30,6 +30,7 @@ fetch("/danhsach/thongtin", {
             quyen.className = "badge bg-secondary";
             trangthai.innerHTML = "Không có quyền khai báo";
             trangthai.className = "badge bg-secondary";
+            $("#baocaohoanthanh").hide()
         } else {
             if (res.dangkhaibao == "0") {
                 trangthai.innerHTML = "Chưa mở khai báo";
@@ -41,6 +42,29 @@ fetch("/danhsach/thongtin", {
         }
     })
     .then(capDuoi(root_id));
+
+// kiểm tra tiến độ
+if (root_id.length == 3) {
+    $("#baocaohoanthanh").hide()
+} else {
+    fetch("/danhsach/timtiendo?id=" + root_id, {
+        headers: {
+            'Authorization': 'Basic ' + token
+        }
+        }).then((response) => response.json())
+        .then(res => {
+            if (res.tiendo == 0) {
+                $("#baocaohoanthanh").text("Báo cáo hoàn thành")
+                $("#baocaohoanthanh").attr('class', 'btn btn-outline-primary');
+                $("#baocaohoanthanh").attr("onclick","baoCaoHoanThanh(1)");
+            } else {
+                $("#baocaohoanthanh").text("Hủy báo cáo");
+                $("#baocaohoanthanh").attr('class', 'btn btn-outline-danger');
+                $("#baocaohoanthanh").attr("onclick","baoCaoHoanThanh(0)");
+            }
+        })
+}
+
 /**
  * Tìm và hiển thị các địa phương trực thuộc 
  * @param {int} id id địa phương
@@ -353,4 +377,30 @@ function sapXep(id,self, trangthai1) {
             danhsach2.appendChild(dong[i]);
         }
     }
+}
+
+/**
+ * Báo cáo hoàn thành nếu i = 1 và ngược lại
+ * @param {int} i trạng thái
+ */
+function baoCaoHoanThanh(i) {
+    fetch("/quanly/tiendo/?tiendo=" + i , {headers: {
+        'Authorization': 'Basic '+ token
+    }}).then((response) => {
+        if (response.status == 200) {
+            if (i == 0) {
+                baoLoi(true, "Đã hủy báo cáo hoàn thành");
+                $("#baocaohoanthanh").text("Báo cáo hoàn thành")
+                $("#baocaohoanthanh").attr('class', 'btn btn-outline-primary');
+                $("#baocaohoanthanh").attr("onclick","baoCaoHoanThanh(1)");
+            } else {
+                baoLoi(true, "Đã báo cáo hoàn thành");
+                $("#baocaohoanthanh").text("Hủy báo cáo")
+                $("#baocaohoanthanh").attr('class', 'btn btn-outline-danger');
+                $("#baocaohoanthanh").attr("onclick","baoCaoHoanThanh(0)");
+            }
+        }
+        else
+            baoLoi(false, "Đối tiến độ thất bại");
+    })
 }

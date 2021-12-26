@@ -1,20 +1,31 @@
 const Chung = require('./m_chung');
 
 class TraCuu extends Chung {
+    /**
+     * trả về tên, id tuyến dưới
+     * @param {string} id 
+     * @returns thông tin
+     */
     timCapDuoi(id) {
         var tuyen = this.timTuyenDuoi(id);
         var que = "select id,ten from "+tuyen+" where tuyentren =" + id;
         if (tuyen == "ho_khau") que = "select id from "+tuyen+" where tuyentren =" + id;
-        return new Promise((resolve, reject) => { //trả về promise 
+        return new Promise((resolve, reject) => {  
             if (tuyen == "") reject('ID sai tracuu')
-            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
-                if (err) //bắt lỗi
-                    return reject(err);
-                resolve(JSON.stringify(rows)); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            this.connection.query(que, (err, rows) => { 
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows)); 
             });
         });
     }
 
+    /**
+     * thêm một hộ và trả về id hộ vừa thêm
+     * @param {string} tenho 
+     * @param {string} idthon 
+     * @param {int} sothanhvien 
+     * @returns id của hộ khẩu mới được thêm
+     */
     themHo(tenho, idthon, sothanhvien) {
         var que = "insert into ho_khau SELECT LPAD(max(id) + 1,10,'0'), tuyentren, '"+
             sothanhvien+"', '"+tenho+"' from ho_khau where tuyentren = '" + idthon + 
@@ -22,13 +33,20 @@ class TraCuu extends Chung {
         console.log(que);
         
         return new Promise((resolve, reject) => {
-            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+            this.connection.query(que, (err, rows) => { 
                 if (err) return reject(err);
-                resolve(rows[1][0].id); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+                resolve(rows[1][0].id); 
             });
         });
     }
 
+    /**
+     * sửa thông tin một hộ
+     * @param {string} tenho 
+     * @param {string} idho 
+     * @param {int} sothanhvien 
+     * @returns trạng thái
+     */
     suaHo(tenho, idho, sothanhvien) {
         var que = "update ho_khau set sothanhvien = '"+
             sothanhvien+"', ten ='"+tenho+"' where id = '" + idho + "'";
@@ -42,6 +60,11 @@ class TraCuu extends Chung {
         });
     }
 
+    /**
+     * xóa một hộ
+     * @param {string} id 
+     * @returns trạng thái
+     */
     xoaHo(id) {
         return new Promise((resolve, reject) => {
             this.connection.query("delete from ho_khau where id = '" +id+ "'", (err, rows) => { //truyền truy vấn dữ liệu vào
@@ -51,6 +74,11 @@ class TraCuu extends Chung {
         });
     }
 
+    /**
+     * xóa nhân khẩu thuộc id hộ
+     * @param {string} idho 
+     * @returns trạng thái
+     */
     xoaNhanKhau(idho) {
         var que = "DELETE FROM nhan_khau WHERE tuyentren = '" + idho + "'";
         return new Promise((resolve, reject) => {
@@ -61,6 +89,12 @@ class TraCuu extends Chung {
         });
     }
 
+    /**
+     * thêm mới nhân khẩu của một hộ
+     * @param {string} idho 
+     * @param {array} cacthanhvien 
+     * @returns tạng thái
+     */
     thayDoiNhanKhau(idho, cacthanhvien) {
         var que = "";
         for (var i = 0; i < cacthanhvien.length; i++) {
@@ -85,37 +119,6 @@ class TraCuu extends Chung {
                 resolve(JSON.stringify(rows));
             });
         });
-    }
-
-    nhapLieu(list_send) {
-        var last_que = "";
-        var words = list_send.split(',');
-        for (var i = 0; i < words.length; i += 11) {
-            var name = words[i + 1];
-            var id_ho = words[i];
-            var cmnd = words[i + 2];
-            var ngay_sinh = words[i + 5];
-            var quoc_tich = words[i + 6];
-            var ton_giao = words[i + 7];
-            var hoc_van = words[i + 8];
-            var thuong_tru = words[i + 9];
-            var tam_tru = words[i + 10];
-            var nghe_nghiep = words[i + 3];
-            var gioi_tinh = words[i + 4]
-            last_que += ('insert into nhan_khau SELECT LPAD(max(Manguoi) + 1,12,"0"),"' + id_ho + '","' + name + '","' + ngay_sinh + '","' + gioi_tinh + '","' + ton_giao + '","'
-                + quoc_tich + '","' + nghe_nghiep + '",' + cmnd + ',"' + thuong_tru + '","' + tam_tru + '","' + hoc_van + '" from nhan_khau where Maho = "' + id_ho + '";');
-        }
-        console.log(last_que);
-       
-        return new Promise((resolve, reject) => {
-
-            this.connection.query(last_que, (err, rows) => {
-                if (err)
-                    return reject(err);
-                resolve(JSON.stringify(rows));
-            });
-        });
-
     }
 }
 

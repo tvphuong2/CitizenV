@@ -47,6 +47,8 @@ fetch("/danhsach/thongtin", {
         } else {
             if (root_id.length == 8) {
                 thongtin.innerHTML = "";
+                trangthai.innerHTML = "Đang mở khai báo";
+                trangthai.className = "badge bg-primary";
             } else if (res.dangkhaibao == "0") {
                 trangthai.innerHTML = "Chưa mở khai báo";
                 trangthai.className = "badge bg-warning";

@@ -1,6 +1,11 @@
 const Chung = require('./m_chung');
 
 class QuanLy extends Chung {
+    /**
+     * trả về id, tên, trạng thái mật khẩu, quyền, tiến độ, ngày bắt đầu, kết thúc khai báo, ngày hiện tại
+     * @param {string} id 
+     * @returns thông tin
+     */
     capDuoi(id) {
         var tuyen = this.timTuyenDuoi(id);
         var que = ""
@@ -23,6 +28,12 @@ class QuanLy extends Chung {
         }); 
     }
 
+    /**
+     * kiểm tra user có quyền không, nếu có truyền tiếp id
+     * @param {string} user 
+     * @param {string} id 
+     * @returns id truyền vào
+     */
     timQuyen(user, id) {
         var tuyen = this.timTuyen(user);
         return new Promise((resolve, reject) => {
@@ -35,6 +46,13 @@ class QuanLy extends Chung {
         });
     }
 
+    /**
+     * thay đổi thời hạn khai báo của một địa phương
+     * @param {string} id 
+     * @param {string} start 
+     * @param {string} end 
+     * @returns trạng thái
+     */
     doiQuyen(id, start, end) {
         var tuyen = this.timTuyen(id);
         var que = "UPDATE "+tuyen+" SET timestart ='"+start+"', timeend ='"+end+"' WHERE id = '" +id+"'";
@@ -46,8 +64,13 @@ class QuanLy extends Chung {
         });
     }
 
+    /**
+     * đưa ngày kết thúc quyền về ngày hôm nay
+     * @param {string} id 
+     * @returns trạng thái
+     */
     xoaQuyen(id) {
-        var tuyen = this.timTuyenChinh(id);
+        var tuyen = this.timTuyen(id);
         return new Promise((resolve, reject) => {
             this.connection.query("update "+tuyen+" SET timeend = now() - interval 1 day where id = '" +id+"'", (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
@@ -56,21 +79,32 @@ class QuanLy extends Chung {
         });
     }
 
+    /**
+     * thay đổi tiến độ của địa phương
+     * @param {string} id 
+     * @param {string} tiendo 
+     * @returns trạng thái
+     */
     capNhatTienDo(id, tiendo) {
         var tuyen = this.timTuyen(id);
         var que = "";
-        return new Promise((resolve, reject) => { //trả về promise 
+        return new Promise((resolve, reject) => { 
             if (id.length == 3) reject('A1 không có tiến độ');
             if (tiendo == '0') que = "UPDATE "+tuyen+" SET `Tiendo` = '0' WHERE `Id` = '"+id+"'";
             else if (tiendo == '1') que = "UPDATE "+tuyen+" SET `Tiendo` = '1' WHERE `Id` = '"+id+"'";
             else reject('Tiến độ không hợp lệ');
-            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
+            this.connection.query(que, (err, rows) => { 
                 if (err) return reject(err);
                 resolve('Đổi tiến độ thành công');
             });
         });
     }
-      
+
+    /**
+     * trả về tên, quyền, tiến độ (nếu có) của một địa phương
+     * @param {string} id 
+     * @returns thông tin
+     */  
     timTenQuyenTiendo(id) {
         var tuyen = this.timTuyenChinh(id);
         var que = "";

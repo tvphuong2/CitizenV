@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken')
 const m_dangnhap = require('../model/m_dangnhap');
 
 class Token {
+    /**
+     * kiểm tra truy cập của khách, nếu hợp lệ thì cho dữ liệu đi tiếp
+     */
     kientratruycap(req, res, next) {
         if (!req.headers['authorization']) { // nếu như header trống
             return res.status(400).json('Chưa có token');
@@ -28,11 +31,17 @@ class Token {
         }
     }
 
+    /**
+     * kiểm tra khách có quyền hạn A123 và B1 không
+     */
     quyenA123B1 (req, res, next) {
         if( ['A1','A2','A3','B1'].includes(req.role)) next() //nếu quyền của client là A123 và B thì cho phép qua
         else return res.status(401).json("Bạn không phải là A1,A2,A3,B1")
     }
 
+    /**
+     * kiểm tra khách có quyền hạn B12 không
+     */
     quyenB12 (req, res, next) {
         if(['B1', 'B2'].includes(req.role)) next() // tương tự
         else return res.status(401).json("Bạn không phải là B1,B2")

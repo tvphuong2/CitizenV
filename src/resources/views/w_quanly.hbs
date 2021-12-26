@@ -10,8 +10,9 @@
             <h4>Quyền khai báo <span class="badge bg-primary" id ="quyen_kb">Có</span></h4>
             <span class="badge bg-primary" id="trang_thai_kb">Đang mở khai báo</span>
         </div>
-        <div class = "col">
-            <button class ="btn btn-outline-dark" id ="inkhaibao">In phiếu khai báo</button>
+        <div class = "col btn-group">
+            <button class ="btn btn-outline-dark" id ="inkhaibao" onclick="window.open('/doc/phieu_khai_bao.docx')">In phiếu khai báo</button>
+            <button class ="btn btn-outline-danger" id ="baocaohoanthanh" onclick="baoCaoHoanThanh(1)">Báo cáo hoàn thành</button>
         </div>
     </div>
 

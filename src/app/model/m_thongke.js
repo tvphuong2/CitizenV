@@ -1,6 +1,11 @@
 const Chung = require('./m_chung');
 
 class TraCuu extends Chung {
+    /**
+     * trả về dữ liệu để tạo tháp tuổi từ các địa phương trong danh sách
+     * @param {array} danhsach 
+     * @returns thông tin
+     */
     thapTuoi(danhsach) {
         var where = ""
         var dautien = true;
@@ -21,6 +26,11 @@ class TraCuu extends Chung {
         });
     }
 
+    /**
+     * trả về dữ liệu để tạo biểu đồ mật độ dân số từ các địa phương trong danh sách
+     * @param {array} danhsach 
+     * @returns thông tin
+     */
     matDoDanSo(danhsach) {
         var que = "";
         for (var i = 0; i <danhsach.length; i++) {
@@ -37,6 +47,11 @@ class TraCuu extends Chung {
         });
     }
 
+    /**
+     * trả về dữ liệu để tạo biểu đồ tỉ lệ nghề nghiệp từ các địa phương trong danh sách
+     * @param {array} danhsach 
+     * @returns thông tin
+     */
     tiLeNghe(danhsach) {
         var where = ""
         var dautien = true;
@@ -56,6 +71,11 @@ class TraCuu extends Chung {
         });
     }
 
+    /**
+     * trả về dữ liệu để tạo biểu đồ tỉ lệ tôn giáo từ các địa phương trong danh sách
+     * @param {array} danhsach 
+     * @returns thông tin
+     */
     tiLeTonGiao(danhsach) {
         var where = ""
         var dautien = true;

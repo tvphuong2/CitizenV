@@ -3,6 +3,10 @@ const Chung = require('./c_chung');
 
 class Data {
 
+    /**
+     * thêm một hộ khẩu
+     * input: id thôn, tên hộ, các thành viên
+     */
     themHo(req, res) {
         var idthon = Chung.chuanHoaIDDenThon(req.body.idthon);
         var tenho = req.body.tenho.trim();
@@ -18,6 +22,10 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
+    /**
+     * sửa một hộ khẩu
+     * input: id hộ, tên hộ, các thành viên
+     */
     suaHo(req, res) {
         var idho = Chung.chuanHoaIDDenHo(req.body.idho);
         var tenho = req.body.tenho.trim();
@@ -34,6 +42,10 @@ class Data {
         .catch(err => res.status(403).json({loi: "Truy vấn không hợp lệ"}))
     }
 
+    /**
+     * xóa một hộ khẩu
+     * input: id hộ
+     */
     xoaHo(req, res) {
         var idho = Chung.chuanHoaIDDenHo(req.query.idho);
         if (idho == "") return res.status(404).json({status: 'ID không tồn tại'});

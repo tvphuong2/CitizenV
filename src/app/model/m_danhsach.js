@@ -1,6 +1,11 @@
 const Chung = require('./m_chung');
 
 class DanhSach extends Chung {
+    /**
+     * tìm tên và quyền của một địa phương
+     * @param {string} id 
+     * @returns danh sách tên và quyền
+     */
     tenQuyen(id) {
         var tuyen = this.timTuyen(id);
         return new Promise((resolve, reject) => {
@@ -12,6 +17,13 @@ class DanhSach extends Chung {
         });
     }
 
+    /**
+     * tìm hạn, số địa phương đang khai báo, tiến độ, tên và quyền
+     * @param {string} id 
+     * @param {string} ten 
+     * @param {string} quyen 
+     * @returns thông tin
+     */
     thongTin(id, ten, quyen) {
         var tuyen = this.timTuyenDuoi(id);
         var que = "SELECT  DATE_FORMAT(max(Timeend), '%d/%m/%Y') han, count(id) dangkhaibao, sum(Tiendo) tiendo FROM "+tuyen+" WHERE quyen = '1' and Tuyentren = '" + id + "'";
@@ -35,6 +47,11 @@ class DanhSach extends Chung {
         });
     }
 
+    /**
+     * trả vê tất cả thông tin về tuyến dưới
+     * @param {string} id 
+     * @returns thông tin
+     */
     timCapDuoi(id) {
         var tuyen = this.timTuyenDuoi(id);
         var que = ""
@@ -42,26 +59,34 @@ class DanhSach extends Chung {
         else que = "select id,ten, quyen, dientich from "+tuyen+" where tuyentren =" + id;
 
         return new Promise((resolve, reject) => {
-            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
-                if (err) //bắt lỗi
-                    return reject(err);
-                resolve(JSON.stringify(rows)); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            this.connection.query(que, (err, rows) => {
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows)); 
             });
         });
     }
 
+    /**
+     * tìm thông tin về một hộ khẩu
+     * @param {string} id 
+     * @returns thông tin
+     */
     timHoKhau(id) {
         var tuyen = this.timTuyenDuoi(id);
 
         return new Promise((resolve, reject) => {
-            this.connection.query("select id,ten,sothanhvien from "+tuyen+" where tuyentren =" + id, (err, rows) => { //truyền truy vấn dữ liệu vào
-                if (err) //bắt lỗi
-                    return reject(err);
-                resolve(JSON.stringify(rows)); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            this.connection.query("select id,ten,sothanhvien from "+tuyen+" where tuyentren =" + id, (err, rows) => { 
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows)); 
             });
         });
     }
 
+    /**
+     * trả về thông tin của một nhân khẩu
+     * @param {string} id 
+     * @returns thông tin
+     */
     thongTinNhanKhau(id) {
         return new Promise((resolve, reject) => {
             this.connection.query(
@@ -74,6 +99,13 @@ class DanhSach extends Chung {
         });
     }
 
+    /**
+     * tạo mới một địa phương trực thuộc
+     * @param {string} id 
+     * @param {string} ten 
+     * @param {string} dientich 
+     * @returns trạng thái
+     */
     taoMoi(id, ten, dientich) {
         var tuyen = this.timTuyenDuoi(id);
         var do_dai_id = 2;
@@ -90,6 +122,13 @@ class DanhSach extends Chung {
         })
     }
 
+    /**
+     * Chỉnh sửa một địa phương
+     * @param {string} id 
+     * @param {string} ten 
+     * @param {string} dientich 
+     * @returns trạng thái
+     */
     chinhSua(id, ten, dientich) {
         var tuyen = this.timTuyen(id);
         let que = "UPDATE "+tuyen+" SET Ten = '"+ten+"', dientich = '"+dientich+"' WHERE id = '"+id+"'";
@@ -101,6 +140,11 @@ class DanhSach extends Chung {
         })
     }
 
+    /**
+     * xóa một địa phương
+     * @param {string} id 
+     * @returns trạng thái
+     */
     xoa(id) {
         var tuyen = this.timTuyen(id);
 
@@ -114,6 +158,11 @@ class DanhSach extends Chung {
         })
     }
 
+    /**
+     * tìm tên một địa phương
+     * @param {string} id 
+     * @returns tên địa phương
+     */
     timTen(id) {
         var tuyen = this.timTuyen(id);
         return new Promise((resolve, reject) => {
@@ -125,6 +174,27 @@ class DanhSach extends Chung {
         });
     }
 
+    /**
+     * Tìm tiến độ của một địa phương
+     * @param {string} id 
+     * @returns tiến độ
+     */
+    timTienDo(id) {
+        var tuyen = this.timTuyen(id);
+        return new Promise((resolve, reject) => {
+            this.connection.query("select tiendo from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
+                if (err)  return reject(err);
+                if (!rows.length) reject("không tìm thấy");
+                resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+            });
+        });
+    }
+
+    /**
+     * tìm tên, id địa phương cấp dưới id truyền vào
+     * @param {string} id 
+     * @returns tên địa phương
+     */
     timTenCapDuoi(id) {
         var tuyen = this.timTuyenDuoi(id);
         var que = "select ten, id from "+tuyen;

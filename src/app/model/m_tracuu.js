@@ -1,6 +1,9 @@
 const Chung = require('./m_chung');
 
 class TraCuu extends Chung {
+    /**
+     * tìm kiếm nhân khẩu thỏa mãn các điều kiện tìm kiếm
+     */
     timKiem(cmnd,ten,tuoi,gioi,tongiao,quoctich,trinhdo,id) {
         var dautien = false;
         var que = 'select cmnd, hoten, DATE_FORMAT(ngaysinh, "%d/%m/%Y") ngaysinh, gioitinh, quoctich, thuongtru, tamtru, tongiao, trinhdo, nghenghiep from nhan_khau where ';
@@ -43,11 +46,10 @@ class TraCuu extends Chung {
             }
         }
         console.log(que);
-        return new Promise((resolve, reject) => { //trả về promise 
-            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
-                if (err) //bắt lỗi
-                    return reject(err);
-                resolve(JSON.stringify(rows)); // trả về các hàng kết quả và chuyển dữ liệu đó về json
+        return new Promise((resolve, reject) => {
+            this.connection.query(que, (err, rows) => {
+                if (err) return reject(err);
+                resolve(JSON.stringify(rows)); 
             });
         });
     }

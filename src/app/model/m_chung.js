@@ -14,6 +14,11 @@ class Chung {
 		});
 	}
 
+    /**
+     * tìm và trả về bảng cơ sở dữ liệu của id đó
+     * @param {string} id 
+     * @returns tuyến
+     */
     timTuyen(id) {
         var tuyen = "";
         if (id.length ==2) {tuyen = "tinh_thanh";}
@@ -26,6 +31,11 @@ class Chung {
         return tuyen;
     }
 
+    /**
+     * tìm và trả về bảng cơ sở dữ liệu của địa phương trực thuộc id đó
+     * @param {string} id 
+     * @returns tuyến
+     */
     timTuyenDuoi(id) {
         var tuyen = "";
         if (id.length ==2) {tuyen = "huyen_quan";}

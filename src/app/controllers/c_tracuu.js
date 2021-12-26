@@ -8,8 +8,6 @@ class Data {
 
     /**
      * Tìm kiếm một nhóm cá nhân
-     * input: cmnd, mã địa phương, họ tên
-     * output: mảng các thông tin cá nhân
      */
     timKiem(req, res) {
         var cmnd = req.query.cmnd.trim();

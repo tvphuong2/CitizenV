@@ -148,7 +148,7 @@ function hienThiDanhSach() {
         if (ketqua[i].gioitinh == "0") gioitinh.text("Nam");
         else gioitinh.text("Nữ");
         var ngaysinh = $("<td></td>").text(ketqua[i].ngaysinh);
-        var tr = $("<tr onclick=hienThiNhanKhau('"+i+"')></tr>").append(cmnd, ten, gioitinh,ngaysinh);
+        var tr = $("<tr onclick=hienThiNhanKhau(\""+i+"\",this)></tr>").append(cmnd, ten, gioitinh,ngaysinh);
         $("#danhsach2").append(tr);
     }
 }
@@ -156,9 +156,9 @@ function hienThiDanhSach() {
  * Hiển thị bảng thông tin về một nhân khẩu
  * @param {int} i Số thứ tự của nhân khẩu trong bộ nhớ
  */
-function hienThiNhanKhau(i) {
+function hienThiNhanKhau(i, self) {
     $(".chonhang").removeClass("chonhang");
-    $("#danhsach2 tr").eq(i).addClass("chonhang");
+    self.className ="chonhang";
     $("#thongtinnhankhau").empty();
     $("#an #thongtin h2").text(ketqua[i].hoten);
     $("#an #thongtin p span").eq(0).text(ketqua[i].cmnd);
