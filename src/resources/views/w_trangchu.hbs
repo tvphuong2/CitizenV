@@ -94,8 +94,9 @@
                         <input type="text" class="form-control" id = "nhapten">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Diện tích (Km2)</span>
-                        <input type="number" class="form-control" id = "nhapdientich">
+                        <span class="input-group-text">Diện tích</span>
+                        <input type="number" class="form-control" id = "nhapdientich"  onblur="chuanHoaSo(this, 1,1000000)">
+                        <span class="input-group-text">Km2</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -159,8 +160,9 @@
                         <input type="text" class="form-control" id = "nhaptenmoi">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">Diện tích (Km2)</span>
-                        <input type="number" class="form-control" id = "nhapdientichmoi">
+                        <span class="input-group-text">Diện tích</span>
+                        <input type="number" class="form-control" id = "nhapdientichmoi"  onblur="chuanHoaSo(this, 1,1000000)">
+                        <span class="input-group-text">Km2</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -196,14 +198,15 @@
             </div><div class="form-floating col tongiao">
                 <input type="text" class="form-control" placeholder="Tôn giáo" required>
                 <label >Tôn giáo</label>
-            </div><div class="form-floating col trinhdo">
-                <input type="text" class="form-control" placeholder="Trình độ học vấn" required>
+            </div><div class="form-floating col trinhdo input-group">
+                <input type="number" class="form-control" placeholder="Trình độ học vấn" onblur="chuanHoaSo(this,0,12)" required>
+                <span class="input-group-text">/12</span>
                 <label >Trình độ học vấn</label>
             </div><div class="form-floating col thuongtru">
-                <input type="text" class="form-control" placeholder="Địa chỉ thường chú" required>
+                <input type="text" class="form-control" placeholder="Địa chỉ thường chú" onblur="chuanHoaTen(this)" required>
                 <label >Địa chỉ thường trú</label>
             </div><div class="form-floating col tamtru">
-                <input type="text" class="form-control" placeholder="Địa chỉ tạm trú" required>
+                <input type="text" class="form-control" placeholder="Địa chỉ tạm trú" onblur="chuanHoaTen(this)" required>
                 <label >Địa chỉ tạm trú</label>
             </div>
             <button class="btn btn-outline-danger" onclick="xoaNhanKhau(this)">Xóa thành viên</button>

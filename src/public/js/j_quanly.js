@@ -21,6 +21,8 @@ fetch("/danhsach/thongtin")
         else if (root_id.length == 8) document.getElementById("quyen_han").innerHTML = "Quyền hạn B2";
 
         if (res.quyen == "0") {
+            $("#doiquyen").remove();
+            $("#xoaquyen").remove();
             quyen.innerHTML = "Không";
             quyen.className = "badge bg-secondary";
             trangthai.innerHTML = "Không có quyền khai báo";
@@ -54,6 +56,7 @@ if (root_id.length == 3) {
                 $("#baocaohoanthanh").attr('class', 'btn btn-outline-danger');
                 $("#baocaohoanthanh").attr("onclick","baoCaoHoanThanh(0)");
             }
+            if ($("#quyen_kb").text() == "Có" && root_id.length != 3) $("#hankhaibao").text("Hạn khai báo: " + res.han)
         })
 }
 
@@ -234,11 +237,11 @@ function xnDoiMk() {
         baoLoi(false, "Vui lòng nhập mật khẩu")
         return
     }
-    xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
-    xacnhan.disabled = true;
     if (n != r) {
         baoLoi(false, "Mật khẩu nhập lại sai")
     } else {
+        xacnhan.innerHTML = "<span class='spinner-border spinner-border-sm'></span> Đang tải...";
+        xacnhan.disabled = true;
         fetch("/quanly/thaymk", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -315,6 +318,9 @@ function xnSuaQuyen() {
                 while (dsthongtin.firstChild) {
                     dsthongtin.firstChild.remove()
                 }
+                var trangthai = document.getElementById("trang_thai_kb");
+                trangthai.innerHTML = "Đang mở khai báo";
+                trangthai.className = "badge bg-primary";
                 baoLoi(true, "Thay đổi quyền thành công");
                 capDuoi(root_id);
             }
@@ -342,6 +348,9 @@ function xnXoaQuyen() {
                 while (dsthongtin.firstChild) {
                     dsthongtin.firstChild.remove()
                 }
+                var trangthai = document.getElementById("trang_thai_kb");
+                trangthai.innerHTML = "Chưa mở khai báo";
+                trangthai.className = "badge bg-warning";
                 baoLoi(true, "Xóa quyền thành công");
                 capDuoi(root_id);
             }

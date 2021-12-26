@@ -48,7 +48,7 @@ function log() {
     fetch('/',{
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"id": id, 
+        body: JSON.stringify({"id": id.toUpperCase(), 
                               "password": psw})
         }).then(response => response.json()).then(res => {
             if (res.status == 'thanhcong') {

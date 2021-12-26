@@ -32,6 +32,9 @@ function baoLoi(success, status) {
         div.className = "alert alert-danger alert-dismissible";
         div.innerHTML = "<button type='button' class='btn-close' data-bs-dismiss='alert'></button><strong>Thất bại! </strong>" + status;
     }
+    setTimeout(function() {
+        div.parentNode.removeChild(div);
+    }, 7000);
     ds_loi.appendChild(div);
 }
 
@@ -54,6 +57,11 @@ function chuanHoaTen(self) {
     }
     s = arr.join(" ");
     self.value = s;
+}
+
+function chuanHoaSo(self,min,max) {
+    if (self.value < min) self.value = min;
+    if (self.value > max) self.value = max;
 }
 
 /**

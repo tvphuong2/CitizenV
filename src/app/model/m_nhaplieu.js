@@ -67,7 +67,8 @@ class TraCuu extends Chung {
      */
     xoaHo(id) {
         return new Promise((resolve, reject) => {
-            this.connection.query("delete from ho_khau where id = '" +id+ "'", (err, rows) => { //truyền truy vấn dữ liệu vào
+            var que = "delete from ho_khau where id = '" +id+ "'"
+            this.connection.query(que, (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err) return reject(err);
                 resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json
             });

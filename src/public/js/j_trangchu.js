@@ -6,6 +6,7 @@ var trang_max = 0;
 var trang = -1;
 var mode = "them";
 var id_hien_tai = root_id;
+var quyen = "";
 
 $("#dsdachon").hide();
 
@@ -35,6 +36,7 @@ fetch("/danhsach/thongtin")
         else if (root_id.length == 6) document.getElementById("quyen_han").innerHTML = "Quyền hạn B1";
         else if (root_id.length == 8) document.getElementById("quyen_han").innerHTML = "Quyền hạn B2";
 
+        quyen = res.quyen;
         if (res.quyen == "0") {
             trangthai.innerHTML = "Không có quyền khai báo";
             trangthai.className = "badge bg-secondary";
@@ -88,10 +90,10 @@ function hienThiCapduoi() {
     while (danhsach.firstChild) {
         danhsach.firstChild.remove()
     }
-    if ((trang == trang_max && root_id.length >= 6)){
+    if ((trang == trang_max && root_id.length >= 6 && quyen == "1")){
         $("#themdiaphuong").show()
         $("#themdiaphuong").text("+ Hộ khẩu")
-    } else if (trang == 0) {
+    } else if (trang == 0 && trang != trang_max) {
         $("#themdiaphuong").show()
         $("#themdiaphuong").text("+ Địa phương")
     } else $("#themdiaphuong").hide()
@@ -115,7 +117,7 @@ function hienThiCapduoi() {
         td5.className = "text-center";
         div.className = "";
 
-        if (trang == 0 || (trang == trang_max && root_id.length >= 6)) {
+        if ((trang == 0 && trang != trang_max) || (trang == trang_max && root_id.length >= 6 && quyen == "1")) {
             div.innerHTML = "<button class ='btn btn-outline-primary border-end-0' onclick='xemThongTin(\""+i+"\")'><i class='fas fa-eye'></i></button>" +
                             "<button class='btn btn-outline-warning' onclick='chinhSua(\""+i+"\")'><i class='fas fa-edit'></i></button>" +
                             "<button class='btn btn-outline-danger border-start-0' onclick='xoa(\""+i+"\")'><i class='fas fa-trash-alt'></i></button>";
@@ -475,6 +477,7 @@ function hienThiNhanKhau(id, xem) {
             baoLoi(false, "Không tìm được nhân khẩu");
         } else {
             for (i = 0; i < res.length; i++) {
+                var trinhdo = res[i].trinhdo.split("/")[0];
                 var children = $("#an .thanhvien input")
                 children.eq(0).val(res[i].hoten)
                 children.eq(1).val(res[i].cmnd)
@@ -482,7 +485,7 @@ function hienThiNhanKhau(id, xem) {
                 children.eq(3).val(res[i].ngaysinh)
                 children.eq(4).val(res[i].quoctich)
                 children.eq(5).val(res[i].tongiao)
-                children.eq(6).val(res[i].trinhdo)
+                children.eq(6).val(trinhdo)
                 children.eq(7).val(res[i].thuongtru)
                 children.eq(8).val(res[i].tamtru)
                 $("#an .thanhvien select").eq(0).val(res[i].gioitinh == "1" ? "Nữ" : "Nam")
@@ -562,7 +565,7 @@ function thayDoiNhanKhau() {
                         ngaysinh: ngaysinh[i].value,
                         quoctich: quoctich[i].value,
                         tongiao: tongiao[i].value,
-                        trinhdo: trinhdo[i].value,
+                        trinhdo: trinhdo[i].value + "/12",
                         thuongtru: thuongtru[i].value,
                         tamtru: tamtru[i].value
                         }

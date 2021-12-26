@@ -182,7 +182,7 @@ class DanhSach extends Chung {
     timTienDo(id) {
         var tuyen = this.timTuyen(id);
         return new Promise((resolve, reject) => {
-            this.connection.query("select tiendo from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
+            this.connection.query("select tiendo, DATE_FORMAT(timeend, '%d/%m/%Y') han from "+tuyen+" where id= '" + id + "'", (err, rows) => { //truyền truy vấn dữ liệu vào
                 if (err)  return reject(err);
                 if (!rows.length) reject("không tìm thấy");
                 resolve(JSON.stringify(rows[0])); // trả về các hàng kết quả và chuyển dữ liệu đó về json
